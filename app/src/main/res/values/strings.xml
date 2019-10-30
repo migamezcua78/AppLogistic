@@ -109,5 +109,7 @@
     <string name="lblPrs">PRS</string>
     <string name="lblFieldName">FieldName</string>
 
+    <string name="lblTitleGoodsMovementTarget">Confirm Target</string>
+
 
 </resources>

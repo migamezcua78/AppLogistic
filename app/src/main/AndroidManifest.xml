@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:name=".cGlobalData"
         android:allowBackup="true"
@@ -13,10 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".Goods_Movement_Source"
+        <activity android:name=".GoodsMovementTarget"
             android:windowSoftInputMode="stateHidden"></activity>
-        <activity android:name=".TestOfServices"
+        <activity
+            android:name=".Goods_Movement_Source"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".TestOfServices"
             android:windowSoftInputMode="stateHidden">
 
             <!--
@@ -79,7 +81,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

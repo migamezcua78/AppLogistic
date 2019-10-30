@@ -73,16 +73,16 @@
 
 
                 <TextView
-                    android:id="@+id/lblSourceId"
+                    android:id="@+id/lblTargetId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="@string/lblSource"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/txtSourceId"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <EditText
-                    android:id="@+id/txtSourceId"
+                    android:id="@+id/txtTargetId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="90dp"
@@ -103,7 +103,7 @@
                     android:layout_marginTop="25dp"
                     android:text="@string/lblProductSimple"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lblSourceId" />
+                    app:layout_constraintTop_toBottomOf="@+id/lblTargetId" />
 
 
                 <TextView
@@ -291,8 +291,8 @@
                     android:onClick="onScanSource"
                     android:textColor="@color/colorTextTitle"
                     app:backgroundTint="@color/colorAccent"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/txtSourceId"
-                    app:layout_constraintStart_toEndOf="@+id/txtSourceId" />
+                    app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
+                    app:layout_constraintStart_toEndOf="@+id/txtTargetId" />
 
                 <Button
                     android:id="@+id/btnScanProdId"

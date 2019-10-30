@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GoodsMovementTarget">
+
+    <LinearLayout
+        android:id="@+id/liTitleId"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/txtTitleId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/lblTitleGoodsMovementTarget"
+            android:textColor="@color/colorTextTitle" />
+    </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/liItems"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorBackSubtitle"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/liTitleId"
+        tools:layout_editor_absoluteX="16dp">
+
+
+        <Button
+            android:id="@+id/btnStartTaskId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="5dp"
+
+            android:layout_weight="1"
+            android:onClick="onClickConfirm"
+
+            android:text="@string/btnConfirmItem"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextTitle"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/liItems">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent">
+
+
+            <TextView
+                android:id="@+id/lblTargetId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/lblTarget"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/txtTargetId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="90dp"
+                android:ems="10"
+                android:hint="@string/txtHintImput"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/cheTargetId"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <TextView
+                android:id="@+id/lblProductId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="25dp"
+
+                android:text="@string/lblProductSimple"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblTargetId" />
+
+
+            <TextView
+                android:id="@+id/lblQty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="25dp"
+                android:text="@string/lblQty"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblProductId" />
+
+            <EditText
+                android:id="@+id/txtQtyId"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="90dp"
+                android:ems="2"
+                android:inputType="none"
+                android:text="0"
+                android:textSize="14sp"
+                android:textIsSelectable="true"
+
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblQty"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Spinner
+                android:id="@+id/spiUnitId"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/txtQtyId"
+                app:layout_constraintStart_toEndOf="@+id/txtQtyId"
+                app:layout_constraintTop_toTopOf="@+id/txtQtyId" />
+
+            <TextView
+                android:id="@+id/lblIdentStockId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="25dp"
+                android:text="@string/lblIdent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblQty" />
+
+            <EditText
+                android:id="@+id/txtStockId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="90dp"
+                android:ems="10"
+                android:inputType="none"
+                android:textIsSelectable="true"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblIdentStockId"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/lblPrsId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/lblPrs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblIdentStockId" />
+
+            <TextView
+                android:id="@+id/lblRestrictedId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/lblRestricted"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblPrsId" />
+
+            <CheckBox
+                android:id="@+id/chkRestrictedId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="90dp"
+                android:clickable="false"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblRestrictedId"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/lblLu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/lblLU"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblRestrictedId" />
+
+            <EditText
+                android:id="@+id/txtLuId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="90dp"
+                android:ems="10"
+                android:inputType="none"
+                android:textIsSelectable="true"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblLu"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/lblLuQty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="25dp"
+                android:text="@string/lblLUQty"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblLu" />
+
+            <EditText
+                android:id="@+id/txtLuQtyId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="90dp"
+                android:ems="10"
+                android:inputType="none"
+                android:textIsSelectable="true"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblLuQty"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/lblFieldName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="25dp"
+                android:text="@string/lblFieldName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblLuQty" />
+
+            <EditText
+                android:id="@+id/txtFieldName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="90dp"
+                android:ems="10"
+                android:inputType="none"
+                android:textIsSelectable="true"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblFieldName"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/txtProductId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="90dp"
+                android:ems="10"
+                android:inputType="none"
+                android:textIsSelectable="true"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblProductId"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/lblBarCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="25dp"
+                android:text="@string/lblBarCode"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblFieldName" />
+
+            <EditText
+                android:id="@+id/txtBarCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="90dp"
+                android:ems="10"
+                android:inputType="none"
+                android:textIsSelectable="true"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblBarCode"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/btnScanSourceId"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/btnScan"
+                android:textSize="12sp"
+                android:onClick="onScanTarget"
+                android:textColor="@color/colorTextTitle"
+                app:backgroundTint="@color/colorAccent"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
+                app:layout_constraintStart_toEndOf="@+id/txtTargetId" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

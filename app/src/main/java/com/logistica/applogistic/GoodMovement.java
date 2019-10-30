@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,8 @@ import java.util.List;
 public class GoodMovement extends AppCompatActivity {
 
 
-    private TextView  txtFilter;
-    private TextView  txtTaskId;
+    private TextView  txtFilterValue;
+    private TextView  lblSelectedFilter;
     private Spinner spinner;
     private TableLayout tableLayout;
     private  cDataGrid  oDataGrid;
@@ -39,12 +40,19 @@ public class GoodMovement extends AppCompatActivity {
         Init();
         fillDataFilter();
         fillDataGrid();
+    }
 
+    @Override
+    public void onBackPressed() {
+
+        Intent oIntent = new Intent(this, Inicio.class);
+        // oIntent.putExtra("oDataParam",oMovementParam);
+        startActivity(oIntent);
     }
 
     private void Init (){
-        txtTaskId = findViewById(R.id.lbTaskId);
-        txtFilter = findViewById(R.id.txtImputFilterId);
+        lblSelectedFilter =  findViewById(R.id.lbTaskId);
+        txtFilterValue = findViewById(R.id.txtImputFilterId);
         spinner = findViewById(R.id.spFilterId);
         tableLayout =(TableLayout)findViewById(R.id.tgProductos);
     }
@@ -83,14 +91,24 @@ public class GoodMovement extends AppCompatActivity {
 
     public void onStartTask(View view) {
 
-        Intent oIntent = new Intent(this, Goods_Movement_Source.class);
-        //oIntent.setExtrasClassLoader();
-        startActivity(oIntent);
+        cMovement  oMov = new   cMovement();
+        oMov.TaskId =  txtFilterValue.getText().toString();
+
+        if (  oMov.TaskId.trim().isEmpty() ){
+
+            Toast.makeText(getApplicationContext(),"TASK field is required", Toast.LENGTH_SHORT).show();
+
+        } else{
+
+            Intent oIntent = new Intent(this, Goods_Movement_Source.class);
+            oIntent.putExtra("oDataParam",oMov);
+            startActivity(oIntent);
+        }
     }
 
     public void onScan(View view) {
 
-        txtFilter.setText("");
+        txtFilterValue.setText("");
         AsyncTaskScan asyncTask=new AsyncTaskScan();
         asyncTask.execute("params");
     }
@@ -136,7 +154,7 @@ public class GoodMovement extends AppCompatActivity {
         protected String doInBackground(String... strings) {
 
             try {
-                Thread.sleep(1500);
+                Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -152,7 +170,7 @@ public class GoodMovement extends AppCompatActivity {
         @Override
         protected void onPostExecute(String lsData) {
             super.onPostExecute(lsData);
-            txtFilter.setText("SCAN-VALUE-123");
+            txtFilterValue.setText("SCAN-VALUE-123");
             vProgressDialog.hide();
         }
     }
