@@ -2,13 +2,76 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.logistica.applogistic">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
     <application
+        android:name=".cGlobalData"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".Goods_Movement_Source"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".TestOfServices"
+            android:windowSoftInputMode="stateHidden">
+
+            <!--
+            <intent-filter>
+                <action android:name = "android.intent.action.MAIN" />
+                <category android:name = "android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name=".Remaining"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".PickSourceEmb"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".OutBound"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".TargetConfirmationBD"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".GoodMovement"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".LogisticAreaCountDes" />
+        <activity
+            android:name=".LogisticAreaCount"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".TargetConfirmation"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ConfirmTask"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".PutAwayTargetBD"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".PickSourceBD"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".PickSource"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".PutAwayTarget"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Inicio" />
+        <activity android:name=".Test" />
+        <activity
+            android:name=".Inbound"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".InboundBD"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,6 +79,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

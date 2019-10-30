@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GoodMovement">
+
+
+    <LinearLayout
+        android:id="@+id/liTitleId"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/txtTitleId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/lblGoodsTitle"
+            android:textColor="@color/colorTextTitle" />
+    </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/liItems"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorBackSubtitle"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/liTitleId"
+        tools:layout_editor_absoluteX="16dp">
+
+
+        <Button
+            android:id="@+id/btnStartTaskId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_weight="1"
+
+            android:onClick="onBack"
+            android:text="@string/btn_inbound_back"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextTitle"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:id="@+id/liFilterId"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/liItems"
+        tools:layout_editor_absoluteX="41dp">
+
+        <Spinner
+            android:id="@+id/spFilterId"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+
+
+            android:layout_weight="1" />
+
+        <EditText
+            android:id="@+id/txtImputFilterId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/txtHintImput"
+            android:importantForAutofill="no"
+            android:inputType="none"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btnScanId"
+            android:layout_width="50dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="onScan"
+            android:text="@string/btnScan"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="10sp"
+            app:backgroundTint="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/lblFillId"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/liItems_"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="4dp"
+        android:background="@color/colorBackSubtitle"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/liFilterId">
+
+
+        <Button
+            android:id="@+id/btnStartTaskId_"
+            android:layout_width="85dp"
+            android:layout_height="38dp"
+
+            android:layout_weight="1"
+            android:onClick="onStartTask"
+
+            android:text="@string/btnStarTask"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextTitle"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnf8_"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+
+            android:layout_marginStart="32dp"
+
+            android:layout_weight="1"
+            android:text="@string/btnBack"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextTitle"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintStart_toEndOf="@+id/btnStartTaskId_"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnf4_"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+
+            android:layout_marginStart="40dp"
+
+            android:layout_weight="1"
+            android:text="@string/btnNext"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextTitle"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.183"
+            app:layout_constraintStart_toEndOf="@+id/btnf8_"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/lbTaskId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/lblTaskId"
+        android:textColor="@color/colorLblDefault"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/liItems_" />
+
+    <TextView
+        android:id="@+id/lbTaskValueId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toEndOf="@+id/lbTaskId"
+        app:layout_constraintTop_toBottomOf="@+id/liItems_" />
+
+    <TextView
+        android:id="@+id/lbOrderId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/lblOrderId"
+        android:textColor="@color/colorLblDefault"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbTaskId" />
+
+    <TextView
+        android:id="@+id/lbOrderValueId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toEndOf="@+id/lbOrderId"
+        app:layout_constraintTop_toBottomOf="@+id/lbTaskValueId" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbOrderValueId"
+        tools:layout_editor_absoluteX="5dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableLayout
+                android:id="@+id/tgProductos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

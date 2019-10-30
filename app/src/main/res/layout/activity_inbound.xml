@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Inbound">
+
+    <LinearLayout
+        android:id="@+id/liTitleId"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txtTitleId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/txtTitleOutbound"
+            android:textColor="@color/colorTextTitle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/liFilterId"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/liTitleId"
+        tools:layout_editor_absoluteX="41dp">
+
+        <Spinner
+            android:id="@+id/spFilterId"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <EditText
+            android:id="@+id/txtImputFilterId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/txtHintImput"
+            android:inputType="none"
+            android:importantForAutofill="no" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/liItems"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorBackSubtitle"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/liFilterId"
+        tools:layout_editor_absoluteX="16dp">
+
+        <Button
+            android:id="@+id/btnStartTaskId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:backgroundTint="@color/colorAccent"
+            android:textColor="@color/colorTextTitle"
+            android:textAllCaps="false"
+            android:onClick="onClickStartTask"
+            android:text="@string/btnStarTask" />
+
+        <Button
+            android:id="@+id/btnBackId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:backgroundTint="@color/colorAccent"
+            android:textColor="@color/colorTextTitle"
+            android:textAllCaps="false"
+            android:onClick="onClickPrevious"
+            android:text="@string/btnBack" />
+
+        <TextView
+            android:id="@+id/txtCountItemsId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="1 of 1" />
+
+        <Button
+            android:id="@+id/btnNextId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:backgroundTint="@color/colorAccent"
+            android:textColor="@color/colorTextTitle"
+            android:textAllCaps="false"
+            android:onClick="onClickNext"
+            android:text="@string/btnNext" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lbTaskId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/lblTaskId"
+        android:textColor="@color/colorLblDefault"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/liItems" />
+
+    <TextView
+        android:id="@+id/lbTaskValueId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/lblTaskValue"
+        app:layout_constraintStart_toEndOf="@+id/lbTaskId"
+        app:layout_constraintTop_toBottomOf="@+id/liItems" />
+
+    <TextView
+        android:id="@+id/lbOrderId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/lblOrderId"
+        android:textColor="@color/colorLblDefault"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbTaskId" />
+
+    <TextView
+        android:id="@+id/lbOrderValueId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/lblOrdeValue"
+        app:layout_constraintStart_toEndOf="@+id/lbOrderId"
+        app:layout_constraintTop_toBottomOf="@+id/lbTaskValueId" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbOrderValueId"
+        tools:layout_editor_absoluteX="5dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableLayout
+                android:id="@+id/tgProductos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

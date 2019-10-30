@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Inicio">
+
+
+    <Button
+        android:id="@+id/btnInbound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/colorAccent"
+        android:onClick="goInBound"
+        android:text="@string/action_menu1"
+        android:textColor="@color/colorTextTitle"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/colorAccent"
+        android:text="@string/action_menu2"
+        android:textColor="@color/colorTextTitle"
+        android:onClick="goInternal"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/colorAccent"
+        android:text="@string/action_menu3"
+        android:onClick="goOutBound"
+        android:textColor="@color/colorTextTitle"
+        android:textAllCaps="false"/>
+
+<!--    <Button
+        android:id="@+id/button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/colorAccent"
+        android:text="@string/action_menu4"
+        android:textColor="@color/colorTextTitle"
+        android:textAllCaps="false"/>-->
+
+<!--    <Button
+        android:id="@+id/button5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/colorAccent"
+        android:text="@string/action_menu5"
+        android:textColor="@color/colorTextTitle"
+        android:textAllCaps="false"
+        />-->
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="goGoodsMovement"
+        android:text="@string/action_menu6"
+        android:textAllCaps="false"
+        android:textColor="@color/colorTextTitle"
+        app:backgroundTint="@color/colorAccent" />
+
+<!--    <Button
+        android:id="@+id/button7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/action_menu7"
+        android:textAllCaps="false"
+        android:textColor="@color/colorTextTitle"
+        app:backgroundTint="@color/colorAccent" />-->
+
+<!--    <Button
+        android:id="@+id/button8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="goRequestRemoval"
+        android:text="@string/action_menu8"
+        android:textAllCaps="false"
+        android:textColor="@color/colorTextTitle"
+        app:backgroundTint="@color/colorAccent" />-->
+
+    <Button
+        android:id="@+id/button9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="goLogistic"
+        android:text="@string/action_menu9"
+        android:textAllCaps="false"
+        android:textColor="@color/colorTextTitle"
+        app:backgroundTint="@color/colorAccent" />
+</LinearLayout>
