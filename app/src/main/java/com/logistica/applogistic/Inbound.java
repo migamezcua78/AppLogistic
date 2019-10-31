@@ -408,8 +408,8 @@ public class Inbound extends AppCompatActivity {
 
             try {
 
-//                cServices ocServices = new cServices();
-//                lsData = ocServices.GetMaterialsServ(cServices.MaterialFilterType.SelectionByInternalID, "*", "8");
+                cServices ocServices = new cServices();
+                lsData = ocServices.GetMaterialsServ(cServices.MaterialFilterType.SelectionByInternalID, "*", "8");
 
             } catch (Exception e) {
                 e.printStackTrace();

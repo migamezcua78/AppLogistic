@@ -43,7 +43,8 @@
         <activity
             android:name=".GoodMovement"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".LogisticAreaCountDes" />
+        <activity android:name=".LogisticAreaCountDes"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity
             android:name=".LogisticAreaCount"
             android:windowSoftInputMode="stateHidden" />

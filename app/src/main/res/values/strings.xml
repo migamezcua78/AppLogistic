@@ -110,6 +110,11 @@
     <string name="lblFieldName">FieldName</string>
 
     <string name="lblTitleGoodsMovementTarget">Confirm Target</string>
+    <string name="btnConfirmTaskDesc">Confirm Task</string>
+    <string name="btnConfirmItemDesc">Confirm</string>
+
+    <string name="btnBackSmall">&lt;</string>
+    <string name="btnNextSmall">&gt;</string>
 
 
 </resources>

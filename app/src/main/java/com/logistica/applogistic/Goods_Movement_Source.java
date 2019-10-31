@@ -18,7 +18,7 @@ import java.util.List;
 
 public class Goods_Movement_Source extends AppCompatActivity {
 
-    ProgressDialog vProgressDialog;
+
     EditText txtSourceId;
     EditText txtProductId;
     EditText txtQtyId;
@@ -30,6 +30,8 @@ public class Goods_Movement_Source extends AppCompatActivity {
     EditText txtBarCodeId;
 
     Spinner spinner;
+
+    ProgressDialog vProgressDialog;
 
     Intent  intent;
     cMovement oMovementParam;

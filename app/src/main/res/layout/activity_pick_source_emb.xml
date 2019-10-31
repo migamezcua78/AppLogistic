@@ -49,7 +49,7 @@
             />
 
         <TextView
-            android:id="@+id/txtCountItemsId"
+            android:id="@+id/lblCountItemsId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -69,7 +69,7 @@
             />
 
         <Button
-            android:id="@+id/btnStartTaskId"
+            android:id="@+id/btnConfirmItemId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -100,17 +100,17 @@
             tools:layout_editor_absoluteX="-169dp">
 
             <TextView
-                android:id="@+id/lblSourceId"
+                android:id="@+id/lblTargetId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/lblService"
-                app:layout_constraintBaseline_toBaselineOf="@+id/txtSourceId"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
                 app:layout_constraintStart_toStartOf="parent" />
 
 
             <EditText
-                android:id="@+id/txtSourceId"
+                android:id="@+id/txtTargetId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="90dp"
@@ -154,7 +154,7 @@
                 android:inputType="textPersonName"
                 android:text="MCC-0001"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtSourceId" />
+                app:layout_constraintTop_toBottomOf="@+id/txtTargetId" />
 
             <TextView
                 android:id="@+id/lblOpenId"

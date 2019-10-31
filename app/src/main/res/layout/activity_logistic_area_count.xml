@@ -37,15 +37,15 @@
 
 
         <Button
-            android:id="@+id/btnStartTaskId"
+            android:id="@+id/btnConfirmItemId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:layout_marginStart="5dp"
             android:layout_weight="1"
 
-            android:onClick="onClickConfirm"
-            android:text="@string/btnConfirmItem"
+            android:onClick="onStartTask"
+            android:text="@string/btnStarTask"
             android:textAllCaps="false"
             android:textColor="@color/colorTextTitle"
             app:backgroundTint="@color/colorAccent"
@@ -69,14 +69,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
 
             <TextView
                 android:id="@+id/lblProductId"
                 android:layout_width="53dp"
                 android:layout_height="21dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:text="@string/lblProductServ"
                 app:layout_constraintBaseline_toBaselineOf="@+id/txtProductId"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,22 +86,22 @@
                 android:id="@+id/txtProductId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="96dp"
+                android:layout_marginStart="90dp"
                 android:layout_marginTop="20dp"
                 android:ems="10"
                 android:hint="@string/txtHintImput"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
-                android:text="MC64920-50-10-04"
+                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtServiceId" />
+                app:layout_constraintTop_toBottomOf="@+id/txtAreaId" />
 
             <TextView
                 android:id="@+id/lblGasId"
                 android:layout_width="294dp"
                 android:layout_height="19dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="30dp"
                 android:text="@string/lblLogistic"
                 android:textColor="@color/primary_text"
                 app:layout_constraintStart_toStartOf="parent"
@@ -112,20 +112,22 @@
                 android:id="@+id/txtBarCodeId"
                 android:layout_width="219dp"
                 android:layout_height="43dp"
-                android:layout_marginStart="96dp"
+                android:layout_marginStart="90dp"
                 android:ems="10"
                 android:inputType="textPersonName"
+                android:textSize="14sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/lblBarCodeId"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:visibility="visible" />
 
             <EditText
-                android:id="@+id/txtActualValueId"
+                android:id="@+id/txtOrderId"
                 android:layout_width="219dp"
                 android:layout_height="39dp"
-                android:layout_marginStart="96dp"
+                android:layout_marginStart="90dp"
                 android:ems="3"
                 android:inputType="textPersonName"
+                android:textSize="14sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/lblQty"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:visibility="visible" />
@@ -134,7 +136,7 @@
                 android:id="@+id/lblQty"
                 android:layout_width="51dp"
                 android:layout_height="24dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="50dp"
                 android:text="@string/lblOrder"
                 app:layout_constraintStart_toStartOf="parent"
@@ -145,7 +147,7 @@
                 android:id="@+id/lblBarCodeId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="20dp"
                 android:text="@string/lblBarCode"
                 app:layout_constraintStart_toStartOf="parent"
@@ -153,40 +155,37 @@
                 tools:visibility="visible" />
 
             <Button
-                android:id="@+id/btnScan"
+                android:id="@+id/btnScanProductId"
                 android:layout_width="61dp"
-                android:layout_height="37dp"
-                android:layout_marginTop="88dp"
+                android:layout_height="40dp"
                 android:backgroundTint="@color/colorAccent"
-                android:onClick="goLogisticDes"
+                android:onClick="onScan"
                 android:text="@string/btnScan"
                 android:textAllCaps="false"
                 android:textColor="@color/colorTextTitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.317"
-                app:layout_constraintStart_toEndOf="@+id/txtServiceId"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtAreaId"
+                app:layout_constraintStart_toEndOf="@+id/txtAreaId" />
 
             <TextView
                 android:id="@+id/lblReference"
                 android:layout_width="53dp"
                 android:layout_height="21dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:text="@string/lblArea"
-                app:layout_constraintBaseline_toBaselineOf="@+id/txtServiceId"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtAreaId"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
-                android:id="@+id/txtServiceId"
+                android:id="@+id/txtAreaId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="96dp"
+                android:layout_marginStart="90dp"
                 android:layout_marginTop="28dp"
                 android:ems="10"
                 android:hint="@string/txtHintImput"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
-                android:text="13-95-4A"
+                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -194,8 +193,8 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="36dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="25dp"
                 android:text="@string/lblLogisticMain"
                 android:textColor="@color/primary_text"
                 app:layout_constraintStart_toStartOf="parent"
