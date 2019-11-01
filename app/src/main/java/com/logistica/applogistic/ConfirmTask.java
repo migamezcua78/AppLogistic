@@ -2,7 +2,9 @@ package com.logistica.applogistic;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TableLayout;
@@ -19,11 +21,28 @@ public class ConfirmTask extends AppCompatActivity {
     private ArrayList<String[]> InfoData = new ArrayList <> ();
     private String[] InfoHeader;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_task);
         Init();
+
+        cGlobalData  oGlobalData=  (cGlobalData)getApplication();
+        for ( cOutboundViewInfo e:oGlobalData.LsOutboudItems){
+            int  dif = 0;
+            if (Integer.parseInt(e.Open) < Integer.parseInt(e.Qty)){
+                dif = 0;
+            } else {
+
+                dif = Integer.parseInt(e.Open) - Integer.parseInt(e.Qty);
+            }
+
+            InfoData = new ArrayList <> ();
+            InfoData.add(new String[]{ e.ProductId, dif + " " + e.OpenUnit, e.SourceId });
+        }
+
         fillDataGrid();
     }
 
@@ -32,11 +51,8 @@ public class ConfirmTask extends AppCompatActivity {
     }
 
     public void   onClickConfirm(View spinner) {
-        Toast.makeText(getApplicationContext(),"Confirm", Toast.LENGTH_LONG).show();
-
-        Intent oIntent = new Intent(this, OutBound.class);
-        //oIntent.setExtrasClassLoader();
-        startActivity(oIntent);
+        AsyncTaskSendingTaskInformation asyncTask=new AsyncTaskSendingTaskInformation();
+        asyncTask.execute("params");
     }
 
     private void fillDataGrid (){
@@ -45,32 +61,55 @@ public class ConfirmTask extends AppCompatActivity {
         oDataGrid.addData(getInfoData());
     }
 
-
     private  String[] getInfoHeader(){
-        InfoHeader = new String[]{"Product","Actual Qty"};
+        InfoHeader = new String[]{"Product","Open", "Source"};
         return InfoHeader;
     }
 
     private ArrayList<String[]> getInfoData(){
-
-        InfoData = new ArrayList <> ();
-
-        InfoData.add(new String[]{"MCF-0001","5 ea"});
-        InfoData.add(new String[]{"MCF-0002","6 ea"});
-        InfoData.add(new String[]{"MCF-0003","7 ea"});
-        InfoData.add(new String[]{"MCF-0004","8 ea"});
-
-        InfoData.add(new String[]{"MCF-0001","9 ea"});
-        InfoData.add(new String[]{"MCF-0002","10 ea"});
-        InfoData.add(new String[]{"MCF-0003","11 ea"});
-        InfoData.add(new String[]{"MCF-0004","12 ea"});
-
-        InfoData.add(new String[]{"MCF-0001","9 ea"});
-        InfoData.add(new String[]{"MCF-0002","10 ea"});
-        InfoData.add(new String[]{"MCF-0003","11 ea"});
-        InfoData.add(new String[]{"MCF-0004","12 ea"});
-
-
         return  InfoData;
+    }
+
+
+    ProgressDialog vProgressDialog;
+
+    private class AsyncTaskSendingTaskInformation extends AsyncTask<String, String,  String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(ConfirmTask.this);
+            vProgressDialog.setMessage("Sending Task Information ...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(String lsData) {
+            super.onPostExecute(lsData);
+            vProgressDialog.hide();
+
+            Toast.makeText(getApplicationContext(),"Sending Successful", Toast.LENGTH_LONG).show();
+            Intent oIntent = new Intent(ConfirmTask.this, OutBound.class);
+            startActivity(oIntent);
+        }
     }
 }

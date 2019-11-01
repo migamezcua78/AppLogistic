@@ -106,14 +106,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="@string/lblTarget"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
+            app:layout_constraintBaseline_toBaselineOf="@+id/txtSourceId"
             app:layout_constraintStart_toStartOf="parent"
             />
 
 
 
         <EditText
-            android:id="@+id/txtTargetId"
+            android:id="@+id/txtSourceId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="90dp"
@@ -122,7 +122,7 @@
             android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:text="MC64920-50-10-04"
-            app:layout_constraintBaseline_toBaselineOf="@+id/cheTargetId"
+            app:layout_constraintBaseline_toBaselineOf="@+id/chkConfirmedId"
             app:layout_constraintStart_toStartOf="parent"
             />
 
@@ -130,12 +130,12 @@
 
 
         <CheckBox
-            android:id="@+id/cheTargetId"
+            android:id="@+id/chkConfirmedId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
-            app:layout_constraintStart_toEndOf="@+id/txtTargetId"
+            app:layout_constraintStart_toEndOf="@+id/txtSourceId"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -161,7 +161,7 @@
             android:inputType="textPersonName"
             android:text="MCC-0001"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtTargetId" />
+            app:layout_constraintTop_toBottomOf="@+id/txtSourceId" />
 
         <TextView
             android:id="@+id/lblOpenId"
@@ -169,11 +169,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="TextView"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtOpenValueId"
+            app:layout_constraintBaseline_toBaselineOf="@+id/lblOpenValueId"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/txtOpenValueId"
+            android:id="@+id/lblOpenValueId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="90dp"
@@ -202,7 +202,7 @@
             android:inputType="textPersonName"
             android:text="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtOpenValueId" />
+            app:layout_constraintTop_toBottomOf="@+id/lblOpenValueId" />
 
         <Spinner
             android:id="@+id/spiUnitId"
@@ -211,7 +211,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             app:layout_constraintStart_toEndOf="@+id/txtQtyId"
-            app:layout_constraintTop_toBottomOf="@+id/txtOpenValueId" />
+            app:layout_constraintTop_toBottomOf="@+id/lblOpenValueId" />
 
         <TextView
             android:id="@+id/iblIdentId"

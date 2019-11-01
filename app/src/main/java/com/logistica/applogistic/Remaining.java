@@ -7,12 +7,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Remaining extends AppCompatActivity {
 
+
+    boolean ConfirmedPartially;
+    boolean ConfirmedReason;
 
     private Spinner spinner;
     private List<cSpinnerItem> InfoFilter = new ArrayList<>();
@@ -29,13 +33,47 @@ public class Remaining extends AppCompatActivity {
 
     private void Init(){
         spinner = findViewById(R.id.spiDeviationReasonId);
+        ConfirmedPartially = false;
+        ConfirmedReason= false;
     }
 
     private void fillDeviationReason (){
         ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilter());
         spinner.setAdapter(adapter);
-
     }
+
+    public void   onConfirmPartially(View view) {
+
+        if ( !ConfirmedReason ){
+            Toast.makeText(getApplicationContext(),"Please, Confirm deviation reason", Toast.LENGTH_SHORT).show();
+        }else{
+            ConfirmedPartially = true;
+
+            Intent oIntent = new Intent(this, PickSourceEmb.class);
+            cActivityMessage   oMssg = new  cActivityMessage();
+            oMssg.setMessage("ConfirmedPartially");
+            oMssg.setKey01("CR2200EO36AL00_1");
+            oIntent.putExtra("oMssg",oMssg );
+            startActivity(oIntent);
+        }
+    }
+
+    public void   onReportDeviation(View view) {
+
+        ConfirmedReason = true;
+        Toast.makeText(getApplicationContext(),"deviation reason confirmed", Toast.LENGTH_SHORT).show();
+    }
+
+    public void   onBack(View view) {
+
+        Intent oIntent = new Intent(this, PickSourceEmb.class);
+        cActivityMessage   oMssg = new  cActivityMessage();
+        oMssg.setMessage("");
+        oIntent.putExtra("oMssg",oMssg );
+        startActivity(oIntent);
+    }
+
+
 
     public void   onClickConfirm(View spinner) {
 

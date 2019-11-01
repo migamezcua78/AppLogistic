@@ -88,7 +88,7 @@ public class Goods_Movement_Source extends AppCompatActivity {
 
     private void init() {
 
-        txtSourceId = findViewById(R.id.txtTargetId);
+        txtSourceId = findViewById(R.id.txtSourceId);
         txtProductId = findViewById(R.id.txtProductId);
         txtQtyId = findViewById(R.id.txtQtyId);
         txIdentStockId = findViewById(R.id.txtStockId);

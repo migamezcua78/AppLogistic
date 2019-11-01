@@ -115,6 +115,7 @@
 
     <string name="btnBackSmall">&lt;</string>
     <string name="btnNextSmall">&gt;</string>
+    <string name="btnBackDes">F3 Back</string>
 
 
 </resources>

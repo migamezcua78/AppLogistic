@@ -15,9 +15,9 @@ public class cDataGrid {
 
     private TableLayout  tableLayout;
     private Context  context;
-    private String[]  header;
+    public String[]  header;
     private ArrayList<String[]>  data;
-    private TableRow   tableRow;
+    public TableRow   tableRow;
     private TextView txtCell;
     private int indexC;
     private int indexR;
@@ -71,6 +71,8 @@ public class cDataGrid {
         tableLayout.addView(tableRow);
     }
 
+
+
     public  void addItem(String[] item ) {
         String info;
         data.add(item);
@@ -118,5 +120,9 @@ public class cDataGrid {
     private TextView getCell(int rowIndex, int columnIndex){
         tableRow = getRow(rowIndex);
         return  (TextView)tableRow.getChildAt(columnIndex);
+    }
+
+    public  void  RemoveAllItems (){
+        tableLayout.removeAllViews();
     }
 }

@@ -78,11 +78,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="@string/lblSource"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/txtSourceId"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <EditText
-                    android:id="@+id/txtTargetId"
+                    android:id="@+id/txtSourceId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="90dp"
@@ -91,7 +91,7 @@
                     android:importantForAutofill="no"
                     android:inputType="textPersonName"
                     android:textSize="14sp"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/cheTargetId"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/chkConfirmedId"
                     app:layout_constraintStart_toStartOf="parent" />
 
 
@@ -291,8 +291,8 @@
                     android:onClick="onScanSource"
                     android:textColor="@color/colorTextTitle"
                     app:backgroundTint="@color/colorAccent"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
-                    app:layout_constraintStart_toEndOf="@+id/txtTargetId" />
+                    app:layout_constraintBaseline_toBaselineOf="@+id/txtSourceId"
+                    app:layout_constraintStart_toEndOf="@+id/txtSourceId" />
 
                 <Button
                     android:id="@+id/btnScanProdId"

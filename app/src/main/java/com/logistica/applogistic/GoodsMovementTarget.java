@@ -53,7 +53,7 @@ public class GoodsMovementTarget extends AppCompatActivity {
 
     private void init() {
 
-        txtTargetId = findViewById(R.id.txtTargetId);
+        txtTargetId = findViewById(R.id.txtSourceId);
         txtProductId = findViewById(R.id.txtProductId);
         txtQtyId = findViewById(R.id.txtQtyId);
         txIdentStockId = findViewById(R.id.txtStockId);
