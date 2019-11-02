@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/txtTitleOutbound"
+            android:text="@string/btn_main_inbound"
             android:textColor="@color/colorTextTitle" />
     </LinearLayout>
 
@@ -56,6 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="onScan"
             android:text="@string/btnScan"
             android:textAllCaps="false"
             android:textColor="@color/colorTextTitle"
@@ -111,13 +112,13 @@
         <Button
             android:id="@+id/btnNextId"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_weight="1"
-            app:backgroundTint="@color/colorAccent"
-            android:textColor="@color/colorTextTitle"
-            android:textAllCaps="false"
             android:onClick="onClickNext"
-            android:text="@string/btnNext" />
+            android:text="@string/btnNext"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextTitle"
+            app:backgroundTint="@color/colorAccent" />
     </LinearLayout>
 
     <TextView
@@ -132,12 +133,11 @@
         app:layout_constraintTop_toBottomOf="@+id/liItems" />
 
     <TextView
-        android:id="@+id/lbTaskValueId"
-        android:layout_width="wrap_content"
+        android:id="@+id/lblTaskValueId"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="10dp"
-        android:text="@string/lblTaskValue"
         app:layout_constraintStart_toEndOf="@+id/lbTaskId"
         app:layout_constraintTop_toBottomOf="@+id/liItems" />
 
@@ -154,13 +154,12 @@
 
     <TextView
         android:id="@+id/lbOrderValueId"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="46dp"
         android:layout_marginTop="10dp"
-        android:text="@string/lblOrdeValue"
         app:layout_constraintStart_toEndOf="@+id/lbOrderId"
-        app:layout_constraintTop_toBottomOf="@+id/lbTaskValueId" />
+        app:layout_constraintTop_toBottomOf="@+id/lblTaskValueId" />
 
     <LinearLayout
         android:layout_width="match_parent"

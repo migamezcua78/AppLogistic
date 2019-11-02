@@ -80,12 +80,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/lblService"
-                app:layout_constraintBaseline_toBaselineOf="@+id/txtAreaId"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtSourceId"
                 app:layout_constraintStart_toStartOf="parent" />
 
 
             <EditText
-                android:id="@+id/txtAreaId"
+                android:id="@+id/txtSourceId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="90dp"
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
-                app:layout_constraintStart_toEndOf="@+id/txtAreaId"
+                app:layout_constraintStart_toEndOf="@+id/txtSourceId"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -130,7 +130,7 @@
                 android:inputType="textPersonName"
                 android:text="MC64920-50-10-04"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtAreaId" />
+                app:layout_constraintTop_toBottomOf="@+id/txtSourceId" />
 
             <CheckBox
                 android:id="@+id/checkBox"
@@ -161,7 +161,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/lblGasId" />
 
             <TextView
-                android:id="@+id/lblOpenUnitsId"
+                android:id="@+id/lblOpenValueId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="90dp"
@@ -175,8 +175,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/btnReverse"
-                app:layout_constraintBaseline_toBaselineOf="@+id/lblOpenUnitsId"
-                app:layout_constraintStart_toEndOf="@+id/lblOpenUnitsId"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblOpenValueId"
+                app:layout_constraintStart_toEndOf="@+id/lblOpenValueId"
                 android:textAllCaps="false"
                 app:backgroundTint="@color/colorAccent"
                 android:textColor="@color/colorTextTitle"
@@ -193,7 +193,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/lblOpenId" />
 
             <EditText
-                android:id="@+id/txtOrderId"
+                android:id="@+id/txtQtyId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="90dp"
@@ -208,9 +208,9 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                app:layout_constraintBottom_toBottomOf="@+id/txtOrderId"
-                app:layout_constraintStart_toEndOf="@+id/txtOrderId"
-                app:layout_constraintTop_toTopOf="@+id/txtOrderId" />
+                app:layout_constraintBottom_toBottomOf="@+id/txtQtyId"
+                app:layout_constraintStart_toEndOf="@+id/txtQtyId"
+                app:layout_constraintTop_toTopOf="@+id/txtQtyId" />
 
             <Button
                 android:id="@+id/btnFNueveId"
@@ -221,11 +221,11 @@
                 app:backgroundTint="@color/colorAccent"
                 android:textColor="@color/colorTextTitle"
                 android:textAllCaps="false"
-                app:layout_constraintBaseline_toBaselineOf="@+id/txtOrderId"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtQtyId"
                 app:layout_constraintStart_toEndOf="@+id/spiOptions" />
 
             <TextView
-                android:id="@+id/lblBarCodeId"
+                android:id="@+id/lblStockId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -235,13 +235,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/lblQty" />
 
             <EditText
-                android:id="@+id/txtBarCodeId"
+                android:id="@+id/txtStockId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="90dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                app:layout_constraintBaseline_toBaselineOf="@+id/lblBarCodeId"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblStockId"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <Button
@@ -252,7 +252,7 @@
                 android:layout_marginTop="30dp"
                 android:text="@string/btnReportedItems"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblBarCodeId"
+                app:layout_constraintTop_toBottomOf="@+id/lblStockId"
                 android:textAllCaps="false"
                 app:backgroundTint="@color/colorAccent"
                 android:textColor="@color/colorTextTitle"/>

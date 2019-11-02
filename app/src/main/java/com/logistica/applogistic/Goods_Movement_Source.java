@@ -88,12 +88,12 @@ public class Goods_Movement_Source extends AppCompatActivity {
 
     private void init() {
 
-        txtSourceId = findViewById(R.id.txtSourceId);
+        txtSourceId = findViewById(R.id.txtTargetId);
         txtProductId = findViewById(R.id.txtProductId);
         txtQtyId = findViewById(R.id.txtQtyId);
         txIdentStockId = findViewById(R.id.txtStockId);
         chkRestrictedId = findViewById(R.id.chkRestrictedId);
-        txtLuId = findViewById(R.id.txtLuId);
+        txtLuId = findViewById(R.id.txtSerialNumberId);
         txtLuQtyId = findViewById(R.id.txtLuQtyId);
         txtFieldNameId = findViewById(R.id.txtFieldName);
         txtBarCodeId = findViewById(R.id.txtBarCode);

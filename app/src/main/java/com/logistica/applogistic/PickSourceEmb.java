@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,15 +94,15 @@ public class PickSourceEmb extends AppCompatActivity {
         spinner = findViewById(R.id.spiUnitId);
         lsOutbounItems = new  ArrayList<>();
 
-        txtSourceId = findViewById(R.id.txtSourceId);
+        txtSourceId = findViewById(R.id.txtTargetId);
         txtProductId = findViewById(R.id.txtProductId);
         txtQtyId = findViewById(R.id.txtQtyId);
         txtIdentStockId = findViewById(R.id.txtIdentStockId);
         cheRestrictedId = findViewById(R.id.cheRestrictedId);
         chkConfirmedId = findViewById(R.id.chkConfirmedId);
-        txtLuId = findViewById(R.id.txtLuId);
+        txtLuId = findViewById(R.id.txtSerialNumberId);
         txtLuQtyId = findViewById(R.id.txtLuQtyId);
-        txtBarCodeId = findViewById(R.id.txtBarCodeId);
+        txtBarCodeId = findViewById(R.id.txtStockId);
         lblOpenValueId = findViewById(R.id.lblOpenValueId);
         lblCountItemsId = findViewById(R.id.lblCountItemsId);
 

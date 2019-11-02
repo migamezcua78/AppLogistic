@@ -10,6 +10,8 @@ public class cGlobalData extends Application {
 
     public ArrayList<cOutboundViewInfo> LsOutboudItems;
 
+    public ArrayList<cInboundViewInfo> LsIntboudItems;
+
     public String getGlobalVarValue() {
         return mGlobalVarValue;
     }

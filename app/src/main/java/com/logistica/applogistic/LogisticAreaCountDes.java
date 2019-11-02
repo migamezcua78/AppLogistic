@@ -63,9 +63,9 @@ public class LogisticAreaCountDes extends AppCompatActivity {
     private void init() {
         txtProductId = findViewById(R.id.txtProductId);
         txtQtyId = findViewById(R.id.txtQtyId);
-        txtLuId = findViewById(R.id.txtLuId);
+        txtLuId = findViewById(R.id.txtSerialNumberId);
         txtLuQty = findViewById(R.id.txtLuQty);
-        txtBarCodeId = findViewById(R.id.txtBarCodeId);
+        txtBarCodeId = findViewById(R.id.txtStockId);
         chkRestrictedId = findViewById(R.id.chkRestrictedId);
         lblCountItemsId = findViewById(R.id.lblCountItemsId);
 

@@ -110,12 +110,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/lblService"
-                app:layout_constraintBaseline_toBaselineOf="@+id/txtSourceId"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
                 app:layout_constraintStart_toStartOf="parent" />
 
 
             <EditText
-                android:id="@+id/txtSourceId"
+                android:id="@+id/txtTargetId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="90dp"
@@ -161,7 +161,7 @@
                 android:inputType="textPersonName"
                 android:textIsSelectable="true"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtSourceId" />
+                app:layout_constraintTop_toBottomOf="@+id/txtTargetId" />
 
             <TextView
                 android:id="@+id/lblOpenId"
@@ -247,11 +247,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/lblLU"
-                app:layout_constraintBaseline_toBaselineOf="@+id/txtLuId"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtSerialNumberId"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
-                android:id="@+id/txtLuId"
+                android:id="@+id/txtSerialNumberId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="90dp"
@@ -281,19 +281,19 @@
                 android:inputType="textPersonName"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtLuId" />
+                app:layout_constraintTop_toBottomOf="@+id/txtSerialNumberId" />
 
             <TextView
-                android:id="@+id/lblBarCodeId"
+                android:id="@+id/lblStockId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/lblBarCode"
-                app:layout_constraintBaseline_toBaselineOf="@+id/txtBarCodeId"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtStockId"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
-                android:id="@+id/txtBarCodeId"
+                android:id="@+id/txtStockId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="90dp"

@@ -33,10 +33,10 @@ public class LogisticAreaCount extends AppCompatActivity {
 
     private void Init (){
 
-        txtAreaId =  findViewById(R.id.txtAreaId);
+        txtAreaId =  findViewById(R.id.txtSourceId);
         txtProductId = findViewById(R.id.txtProductId);
-        txtOrderId = findViewById(R.id.txtOrderId);
-        txtBarCodeId =findViewById(R.id.txtBarCodeId);
+        txtOrderId = findViewById(R.id.txtQtyId);
+        txtBarCodeId =findViewById(R.id.txtStockId);
 
         oActivityMessage = new cActivityMessage();
     }

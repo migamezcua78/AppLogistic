@@ -14,8 +14,6 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +53,7 @@ public class OutBound extends AppCompatActivity {
         txtTaskId = findViewById(R.id.lbTaskId);
         txtImputFilterId = findViewById(R.id.txtImputFilterId);
         lbOrderValueId = findViewById(R.id.lbOrderValueId);
-        lbTaskValueId = findViewById(R.id.lbTaskValueId);
+        lbTaskValueId = findViewById(R.id.lblTaskValueId);
 
 
         spinner = findViewById(R.id.spFilterId);
