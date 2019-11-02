@@ -60,11 +60,6 @@ public class Inicio extends AppCompatActivity {
     }
 
     public  void  goInternal(View view){
-      //  Intent oIntent = new Intent(this, InboundBD.class);
-        //oIntent.setExtrasClassLoader();
-       // Intent oIntent = new Intent(this, PickSourceBD.class);
-      //  Intent oIntent = new Intent(this, PutAwayTargetBD.class);
-      //  Intent oIntent = new Intent(this, TargetConfirmationBD.class);
         Intent oIntent = new Intent(this, InboundBD.class);
         startActivity(oIntent);
     }

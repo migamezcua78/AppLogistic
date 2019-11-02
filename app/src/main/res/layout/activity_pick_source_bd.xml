@@ -7,6 +7,7 @@
     tools:context=".PickSourceBD">
 
 
+
     <LinearLayout
         android:id="@+id/liTitleId"
         android:layout_width="match_parent"
@@ -31,7 +32,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/liItems"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:background="@color/colorBackSubtitle"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/liTitleId"
@@ -43,20 +44,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_weight="1"
-
-            android:onClick="onClickConfirm"
-            android:text="@string/btnConfirmItem"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="5dp"
+
+            android:layout_weight="1"
+            android:onClick="onClickConfirm"
+
+            android:text="@string/btnConfirmItem"
             android:textAllCaps="false"
-            app:backgroundTint="@color/colorAccent"
             android:textColor="@color/colorTextTitle"
-            />
-
-
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -93,16 +91,16 @@
                 android:hint="@string/txtHintImput"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
-                android:text="13-95-4A"
-                app:layout_constraintBaseline_toBaselineOf="@+id/cheServiceId"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/chkSourceId"
                 app:layout_constraintStart_toStartOf="parent" />
 
 
             <CheckBox
-                android:id="@+id/cheServiceId"
+                android:id="@+id/chkSourceId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="12dp"
                 app:layout_constraintStart_toEndOf="@+id/txtSourceId"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -123,20 +121,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="90dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="4dp"
                 android:ems="10"
                 android:hint="@string/txtHintImput"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
-                android:text="MC64920-50-10-04"
+                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtSourceId" />
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/chkProductId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="4dp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/txtProductId"
                 app:layout_constraintStart_toEndOf="@+id/txtProductId" />
 
@@ -187,7 +185,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:text="@string/lblActual"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblOpenId" />
@@ -198,8 +196,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="90dp"
                 android:ems="3"
-                android:inputType="textPersonName"
-                android:text="3"
+                android:inputType="number"
+                android:text="0"
+                android:textSize="14sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/lblQty"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -214,13 +213,13 @@
 
             <Button
                 android:id="@+id/btnFNueveId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="10dp"
                 android:text="@string/btnFNueve"
-                app:backgroundTint="@color/colorAccent"
-                android:textColor="@color/colorTextTitle"
                 android:textAllCaps="false"
+                android:textColor="@color/colorTextTitle"
+                app:backgroundTint="@color/colorAccent"
                 app:layout_constraintBaseline_toBaselineOf="@+id/txtQtyId"
                 app:layout_constraintStart_toEndOf="@+id/spiOptions" />
 
@@ -229,8 +228,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="40dp"
-                android:text="@string/lblBarCode"
+                android:layout_marginTop="30dp"
+                android:text="@string/lblStockId"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblQty" />
 
@@ -241,6 +240,7 @@
                 android:layout_marginStart="90dp"
                 android:ems="10"
                 android:inputType="textPersonName"
+                android:textSize="14sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/lblStockId"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -283,17 +283,30 @@
                 app:layout_constraintTop_toTopOf="@+id/lblQty" />
 
             <Button
-                android:id="@+id/btnModifyId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:onClick="onClickModify"
-                android:text="@string/btnModify"
-                app:backgroundTint="@color/colorAccent"
-                android:textColor="@color/colorTextTitle"
+                android:id="@+id/btnScanId"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:onClick="onScan"
+                android:text="@string/btnScan"
                 android:textAllCaps="false"
-                app:layout_constraintBaseline_toBaselineOf="@+id/button11"
-                app:layout_constraintStart_toEndOf="@+id/button11" />
+                android:textColor="@color/colorTextTitle"
+                app:backgroundTint="@color/colorAccent"
+                app:layout_constraintBaseline_toBaselineOf="@+id/chkSourceId"
+                app:layout_constraintStart_toEndOf="@+id/chkSourceId" />
+
+            <Button
+                android:id="@+id/btnScanProductId"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:onClick="onScanProduct"
+                android:text="@string/btnScan"
+                android:textAllCaps="false"
+                android:textColor="@color/colorTextTitle"
+                app:backgroundTint="@color/colorAccent"
+                app:layout_constraintBaseline_toBaselineOf="@+id/chkProductId"
+                app:layout_constraintStart_toEndOf="@+id/chkProductId" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
