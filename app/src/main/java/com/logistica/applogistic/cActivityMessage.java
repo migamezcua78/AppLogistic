@@ -4,10 +4,32 @@ import java.io.Serializable;
 
 public class cActivityMessage implements Serializable {
 
+    private   String Message;
+    private   String Key01;
+    private   String Key02;
+
     public  cActivityMessage (){
         Message = "";
         Key01 = "";
         Key02 = "";
+    }
+
+    public  cActivityMessage (String Message){
+        this.Message = Message;
+        this.Key01 = "";
+        this.Key02 = "";
+    }
+
+    public  cActivityMessage (String Message, String Key01 ){
+        this.Message = Message;
+        this.Key01 = Key01;
+        this.Key02 = "";
+    }
+
+    public  cActivityMessage (String Message, String Key01, String Key02){
+        this.Message = Message;
+        this.Key01 = Key01;
+        this.Key02 = Key02;
     }
 
     public String getKey01() {
@@ -29,13 +51,6 @@ public class cActivityMessage implements Serializable {
     public static class ChildClass implements Serializable {
         public ChildClass() {}
     }
-
-    private   String Message;
-
-    private   String Key01;
-
-    private   String Key02;
-
 
     public String getMessage() {
         return Message;

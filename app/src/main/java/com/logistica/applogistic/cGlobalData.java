@@ -12,6 +12,8 @@ public class cGlobalData extends Application {
 
     public ArrayList<cInboundViewInfo> LsIntboudItems;
 
+    public cMovementViewInfo  CurrentMovementViewInfo;
+
     public String getGlobalVarValue() {
         return mGlobalVarValue;
     }

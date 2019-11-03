@@ -18,7 +18,7 @@ import java.util.List;
 
 public class GoodsMovementTarget extends AppCompatActivity {
 
-    ProgressDialog vProgressDialog;
+    //  Views
     EditText txtTargetId;
     EditText txtProductId;
     EditText txtQtyId;
@@ -28,27 +28,23 @@ public class GoodsMovementTarget extends AppCompatActivity {
     EditText txtLuQtyId;
     EditText txtFieldNameId;
     EditText txtBarCodeId;
-
     Spinner spinner;
 
-    Intent  intent;
-    cMovement oMovementParam;
-
+    // Data
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
+    private  cMovementViewInfo  oCurrentItemViewInfo;
+
+    // Process
+    ProgressDialog vProgressDialog;
+    cActivityMessage oMsg;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_movement_target);
-
         init();
-        fillDataFilter();
-
-        intent = getIntent();
-        oMovementParam = (cMovement)intent.getSerializableExtra("oDataParam");
-        SetInitViewValues(oMovementParam);
-        String s = "";
+        StartActivity();
     }
 
     private void init() {
@@ -63,10 +59,68 @@ public class GoodsMovementTarget extends AppCompatActivity {
         txtFieldNameId = findViewById(R.id.txtFieldName);
         txtBarCodeId = findViewById(R.id.txtBarCode);
         spinner = findViewById(R.id.spiUnitId);
+
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
+        oCurrentItemViewInfo = ((cGlobalData)getApplication()).CurrentMovementViewInfo;
     }
 
 
-    private void SetInitViewValues( cMovement  pMovement){
+    private  void StartActivity(){
+
+        if ( oCurrentItemViewInfo !=  null ){
+            setViewInfo();
+        }
+
+        fillDataFilter();
+    }
+
+    private void  getParamInfo() {
+
+        switch (oMsg.getKey01()){
+            case "TaskId":
+                oCurrentItemViewInfo.TaskId = oMsg.getKey02();
+                break;
+            case "ReferenceId":
+                oCurrentItemViewInfo.ReferenceId = oMsg.getKey02();
+                break;
+            case "LabelId":
+                oCurrentItemViewInfo.LabelId = oMsg.getKey02();
+                break;
+            case "BarCodeId":
+                oCurrentItemViewInfo.BarCodeId = oMsg.getKey02();
+                break;
+        }
+    }
+
+    private void getViewInfo(){
+
+        oCurrentItemViewInfo.TargetId = txtTargetId.getText().toString();
+        oCurrentItemViewInfo.ProductId =txtProductId.getText().toString();
+        oCurrentItemViewInfo.Qty =txtQtyId.getText().toString();
+        oCurrentItemViewInfo.IdentStock =txIdentStockId.getText().toString();
+        oCurrentItemViewInfo.Restricted =chkRestrictedId.isChecked();
+        oCurrentItemViewInfo.Lu =txtLuId.getText().toString();
+        oCurrentItemViewInfo.LuQty =txtLuQtyId.getText().toString();
+        oCurrentItemViewInfo.FieldName =txtFieldNameId.getText().toString();
+        oCurrentItemViewInfo.BarCode =txtBarCodeId.getText().toString();
+        oCurrentItemViewInfo.msg = "";
+    }
+
+    private void setViewInfo(){
+
+        txtTargetId.setText(oCurrentItemViewInfo.TargetId);
+        txtProductId.setText(oCurrentItemViewInfo.ProductId);
+        txtQtyId.setText(oCurrentItemViewInfo.Qty);
+        txIdentStockId.setText(oCurrentItemViewInfo.IdentStock);
+        chkRestrictedId.setChecked(oCurrentItemViewInfo.Restricted);
+        txtLuId.setText(oCurrentItemViewInfo.Lu);
+        txtLuQtyId.setText(oCurrentItemViewInfo.LuQty);
+        txtFieldNameId.setText(oCurrentItemViewInfo.FieldName);
+        txtBarCodeId.setText(oCurrentItemViewInfo.BarCode);
+    }
+
+
+    private void SetInitViewValues( cMovementViewInfo pMovement){
 
         txtProductId.setText(pMovement.ProductId);
         txtQtyId.setText(pMovement.Qty);
@@ -101,28 +155,25 @@ public class GoodsMovementTarget extends AppCompatActivity {
 
     public void onClickConfirm(View view){
 
-        oMovementParam.TargetId = txtTargetId.getText().toString().trim();
-
-        if (  oMovementParam.TargetId.trim().isEmpty()  ){
-
-            Toast.makeText(getApplicationContext(),"TARGET field is required", Toast.LENGTH_SHORT).show();
-        }
-
-        else if (  oMovementParam.SourceId.trim().isEmpty()  ){
+        if ( txtTargetId.getText().toString().trim().isEmpty()){
 
             Toast.makeText(getApplicationContext(),"SOURCE field is required", Toast.LENGTH_SHORT).show();
 
-        }else if ( oMovementParam.ProductId.trim().isEmpty())
+        }else if ( txtProductId.getText().toString().trim().isEmpty())
         {
             Toast.makeText(getApplicationContext(),"PRODUCT field is required", Toast.LENGTH_SHORT).show();
         }
-        else if ( oMovementParam.Qty.trim().isEmpty() )
-        {
-            Toast.makeText(getApplicationContext(),"QTY field is required", Toast.LENGTH_SHORT).show();
+        else if (txtQtyId.getText().toString().trim().isEmpty() ) {
+            Toast.makeText(getApplicationContext(), "QTY field is required", Toast.LENGTH_SHORT).show();
 
-        }else{
+        }
+        else if (txtFieldNameId.getText().toString().trim().isEmpty() ) {
+            Toast.makeText(getApplicationContext(), "FieldName field is required", Toast.LENGTH_SHORT).show();
 
-            oMovementParam.TargetId =txtTargetId.getText().toString();
+        }
+        else{
+
+            getViewInfo();
             AsyncTaskSendingInformation AsyncTaskSendingInformation = new GoodsMovementTarget.AsyncTaskSendingInformation();
             AsyncTaskSendingInformation.execute("params");
         }
@@ -167,12 +218,29 @@ public class GoodsMovementTarget extends AppCompatActivity {
     }
 
 
+
+    // Save Filter Field
+    private void SaveFilterValues(){
+
+        String   TaskId = oCurrentItemViewInfo.TaskId;
+        String   ReferenceId = oCurrentItemViewInfo.ReferenceId;
+        String   LabelId = oCurrentItemViewInfo.LabelId;
+        String   BarCodeId = oCurrentItemViewInfo.BarCodeId;
+
+        oCurrentItemViewInfo.Reset();
+        oCurrentItemViewInfo.ReferenceId = ReferenceId;
+        oCurrentItemViewInfo.LabelId = LabelId;
+        oCurrentItemViewInfo.BarCodeId = BarCodeId;
+        oCurrentItemViewInfo.TaskId = TaskId;
+
+    }
+
     private class AsyncTaskSendingInformation extends AsyncTask<String, String,  String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             vProgressDialog = new ProgressDialog(GoodsMovementTarget.this);
-            vProgressDialog.setMessage("Sending Information...");
+            vProgressDialog.setMessage("Sending Item Information...");
             vProgressDialog.setIndeterminate(false);
             vProgressDialog.setCancelable(true);
             vProgressDialog.show();
@@ -201,11 +269,11 @@ public class GoodsMovementTarget extends AppCompatActivity {
             super.onPostExecute(lsData);
             vProgressDialog.hide();
 
+            Toast.makeText(getApplicationContext(), "Process successful", Toast.LENGTH_SHORT).show();
+
+            SaveFilterValues();
             Intent oIntent = new Intent(GoodsMovementTarget.this, Goods_Movement_Source.class);
-            cMovement  oMov = new   cMovement();
-            oMov.TaskId = oMovementParam.TaskId;
-            oMov.msg = "Sending successful";
-            oIntent.putExtra("oDataParam",oMov);
+            oIntent.putExtra("oMsg",new cActivityMessage("OtherItem"));
             startActivity(oIntent);
         }
     }

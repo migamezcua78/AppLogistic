@@ -18,7 +18,7 @@ import java.util.List;
 
 public class Goods_Movement_Source extends AppCompatActivity {
 
-
+    //  Views
     EditText txtSourceId;
     EditText txtProductId;
     EditText txtQtyId;
@@ -28,36 +28,129 @@ public class Goods_Movement_Source extends AppCompatActivity {
     EditText txtLuQtyId;
     EditText txtFieldNameId;
     EditText txtBarCodeId;
-
     Spinner spinner;
 
-    ProgressDialog vProgressDialog;
-
-    Intent  intent;
-    cMovement oMovementParam;
-
+    // Data
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
+    private  cMovementViewInfo  oCurrentItemViewInfo;
+
+    // Process
+    ProgressDialog vProgressDialog;
+    cActivityMessage oMsg;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods__movement__source);
         init();
-        fillDataFilter();
-
-        intent = getIntent();
-        oMovementParam = (cMovement)intent.getSerializableExtra("oDataParam");
+        StartActivity();
     }
+
+    private void init() {
+
+        txtSourceId = findViewById(R.id.txtTargetId);
+        txtProductId = findViewById(R.id.txtProductId);
+        txtQtyId = findViewById(R.id.txtQtyId);
+        txIdentStockId = findViewById(R.id.txtStockId);
+        chkRestrictedId = findViewById(R.id.chkRestrictedId);
+        txtLuId = findViewById(R.id.txtSerialNumberId);
+        txtLuQtyId = findViewById(R.id.txtLuQtyId);
+        txtFieldNameId = findViewById(R.id.txtFieldName);
+        txtBarCodeId = findViewById(R.id.txtBarCode);
+        spinner = findViewById(R.id.spiUnitId);
+
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
+        oCurrentItemViewInfo = ((cGlobalData)getApplication()).CurrentMovementViewInfo;
+    }
+
+    private  void StartActivity(){
+
+        if(oMsg.getMessage().equals("NewItem")){
+            if ( oCurrentItemViewInfo  != null   )
+            {
+                oCurrentItemViewInfo.Reset();
+
+            }else  {
+
+                cGlobalData  oGlobalData=  (cGlobalData)getApplication();
+                oGlobalData.CurrentMovementViewInfo = new cMovementViewInfo();
+                oCurrentItemViewInfo =  oGlobalData.CurrentMovementViewInfo;
+            }
+
+            getParamInfo();
+
+        }else if (oMsg.getMessage().equals("OtherItem")){
+
+            if ( oCurrentItemViewInfo  != null   )
+            {
+                setViewInfo();
+
+            }else  {
+
+                oCurrentItemViewInfo = new cMovementViewInfo();
+            }
+        }
+
+        fillDataFilter();
+    }
+
+    private void  getParamInfo() {
+
+        switch (oMsg.getKey01()){
+            case "TaskId":
+                oCurrentItemViewInfo.TaskId = oMsg.getKey02();
+                break;
+            case "ReferenceId":
+                oCurrentItemViewInfo.ReferenceId = oMsg.getKey02();
+                break;
+            case "LabelId":
+                oCurrentItemViewInfo.LabelId = oMsg.getKey02();
+                break;
+            case "BarCodeId":
+                oCurrentItemViewInfo.BarCodeId = oMsg.getKey02();
+                break;
+        }
+    }
+
+    private void getViewInfo(){
+
+        oCurrentItemViewInfo.SourceId =txtSourceId.getText().toString();
+        oCurrentItemViewInfo.ProductId =txtProductId.getText().toString();
+        oCurrentItemViewInfo.Qty =txtQtyId.getText().toString();
+        oCurrentItemViewInfo.IdentStock =txIdentStockId.getText().toString();
+        oCurrentItemViewInfo.Restricted =chkRestrictedId.isChecked();
+        oCurrentItemViewInfo.Lu =txtLuId.getText().toString();
+        oCurrentItemViewInfo.LuQty =txtLuQtyId.getText().toString();
+        oCurrentItemViewInfo.FieldName =txtFieldNameId.getText().toString();
+        oCurrentItemViewInfo.BarCode =txtBarCodeId.getText().toString();
+        oCurrentItemViewInfo.msg = "";
+    }
+
+    private void setViewInfo(){
+
+        txtSourceId.setText(oCurrentItemViewInfo.SourceId);
+        txtProductId.setText(oCurrentItemViewInfo.ProductId);
+        txtQtyId.setText(oCurrentItemViewInfo.Qty);
+        txIdentStockId.setText(oCurrentItemViewInfo.IdentStock);
+        chkRestrictedId.setChecked(oCurrentItemViewInfo.Restricted);
+        txtLuId.setText(oCurrentItemViewInfo.Lu);
+        txtLuQtyId.setText(oCurrentItemViewInfo.LuQty);
+        txtFieldNameId.setText(oCurrentItemViewInfo.FieldName);
+        txtBarCodeId.setText(oCurrentItemViewInfo.BarCode);
+    }
+
+
 
     @Override
     protected void  onResume(){
         super.onResume();
 
-        if ( oMovementParam.msg != "")
+/*        if ( oMovementParam.msg != "")
         {
             Toast.makeText(getApplicationContext(),oMovementParam.msg , Toast.LENGTH_SHORT).show();
             oMovementParam.msg = "";
-        }
+        }*/
     }
 
     @Override
@@ -75,31 +168,12 @@ public class Goods_Movement_Source extends AppCompatActivity {
 
 
     private List<cSpinnerItem> getInfoFilter(){
-        //  List<cSpinnerItem>  ItemsList = new ArrayList<>();
         InfoFilter = new ArrayList<>();
-
         InfoFilter.add(new cSpinnerItem(1,"ea"));
-//        InfoFilter.add(new cSpinnerItem(1,"Bar Code"));
-//        InfoFilter.add(new cSpinnerItem(1,"Label ID"));
-//        InfoFilter.add(new cSpinnerItem(1,"Reference"));
-
         return  InfoFilter;
     }
 
-    private void init() {
 
-        txtSourceId = findViewById(R.id.txtTargetId);
-        txtProductId = findViewById(R.id.txtProductId);
-        txtQtyId = findViewById(R.id.txtQtyId);
-        txIdentStockId = findViewById(R.id.txtStockId);
-        chkRestrictedId = findViewById(R.id.chkRestrictedId);
-        txtLuId = findViewById(R.id.txtSerialNumberId);
-        txtLuQtyId = findViewById(R.id.txtLuQtyId);
-        txtFieldNameId = findViewById(R.id.txtFieldName);
-        txtBarCodeId = findViewById(R.id.txtBarCode);
-        spinner = findViewById(R.id.spiUnitId);
-
-    }
 
 
     public void onScanSource(View view){
@@ -120,34 +194,23 @@ public class Goods_Movement_Source extends AppCompatActivity {
 
     public void onClickConfirm(View view){
 
-        oMovementParam.SourceId =txtSourceId.getText().toString();
-        oMovementParam.ProductId =txtProductId.getText().toString();
-        oMovementParam.Qty =txtQtyId.getText().toString();
-        oMovementParam.IdentStock =txIdentStockId.getText().toString();
-        oMovementParam.Restricted =chkRestrictedId.isChecked();
-        oMovementParam.Lu =txtLuId.getText().toString();
-        oMovementParam.LuQty =txtLuQtyId.getText().toString();
-        oMovementParam.FieldName =txtFieldNameId.getText().toString();
-        oMovementParam.BarCode =txtBarCodeId.getText().toString();
-        oMovementParam.msg = "";
-
-
-        if (  oMovementParam.SourceId.trim().isEmpty()  ){
+        if ( txtSourceId.getText().toString().trim().isEmpty()){
 
             Toast.makeText(getApplicationContext(),"SOURCE field is required", Toast.LENGTH_SHORT).show();
 
-        }else if ( oMovementParam.ProductId.trim().isEmpty())
+        }else if ( txtProductId.getText().toString().trim().isEmpty())
         {
             Toast.makeText(getApplicationContext(),"PRODUCT field is required", Toast.LENGTH_SHORT).show();
         }
-        else if ( oMovementParam.Qty.trim().isEmpty() )
+        else if (txtQtyId.getText().toString().trim().isEmpty() )
         {
             Toast.makeText(getApplicationContext(),"QTY field is required", Toast.LENGTH_SHORT).show();
 
         }else{
 
+            getViewInfo();
             Intent oIntent = new Intent(this, GoodsMovementTarget.class);
-            oIntent.putExtra("oDataParam",oMovementParam);
+           // oIntent.putExtra("oDataParam",oMovementParam);
             startActivity(oIntent);
         }
     }

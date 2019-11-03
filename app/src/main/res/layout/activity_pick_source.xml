@@ -90,12 +90,12 @@
             android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:textSize="14sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/cheServiceId"
+            app:layout_constraintBaseline_toBaselineOf="@+id/chkSourceId"
             app:layout_constraintStart_toStartOf="parent" />
 
 
         <CheckBox
-            android:id="@+id/cheServiceId"
+            android:id="@+id/chkSourceId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -129,7 +129,7 @@
             app:layout_constraintTop_toBottomOf="@+id/txtSourceId" />
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/chkProductId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -290,8 +290,8 @@
             android:textAllCaps="false"
             android:textColor="@color/colorTextTitle"
             app:backgroundTint="@color/colorAccent"
-            app:layout_constraintBaseline_toBaselineOf="@+id/cheServiceId"
-            app:layout_constraintStart_toEndOf="@+id/cheServiceId" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/chkSourceId"
+            app:layout_constraintStart_toEndOf="@+id/chkSourceId" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

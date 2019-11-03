@@ -307,6 +307,46 @@
                     app:layout_constraintBaseline_toBaselineOf="@+id/txtProductId"
                     app:layout_constraintStart_toEndOf="@+id/txtProductId" />
 
+                <TextView
+                    android:id="@+id/lblAsteriscoId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" *"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/lblTargetId"
+                    app:layout_constraintStart_toEndOf="@+id/lblTargetId" />
+
+                <TextView
+                    android:id="@+id/lblAsteriscoId2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" *"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/lblProductId"
+                    app:layout_constraintStart_toEndOf="@+id/lblProductId" />
+
+                <TextView
+                    android:id="@+id/lblAsteriscoId3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" *"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/lblQty"
+                    app:layout_constraintStart_toEndOf="@+id/lblQty" />
+
+                <TextView
+                    android:id="@+id/lblAsteriscoId4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" *"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/lblFieldName"
+                    app:layout_constraintStart_toEndOf="@+id/lblFieldName" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

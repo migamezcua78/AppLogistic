@@ -76,10 +76,10 @@ public class GoodMovement extends AppCompatActivity {
         //  List<cSpinnerItem>  ItemsList = new ArrayList<>();
         InfoFilter = new ArrayList<>();
 
-        InfoFilter.add(new cSpinnerItem(1,"Task ID"));
-        InfoFilter.add(new cSpinnerItem(1,"Bar Code"));
-        InfoFilter.add(new cSpinnerItem(1,"Label ID"));
-        InfoFilter.add(new cSpinnerItem(1,"Reference"));
+        InfoFilter.add(new cSpinnerItem(1,"Task ID", "TaskId"));
+        InfoFilter.add(new cSpinnerItem(2,"Bar Code","BarCodeId"));
+        InfoFilter.add(new cSpinnerItem(3,"Label ID","LabelId"));
+        InfoFilter.add(new cSpinnerItem(4,"Reference","ReferenceId"));
 
         return  InfoFilter;
     }
@@ -91,7 +91,18 @@ public class GoodMovement extends AppCompatActivity {
 
     public void onStartTask(View view) {
 
-        cMovement  oMov = new   cMovement();
+        if (txtFilterValue.getText().toString().isEmpty()) {
+
+            Toast.makeText(getApplicationContext(), spinner.getSelectedItem().toString() + " field is required", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            Intent oIntent = new Intent(this, Goods_Movement_Source.class);
+            oIntent.putExtra("oMsg", getActivityMsg());
+            startActivity(oIntent);
+        }
+
+/*        cMovementViewInfo  oMov = new   cMovementViewInfo();
         oMov.TaskId =  txtFilterValue.getText().toString();
 
         if (  oMov.TaskId.trim().isEmpty() ){
@@ -104,6 +115,18 @@ public class GoodMovement extends AppCompatActivity {
             oIntent.putExtra("oDataParam",oMov);
             startActivity(oIntent);
         }
+        */
+    }
+
+    private cActivityMessage getActivityMsg(){
+        cActivityMessage   oMsg = new  cActivityMessage();
+
+        oMsg.setMessage("NewItem");
+        cSpinnerItem   oSpiItem=  (cSpinnerItem)spinner.getSelectedItem();
+        oMsg.setKey01(oSpiItem.getField());
+        oMsg.setKey02(txtFilterValue.getText().toString().trim());
+
+        return  oMsg;
     }
 
     public void onScan(View view) {
@@ -120,20 +143,7 @@ public class GoodMovement extends AppCompatActivity {
     }
 
     private ArrayList<String[]> getInfoData(){
-
         InfoData = new ArrayList <> ();
-
-      //  InfoData.add(new String[]{"MCF-0001","5 ea"});
-        // InfoData.add(new String[]{"MCF-0002","6 ea"});
-/*
-        InfoData.add(new String[]{"MCF-0003","7 ea"});
-        InfoData.add(new String[]{"MCF-0004","8 ea"});
-
-        InfoData.add(new String[]{"MCF-0001","9 ea"});
-        InfoData.add(new String[]{"MCF-0002","10 ea"});
-        InfoData.add(new String[]{"MCF-0003","11 ea"});
-        InfoData.add(new String[]{"MCF-0004","12 ea"});
-*/
         return  InfoData;
     }
 
