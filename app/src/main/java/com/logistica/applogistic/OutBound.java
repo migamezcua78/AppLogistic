@@ -29,13 +29,11 @@ public class OutBound extends AppCompatActivity {
     private TextView  lbTaskValueId;
 
 
-
-
-
     //  DATA
     private ArrayList <String[]> InfoData = new ArrayList <> ();
     private String[] InfoHeader;
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
+    ArrayList<cOutboundViewInfo>  lsOutbounItems =  new  ArrayList<>();
 
     ProgressDialog vProgressDialog;
 
@@ -70,7 +68,6 @@ public class OutBound extends AppCompatActivity {
     }
 
 
-
     private void fillDataFilter (){
         ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilter());
         spinner.setAdapter(adapter);
@@ -90,6 +87,17 @@ public class OutBound extends AppCompatActivity {
 
     }
 
+    private cActivityMessage getActivityMsg(){
+        cActivityMessage   oMsg = new  cActivityMessage();
+
+        oMsg.setMessage("StartTask");
+        cSpinnerItem   oSpiItem=  (cSpinnerItem)spinner.getSelectedItem();
+        oMsg.setKey01(oSpiItem.getField());
+        oMsg.setKey02(txtImputFilterId.getText().toString().trim());
+
+        return  oMsg;
+    }
+
 
     public void   onClickStartTask(View spinner) {
 
@@ -99,10 +107,19 @@ public class OutBound extends AppCompatActivity {
 
         } else{
 
-            Intent oIntent = new Intent(this, PickSourceEmb.class);
-            cActivityMessage   oMssg = new  cActivityMessage();
-            oIntent.putExtra("oMssg",oMssg );
-            startActivity(oIntent);
+            if( lsOutbounItems != null && lsOutbounItems.size() > 0 ){
+
+                for ( cOutboundViewInfo e:lsOutbounItems){
+                    getParamInfo(e);
+                }
+
+                Intent oIntent = new Intent(this, PickSourceEmb.class);
+                oIntent.putExtra("oMsg", getActivityMsg() );
+                startActivity(oIntent);
+
+            }else {
+                Toast.makeText(getApplicationContext(),"There are NO items in task selected", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -119,10 +136,10 @@ public class OutBound extends AppCompatActivity {
         //  List<cSpinnerItem>  ItemsList = new ArrayList<>();
         InfoFilter = new ArrayList<>();
 
-        InfoFilter.add(new cSpinnerItem(1,"Task ID"));
-        InfoFilter.add(new cSpinnerItem(1,"Reference"));
-        InfoFilter.add(new cSpinnerItem(1,"Label ID"));
-        InfoFilter.add(new cSpinnerItem(1,"Bar Code"));
+        InfoFilter.add(new cSpinnerItem(1,"Task ID", "TaskId"));
+        InfoFilter.add(new cSpinnerItem(2,"Bar Code","BarCodeId"));
+        InfoFilter.add(new cSpinnerItem(3,"Label ID","LabelId"));
+        InfoFilter.add(new cSpinnerItem(4,"Reference","ReferenceId"));
 
         return  InfoFilter;
     }
@@ -173,9 +190,9 @@ public class OutBound extends AppCompatActivity {
             super.onPostExecute(lsData);
             txtImputFilterId.setText("2362");
             InfoData = new ArrayList <> ();
+            lsOutbounItems =  new  ArrayList<>();
 
 
-            ArrayList<cOutboundViewInfo>  lsOutbounItems =  new  ArrayList<>();
             cOutboundViewInfo  oOutboundViewInfo = new cOutboundViewInfo();
 
             oOutboundViewInfo.SourceId = "Z03C";
@@ -185,20 +202,34 @@ public class OutBound extends AppCompatActivity {
             oOutboundViewInfo.TaskId = "2362";
             oOutboundViewInfo.IdentStock = "30541";
 
-
             lsOutbounItems.add(oOutboundViewInfo);
-            InfoData.add(new String[]{oOutboundViewInfo.ProductId,oOutboundViewInfo.Open});
+            InfoData.add(new String[]{oOutboundViewInfo.ProductId,oOutboundViewInfo.Open + " " + oOutboundViewInfo.OpenUnit });
 
-
-/*            oOutboundViewInfo = new cOutboundViewInfo();
+            oOutboundViewInfo = new cOutboundViewInfo();
             oOutboundViewInfo.SourceId = "Z03C";
             oOutboundViewInfo.ProductId = "CR2200EO36AL00_2";
-            oOutboundViewInfo.Open = "2 ea";
+            oOutboundViewInfo.Open = "2";
+            oOutboundViewInfo.OpenUnit = "ea";
             oOutboundViewInfo.TaskId = "2362";
             oOutboundViewInfo.IdentStock = "30541";
 
+
             lsOutbounItems.add(oOutboundViewInfo);
-            InfoData.add(new String[]{oOutboundViewInfo.ProductId,oOutboundViewInfo.Open});*/
+            InfoData.add(new String[]{oOutboundViewInfo.ProductId,oOutboundViewInfo.Open + " " + oOutboundViewInfo.OpenUnit });
+
+
+            oOutboundViewInfo = new cOutboundViewInfo();
+            oOutboundViewInfo.SourceId = "Z03C";
+            oOutboundViewInfo.ProductId = "CR2200EO36AL00_3";
+            oOutboundViewInfo.Open = "4";
+            oOutboundViewInfo.OpenUnit = "ea";
+            oOutboundViewInfo.TaskId = "2362";
+            oOutboundViewInfo.IdentStock = "30541";
+
+
+            lsOutbounItems.add(oOutboundViewInfo);
+            InfoData.add(new String[]{oOutboundViewInfo.ProductId,oOutboundViewInfo.Open + " " + oOutboundViewInfo.OpenUnit });
+
 
             cGlobalData  oGlobalData=  (cGlobalData)getApplication();
             oGlobalData.LsOutboudItems = lsOutbounItems;
@@ -211,6 +242,27 @@ public class OutBound extends AppCompatActivity {
             fillDataGrid();
 
             vProgressDialog.hide();
+        }
+    }
+
+
+    private void  getParamInfo(cOutboundViewInfo  pViewInfo) {
+
+        cSpinnerItem   oSpiItem=  (cSpinnerItem)spinner.getSelectedItem();
+
+        switch (oSpiItem.getField()){
+            case "TaskId":
+                pViewInfo.TaskId = txtImputFilterId.getText().toString().trim();
+                break;
+            case "ReferenceId":
+                pViewInfo.ReferenceId = txtImputFilterId.getText().toString().trim();
+                break;
+            case "LabelId":
+                pViewInfo.LabelId = txtImputFilterId.getText().toString().trim();
+                break;
+            case "BarCodeId":
+                pViewInfo.BarCodeId = txtImputFilterId.getText().toString().trim();
+                break;
         }
     }
 }

@@ -4,7 +4,10 @@ public class cOutboundViewInfo {
 
     public   cOutboundViewInfo(){
 
-        TaskId = "";
+        this.ReferenceId = "";
+        this.LabelId = "";
+        this.BarCodeId = "";
+        this.TaskId = "";
         SourceId = "";
         TargetId = "";
         ProductId = "";
@@ -24,7 +27,9 @@ public class cOutboundViewInfo {
     }
 
 
-
+    public  String  ReferenceId;
+    public  String  LabelId;
+    public  String  BarCodeId;
     public  String  TaskId;
     public  String  SourceId;
     public  String  TargetId;
@@ -40,7 +45,6 @@ public class cOutboundViewInfo {
     public  String  Lu;
     public  String  LuQty;
     public  String  BarCode;
-
     public  String  DesviationReason;
     public  String  msg;
 

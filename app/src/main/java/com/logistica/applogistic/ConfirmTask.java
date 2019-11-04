@@ -11,6 +11,7 @@ import android.widget.TableLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ConfirmTask extends AppCompatActivity {
 
@@ -22,32 +23,30 @@ public class ConfirmTask extends AppCompatActivity {
     private String[] InfoHeader;
 
 
+    // Data
+    private List<cSpinnerItem> InfoFilter = new ArrayList<>();
+    ArrayList<cOutboundViewInfo>  lsOutbounItems;
+    cOutboundViewInfo  oCurrentItemViewInfo;
+
+    // Process
+    ProgressDialog vProgressDialog;
+    cActivityMessage oMsg;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_task);
         Init();
-
-        cGlobalData  oGlobalData=  (cGlobalData)getApplication();
-        for ( cOutboundViewInfo e:oGlobalData.LsOutboudItems){
-            int  dif = 0;
-            if (Integer.parseInt(e.Open) < Integer.parseInt(e.Qty)){
-                dif = 0;
-            } else {
-
-                dif = Integer.parseInt(e.Open) - Integer.parseInt(e.Qty);
-            }
-
-            InfoData = new ArrayList <> ();
-            InfoData.add(new String[]{ e.ProductId, dif + " " + e.OpenUnit, e.SourceId });
-        }
-
-        fillDataGrid();
+        StartActivity();
     }
 
     private void Init (){
         tableLayout = findViewById(R.id.tgProductos);
+
+
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
+        lsOutbounItems = ((cGlobalData)getApplication()).LsOutboudItems;
     }
 
     public void   onClickConfirm(View spinner) {
@@ -55,7 +54,42 @@ public class ConfirmTask extends AppCompatActivity {
         asyncTask.execute("params");
     }
 
+    @Override
+    public void onBackPressed() {
+
+        Intent oIntent = new Intent(this, PickSourceEmb.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("Reload"));
+        startActivity(oIntent);
+    }
+
+
+    private void StartActivity (){
+
+        if (lsOutbounItems != null & lsOutbounItems.size() > 0  )
+        {
+            InfoData = new ArrayList <> ();
+
+            for ( cOutboundViewInfo e:lsOutbounItems){
+                int  dif = 0;
+                if (Integer.parseInt(e.Open) < Integer.parseInt(e.Qty)){
+                    dif = 0;
+                } else {
+
+                    dif = Integer.parseInt(e.Open) - Integer.parseInt(e.Qty);
+                }
+
+                InfoData.add(new String[]{ e.ProductId, dif + " " + e.OpenUnit, e.SourceId });
+            }
+        }
+
+        fillDataGrid();
+    }
+
     private void fillDataGrid (){
+
+        if ( oDataGrid != null   ){
+            oDataGrid.RemoveAllItems();
+        }
         oDataGrid = new cDataGrid(tableLayout,getApplicationContext());
         oDataGrid.addHeader(getInfoHeader());
         oDataGrid.addData(getInfoData());
@@ -71,7 +105,7 @@ public class ConfirmTask extends AppCompatActivity {
     }
 
 
-    ProgressDialog vProgressDialog;
+
 
     private class AsyncTaskSendingTaskInformation extends AsyncTask<String, String,  String> {
         @Override

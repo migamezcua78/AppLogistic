@@ -19,31 +19,28 @@ import java.util.List;
 
 public class PickSourceEmb extends AppCompatActivity {
 
+    // Views
     EditText txtProductId;
     EditText txtSourceId;
     EditText txtQtyId;
     EditText txtIdentStockId;
     CheckBox cheRestrictedId;
     CheckBox chkConfirmedId;
-
     EditText txtLuId;
     EditText txtLuQtyId;
     EditText txtBarCodeId;
-
     TextView lblOpenValueId;
-
     TextView lblCountItemsId;
-
     private Spinner spinner;
 
+    // Data
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
-    cActivityMessage   oActivityMessage;
     ArrayList<cOutboundViewInfo>  lsOutbounItems;
+    cOutboundViewInfo  oCurrentItemViewInfo;
 
-    cOutboundViewInfo  oOutboundViewInfo;
-
+    // Process
     ProgressDialog vProgressDialog;
-
+    cActivityMessage oMsg;
     int countItems;
     int TotalItems;
     int consecutive;
@@ -51,49 +48,26 @@ public class PickSourceEmb extends AppCompatActivity {
     int iterater;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_source_emb);
         Init();
-
-        oActivityMessage = (cActivityMessage)getIntent().getSerializableExtra("oMssg");
-
-        cGlobalData  oGlobalData=  (cGlobalData)getApplication();
-        lsOutbounItems = oGlobalData.LsOutboudItems;
-
-      if ( oActivityMessage.getMessage().equals("ConfirmedPartially") )
-      {
-          for ( cOutboundViewInfo e:lsOutbounItems){
-              if (e.ProductId.equals(oActivityMessage.getKey01())){
-
-                  e.Confirmed = true;
-                  e.ConfirmedPartially = true;
-                  setViewInfo(e);
-
-                  AsyncTaskAllItemConfirmed asyncTask=new AsyncTaskAllItemConfirmed();
-                  asyncTask.execute("params");
-              }
-          }
-      } else {
-
-          if (lsOutbounItems.size() > 0 ){
-              iterater = 1;
-              lblCountItemsId.setText(String.valueOf(iterater) + " of " + String.valueOf(lsOutbounItems.size()) );
-              cOutboundViewInfo   oOutboundViewInfo = lsOutbounItems.get(iterater - 1);
-              setViewInfo(oOutboundViewInfo);
-          }
-      }
-
-        fillDataUnits();
+        StartActivity();
     }
 
 
     private void Init (){
+
+        countItems = 0;
+        TotalItems = 0;
+        consecutive = 0;
+        Quantity = 1;
+        iterater = 1;
+
+
         spinner = findViewById(R.id.spiUnitId);
         lsOutbounItems = new  ArrayList<>();
-
         txtSourceId = findViewById(R.id.txtTargetId);
         txtProductId = findViewById(R.id.txtProductId);
         txtQtyId = findViewById(R.id.txtQtyId);
@@ -107,12 +81,195 @@ public class PickSourceEmb extends AppCompatActivity {
         lblCountItemsId = findViewById(R.id.lblCountItemsId);
 
 
-        countItems = 0;
-        TotalItems = 0;
-        consecutive = 0;
-        Quantity = 1;
-        iterater = 0;
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
+        lsOutbounItems = ((cGlobalData)getApplication()).LsOutboudItems;
+    }
 
+    private  void StartActivity(){
+
+        if ( oMsg.getMessage().equals("ConfirmedPartially") )
+        {
+            for ( cOutboundViewInfo e:lsOutbounItems){
+                if (e.ProductId.equals(oMsg.getKey01())){
+
+                    e.Confirmed = true;
+                    e.ConfirmedPartially = true;
+                    setViewInfo(e);
+                    Toast.makeText(getApplicationContext(),"Product: " + e.ProductId + " Confirmed" , Toast.LENGTH_SHORT).show();
+                    break;
+                }
+            }
+
+            Boolean  bfinishTask = true;
+            for ( cOutboundViewInfo e:lsOutbounItems){
+                if (!e.Confirmed){
+                    bfinishTask = false;
+                    break;
+                }
+            }
+
+            if (  bfinishTask  ){
+                AsyncTaskAllItemConfirmed asyncTask=new AsyncTaskAllItemConfirmed();
+                asyncTask.execute("params");
+            } else {
+
+                for(int i = 0; i < lsOutbounItems.size();  i++ ){
+                    oCurrentItemViewInfo = lsOutbounItems.get(i);
+                    if(!oCurrentItemViewInfo.Confirmed){
+                        setViewInfo(oCurrentItemViewInfo);
+                        iterater = i + 1;
+                        lblCountItemsId.setText(String.valueOf(iterater) + " of " + String.valueOf(lsOutbounItems.size()));
+                        break;
+                    }
+                }
+            }
+
+        } else if (oMsg.getMessage().equals("StartTask") || oMsg.getMessage().equals("Reload") ){
+
+            if ( lsOutbounItems.size() > 0){
+                iterater = 1;
+                oCurrentItemViewInfo = lsOutbounItems.get(iterater - 1);
+                lblCountItemsId.setText(String.valueOf(iterater) + " of " + String.valueOf(lsOutbounItems.size()));
+                setViewInfo(oCurrentItemViewInfo);
+            }else{
+                oCurrentItemViewInfo = new cOutboundViewInfo();
+            }
+        } else if (oMsg.getMessage().equals("NoConfirmedPartially")){
+
+            if ( lsOutbounItems.size() > 0){
+                iterater = Integer.valueOf(oMsg.getKey01());
+                if ( iterater > 0 ){
+                    oCurrentItemViewInfo = lsOutbounItems.get(iterater-1);
+                    setViewInfo(oCurrentItemViewInfo);
+                    lblCountItemsId.setText(String.valueOf(iterater) + " of " + String.valueOf(lsOutbounItems.size()));
+                }
+            }
+        }
+
+        fillDataUnits();
+    }
+
+    public void   onClickConfirm(View spinner) {
+
+        if (  txtQtyId.getText().toString().isEmpty() ){
+
+            Toast.makeText(getApplicationContext(),"ACTUAL field is required", Toast.LENGTH_SHORT).show();
+
+        } else  if ( txtSourceId.getText().toString().isEmpty() ){
+
+            Toast.makeText(getApplicationContext(),"SOURCE field is required", Toast.LENGTH_SHORT).show();
+
+        }else{
+
+            if (oCurrentItemViewInfo != null ){
+
+                getViewInfo(oCurrentItemViewInfo);
+
+                int  dif = 0;
+                if (Integer.parseInt(oCurrentItemViewInfo.Open) < Integer.parseInt(oCurrentItemViewInfo.Qty)){
+                    dif = 0;
+                } else {
+
+                    dif = Integer.parseInt(oCurrentItemViewInfo.Open) - Integer.parseInt(oCurrentItemViewInfo.Qty);
+                }
+
+                if(dif > 0){
+
+                    Intent oIntent = new Intent(this, Remaining.class);
+                    oIntent.putExtra("oMsg", new cActivityMessage("DeviationReason", String.valueOf(iterater)));
+                    startActivity(oIntent);
+
+                } else {
+                    oCurrentItemViewInfo.Confirmed = true;
+                    Toast.makeText(getApplicationContext(),"Product: " + oCurrentItemViewInfo.ProductId + " Confirmed" , Toast.LENGTH_SHORT).show();
+
+                    Boolean  bfinishTask = true;
+                    for ( cOutboundViewInfo e:lsOutbounItems){
+                        if (!e.Confirmed){
+                            bfinishTask = false;
+                            break;
+                        }
+                    }
+
+                    if (  bfinishTask  ){
+                        AsyncTaskAllItemConfirmed asyncTask=new AsyncTaskAllItemConfirmed();
+                        asyncTask.execute("params");
+                    } else {
+
+                        for(int i = 0; i < lsOutbounItems.size();  i++ ){
+                            oCurrentItemViewInfo = lsOutbounItems.get(i);
+                            if(!oCurrentItemViewInfo.Confirmed){
+                                setViewInfo(oCurrentItemViewInfo);
+                                iterater = i + 1;
+                                lblCountItemsId.setText(String.valueOf(iterater) + " of " + String.valueOf(lsOutbounItems.size()));
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void   onScanProduct(View view) {
+        AsyncTaskScanProduct asyncTask=new AsyncTaskScanProduct();
+        asyncTask.execute("params");
+    }
+
+    public void   onClickNext(View spinner) {
+
+        if ( iterater < lsOutbounItems.size()){
+            iterater = iterater+1;
+            lblCountItemsId.setText(  iterater + " of " + lsOutbounItems.size());
+
+            // almacena  lo que hay en la vista
+            getViewInfo(oCurrentItemViewInfo);
+
+            // se obtiene el sigiente
+            oCurrentItemViewInfo = lsOutbounItems.get(iterater - 1);
+            setViewInfo(oCurrentItemViewInfo);
+        }
+
+        if ( lsOutbounItems.size() > 0 && iterater == lsOutbounItems.size()  ){
+
+            // almacena  lo que hay en la vista
+            getViewInfo(oCurrentItemViewInfo);
+
+            oCurrentItemViewInfo = lsOutbounItems.get(iterater-1);
+            setViewInfo(oCurrentItemViewInfo);
+        }
+
+        //  Toast.makeText(getApplicationContext(),"Next", Toast.LENGTH_SHORT).show();
+    }
+
+    public void   onClickPrevious(View spinner) {
+
+        if ( iterater >  1){
+            iterater = iterater-1;
+            lblCountItemsId.setText(  iterater + " of " + lsOutbounItems.size());
+
+            // almacena  lo que hay en la vista
+            getViewInfo(oCurrentItemViewInfo);
+
+            oCurrentItemViewInfo = lsOutbounItems.get(iterater - 1);
+            setViewInfo(oCurrentItemViewInfo);
+        }
+
+        if (  lsOutbounItems.size() == 1 ){
+
+            // almacena  lo que hay en la vista
+            getViewInfo(oCurrentItemViewInfo);
+
+            oCurrentItemViewInfo = lsOutbounItems.get(0);
+            setViewInfo(oCurrentItemViewInfo);
+        }
+
+        // Toast.makeText(getApplicationContext(),"Previous", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onBackPressed() {
+        Intent oIntent = new Intent(this, OutBound.class);
+        startActivity(oIntent);
     }
 
 
@@ -137,8 +294,6 @@ public class PickSourceEmb extends AppCompatActivity {
         }
     }
 
-
-
     private void getViewInfo(cOutboundViewInfo pOutboundViewInfo){
 
         try {
@@ -157,51 +312,9 @@ public class PickSourceEmb extends AppCompatActivity {
         }
     }
 
-
     private void fillDataUnits (){
         ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilter());
         spinner.setAdapter(adapter);
-    }
-
-
-
-    public void   onClickConfirm(View spinner) {
-
-        if (  txtQtyId.getText().toString().isEmpty() ){
-
-            Toast.makeText(getApplicationContext(),"ACTUAL field is required", Toast.LENGTH_SHORT).show();
-
-        } else{
-
-            if(lsOutbounItems.size() > 0) {
-                oOutboundViewInfo = lsOutbounItems.get(0);
-                getViewInfo(oOutboundViewInfo);
-
-                int  dif = 0;
-                if (Integer.parseInt(oOutboundViewInfo.Open) < Integer.parseInt(oOutboundViewInfo.Qty)){
-                    dif = 0;
-                } else {
-
-                    dif = Integer.parseInt(oOutboundViewInfo.Open) - Integer.parseInt(oOutboundViewInfo.Qty);
-                }
-                if(dif > 0){
-
-                    Intent oIntent = new Intent(this, Remaining.class);
-                    startActivity(oIntent);
-                } else {
-
-                    AsyncTaskAllItemConfirmed asyncTask=new AsyncTaskAllItemConfirmed();
-                    asyncTask.execute("params");
-                }
-            }
-        }
-    }
-    public void   onClickNext(View spinner) {
-        Toast.makeText(getApplicationContext(),"Next", Toast.LENGTH_SHORT).show();
-    }
-
-    public void   onClickPrevious(View spinner) {
-        Toast.makeText(getApplicationContext(),"Previous", Toast.LENGTH_SHORT).show();
     }
 
     private List<cSpinnerItem> getInfoFilter(){
@@ -214,13 +327,52 @@ public class PickSourceEmb extends AppCompatActivity {
         return  InfoFilter;
     }
 
+    private class AsyncTaskScanProduct extends AsyncTask<String, String,  String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(PickSourceEmb.this);
+            vProgressDialog.setMessage("Scanning PRODUCT...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(String lsData) {
+            super.onPostExecute(lsData);
+            // se debe de validar que el producto escaneado sea igula con el  Currect Product
+            txtQtyId.setText("2");   // esta dato debe venir del Sscaneo del producto
+            txtIdentStockId.setText("30541");
+
+            vProgressDialog.hide();
+        }
+    }
 
     private class AsyncTaskAllItemConfirmed extends AsyncTask<String, String,  String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             vProgressDialog = new ProgressDialog(PickSourceEmb.this);
-            vProgressDialog.setMessage("All items were confirmed");
+            vProgressDialog.setMessage("All items have already been confirmed");
             vProgressDialog.setIndeterminate(false);
             vProgressDialog.setCancelable(true);
             vProgressDialog.show();

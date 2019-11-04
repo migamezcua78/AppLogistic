@@ -22,11 +22,32 @@ public class Remaining extends AppCompatActivity {
     private List<cSpinnerItem> InfoFilter = new ArrayList<>();
 
 
+    cActivityMessage oMsg;
+    cOutboundViewInfo  oCurrentItemViewInfo;
+    ArrayList<cOutboundViewInfo>  lsOutbounItems;
+
+    int Iter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remaining);
         Init();
+        StartActivity();
+    }
+
+    public void StartActivity(){
+
+        if ( oMsg.getMessage().equals("DeviationReason") ){
+
+            if ( lsOutbounItems.size() > 0){
+                Iter = Integer.valueOf(oMsg.getKey01());
+                if ( Iter > 0 ){
+                    oCurrentItemViewInfo = lsOutbounItems.get(Iter-1);
+                }
+            }
+        }
+
         fillDeviationReason();
     }
 
@@ -35,6 +56,10 @@ public class Remaining extends AppCompatActivity {
         spinner = findViewById(R.id.spiDeviationReasonId);
         ConfirmedPartially = false;
         ConfirmedReason= false;
+        Iter = 0;
+
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
+        lsOutbounItems = ((cGlobalData)getApplication()).LsOutboudItems;
     }
 
     private void fillDeviationReason (){
@@ -52,8 +77,8 @@ public class Remaining extends AppCompatActivity {
             Intent oIntent = new Intent(this, PickSourceEmb.class);
             cActivityMessage   oMssg = new  cActivityMessage();
             oMssg.setMessage("ConfirmedPartially");
-            oMssg.setKey01("CR2200EO36AL00_1");
-            oIntent.putExtra("oMssg",oMssg );
+            oMssg.setKey01(oCurrentItemViewInfo.ProductId);
+            oIntent.putExtra("oMsg",oMssg);
             startActivity(oIntent);
         }
     }
@@ -67,24 +92,8 @@ public class Remaining extends AppCompatActivity {
     public void   onBack(View view) {
 
         Intent oIntent = new Intent(this, PickSourceEmb.class);
-        cActivityMessage   oMssg = new  cActivityMessage();
-        oMssg.setMessage("");
-        oIntent.putExtra("oMssg",oMssg );
+        oIntent.putExtra("oMsg", new cActivityMessage("NoConfirmedPartially", String.valueOf(Iter)));
         startActivity(oIntent);
-    }
-
-
-
-    public void   onClickConfirm(View spinner) {
-
-        // Intent oIntent = new Intent(this, PickSourceBD.class);
-
-        Intent oIntent = new Intent(this, ConfirmTask.class);
-
-        //oIntent.setExtrasClassLoader();
-        startActivity(oIntent);
-
-        //  Toast.makeText(getApplicationContext(),"Confirm", Toast.LENGTH_SHORT).show();
     }
 
     private List<cSpinnerItem> getInfoFilter(){

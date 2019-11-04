@@ -133,7 +133,7 @@
                 android:id="@+id/chkConfirmedId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="4dp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/txtProductId"
                 app:layout_constraintStart_toEndOf="@+id/txtProductId" />
 
@@ -218,7 +218,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="25dp"
                 android:text="@string/lblIdent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblQty" />
@@ -228,7 +228,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="90dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iblIdentId" />
 
@@ -340,6 +340,19 @@
                 android:textSize="14sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/iblIdentId"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:onClick="onScanProduct"
+                android:text="@string/btnScan"
+                android:textAllCaps="false"
+                android:textColor="@color/colorTextTitle"
+                app:backgroundTint="@color/colorAccent"
+                app:layout_constraintBaseline_toBaselineOf="@+id/chkConfirmedId"
+                app:layout_constraintStart_toEndOf="@+id/chkConfirmedId" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
