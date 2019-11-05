@@ -3,7 +3,11 @@ package com.logistica.applogistic;
 public class cInboundViewInfo {
 
     public  cInboundViewInfo (){
-        TaskId = "";
+
+        this.ReferenceId = "";
+        this.LabelId = "";
+        this.BarCodeId = "";
+        this.TaskId = "";
         SourceId = "";
         TargetId = "";
         ProductId = "";
@@ -11,6 +15,7 @@ public class cInboundViewInfo {
         OpenUnit = "";
         Actual = "";
         Qty = "0";
+        QtyDiff = "0";
         IdentStock = "";
         Restricted = false;
         Confirmed = false;
@@ -22,6 +27,9 @@ public class cInboundViewInfo {
     }
 
 
+    public  String  ReferenceId;
+    public  String  LabelId;
+    public  String  BarCodeId;
     public  String  TaskId;
     public  String  SourceId;
     public  String  TargetId;
@@ -30,6 +38,7 @@ public class cInboundViewInfo {
     public  String  OpenUnit;
     public  String  Actual;
     public  String  Qty;
+    public  String  QtyDiff;
     public  String  IdentStock;
     public  Boolean Restricted;
     public  Boolean Confirmed;

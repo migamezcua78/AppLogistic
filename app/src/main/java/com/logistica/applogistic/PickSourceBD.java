@@ -31,17 +31,17 @@ public class PickSourceBD extends AppCompatActivity {
     private CheckBox chkProductId;
     private CheckBox chkSourceId;
 
-
-
-
     // DATA
     private List<cSpinnerItem> InfoFilter = new ArrayList<>();
 
     cActivityMessage   oActivityMessage;
     ArrayList<cInboundViewInfo>  lsInbounItems;
-    cInboundViewInfo  oInboundViewInfo;
+    cInboundViewInfo  oCurrentItemViewInfo;
 
 
+    // Process
+    ProgressDialog vProgressDialog;
+    cActivityMessage oMsg;
     int countItems;
     int TotalItems;
     int consecutive;
@@ -55,16 +55,32 @@ public class PickSourceBD extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_source_bd);
         Init();
+        StartActivity();
+    }
+
+    public void StartActivity(){
+
         fillDataOptions();
 
-        cGlobalData  oGlobalData=  (cGlobalData)getApplication();
-        lsInbounItems = oGlobalData.LsIntboudItems;
+        if ( oMsg.getMessage().equals("OtherTargetConfirmed") )
+        {
 
+            if ( lsInbounItems.size() > 0){
+                iterater = Integer.valueOf(oMsg.getKey01());
+                if ( iterater > 0 ){
+                    oCurrentItemViewInfo = lsInbounItems.get(iterater-1);
+                    setViewInfo(oCurrentItemViewInfo);
+                   // lblCountItemsId.setText(String.valueOf(iterater) + " of " + String.valueOf(lsInbounItems.size()));
+                }
+            }
+        } else {
 
-        if (lsInbounItems.size() > 0 ){
-            iterater = 1;
-            oInboundViewInfo = lsInbounItems.get(iterater - 1);
-            setViewInfo(oInboundViewInfo);
+            // por  ahora solo se toma el primero
+            if (lsInbounItems.size() > 0 ){
+                iterater = 1;
+                oCurrentItemViewInfo = lsInbounItems.get(iterater - 1);
+                setViewInfo(oCurrentItemViewInfo);
+            }
         }
     }
 
@@ -87,6 +103,9 @@ public class PickSourceBD extends AppCompatActivity {
         consecutive = 0;
         Quantity = 1;
         iterater = 0;
+
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
+        lsInbounItems = ((cGlobalData)getApplication()).LsIntboudItems;
     }
 
     private void setViewInfo(cInboundViewInfo pInboundViewInfo){
@@ -132,6 +151,14 @@ public class PickSourceBD extends AppCompatActivity {
         asyncTask.execute("params");
     }
 
+    public void   onChangeArea(View view) {
+
+        Intent oIntent = new Intent(this, PutAwayTargetBD.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("AssignOtherArea", String.valueOf(iterater)));
+        startActivity(oIntent);
+
+    }
+
 
     public void   onScanProduct(View view) {
 
@@ -141,21 +168,21 @@ public class PickSourceBD extends AppCompatActivity {
 
     public void   onClickConfirm(View spinner) {
 
-        getViewInfo(oInboundViewInfo);
+        getViewInfo(oCurrentItemViewInfo);
 
-        if(oInboundViewInfo.SourceId.trim().isEmpty()){
+        if(oCurrentItemViewInfo.SourceId.trim().isEmpty()){
             Toast.makeText(getApplicationContext(),"SOURCE field is required", Toast.LENGTH_SHORT).show();
 
-        }else if (oInboundViewInfo.ProductId.trim().isEmpty()){
+        }else if (oCurrentItemViewInfo.ProductId.trim().isEmpty()){
 
             Toast.makeText(getApplicationContext(),"PRODUCT field is required", Toast.LENGTH_SHORT).show();
 
-        }else if (oInboundViewInfo.Qty.isEmpty()){
+        }else if (oCurrentItemViewInfo.Qty.isEmpty()){
 
             Toast.makeText(getApplicationContext(),"ACTUAL field is required", Toast.LENGTH_SHORT).show();
         }
 
-        else if (oInboundViewInfo.IdentStock.isEmpty()){
+        else if (oCurrentItemViewInfo.IdentStock.isEmpty()){
 
             Toast.makeText(getApplicationContext(),"ID STOCK field is required", Toast.LENGTH_SHORT).show();
         }
@@ -178,8 +205,6 @@ public class PickSourceBD extends AppCompatActivity {
         return  InfoFilter;
     }
 
-
-    ProgressDialog vProgressDialog;
 
     private class AsyncTaskScan extends AsyncTask<String, String,  String> {
         @Override
@@ -216,7 +241,7 @@ public class PickSourceBD extends AppCompatActivity {
 
             txtSourceId.setText("13-15-6A");
             chkSourceId.setChecked(true);
-            oInboundViewInfo.SourceId = txtSourceId.getText().toString();
+            oCurrentItemViewInfo.SourceId = txtSourceId.getText().toString();
 
             vProgressDialog.hide();
         }
@@ -256,18 +281,16 @@ public class PickSourceBD extends AppCompatActivity {
         protected void onPostExecute(String lsData) {
             super.onPostExecute(lsData);
 
-            txtProductId.setText(oInboundViewInfo.ProductId);
+            txtProductId.setText(oCurrentItemViewInfo.ProductId);
             txtQtyId.setText("2");  //  proviene del scaner
             txtStockId.setText("43668");  //  proviene del scaner
             chkProductId.setChecked(true);
             //.setText("43668");
 
             // se asignan
-            oInboundViewInfo.SourceId = txtSourceId.getText().toString();
-            oInboundViewInfo.Qty = txtQtyId.getText().toString();
-            oInboundViewInfo.IdentStock = txtStockId.getText().toString();
-
-
+            oCurrentItemViewInfo.SourceId = txtSourceId.getText().toString();
+            oCurrentItemViewInfo.Qty = txtQtyId.getText().toString();
+            oCurrentItemViewInfo.IdentStock = txtStockId.getText().toString();
 
             vProgressDialog.hide();
         }

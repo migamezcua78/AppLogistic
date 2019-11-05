@@ -56,6 +56,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:onClick="onChangeArea"
+            android:text="Different Area"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextTitle"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintBaseline_toBaselineOf="@+id/btnConfirmItemId"
+            app:layout_constraintStart_toEndOf="@+id/btnConfirmItemId" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

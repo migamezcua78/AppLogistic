@@ -28,7 +28,7 @@ public class InboundBD extends AppCompatActivity {
 
     private Spinner spinner;
     private TableLayout tableLayout;
-    private  cDataGrid  oDataGrid;
+    private cDataGrid  oDataGrid;
 
     private EditText txtImputFilterId;
     private TextView  lblTaskValueId;
@@ -39,6 +39,8 @@ public class InboundBD extends AppCompatActivity {
     private ArrayList <String[]> InfoData = new ArrayList <> ();
     private String[] InfoHeader;
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
+    ArrayList<cInboundViewInfo>  LsInboudItems =  new  ArrayList<>();
+
 
     DatabaseHelper BD;
 
@@ -152,9 +154,12 @@ public class InboundBD extends AppCompatActivity {
 
         } else{
 
+            for ( cInboundViewInfo e:LsInboudItems){
+                getParamInfo(e);
+            }
+
             Intent oIntent = new Intent(this, PickSourceBD.class);
-            cActivityMessage   oMssg = new  cActivityMessage();
-            oIntent.putExtra("oMssg",oMssg );
+            oIntent.putExtra("oMsg",new cActivityMessage("Start"));
             startActivity(oIntent);
         }
 
@@ -194,6 +199,27 @@ public class InboundBD extends AppCompatActivity {
 
     }
 
+
+    private void  getParamInfo(cInboundViewInfo  pViewInfo) {
+
+        cSpinnerItem   oSpiItem=  (cSpinnerItem)spinner.getSelectedItem();
+
+        switch (oSpiItem.getField()){
+            case "TaskId":
+                pViewInfo.TaskId = txtImputFilterId.getText().toString().trim();
+                break;
+            case "ReferenceId":
+                pViewInfo.ReferenceId = txtImputFilterId.getText().toString().trim();
+                break;
+            case "LabelId":
+                pViewInfo.LabelId = txtImputFilterId.getText().toString().trim();
+                break;
+            case "BarCodeId":
+                pViewInfo.BarCodeId = txtImputFilterId.getText().toString().trim();
+                break;
+        }
+    }
+
     public void showMessage(String Title, String Message)
     {
         AlertDialog.Builder build =new AlertDialog.Builder(this);
@@ -220,10 +246,11 @@ public class InboundBD extends AppCompatActivity {
         //  List<cSpinnerItem>  ItemsList = new ArrayList<>();
         InfoFilter = new ArrayList<>();
 
-        InfoFilter.add(new cSpinnerItem(1,"Task ID"));
-        InfoFilter.add(new cSpinnerItem(1,"Reference"));
-        InfoFilter.add(new cSpinnerItem(1,"Label ID"));
-        InfoFilter.add(new cSpinnerItem(1,"Bar Code"));
+        InfoFilter.add(new cSpinnerItem(1,"Task ID", "TaskId"));
+        InfoFilter.add(new cSpinnerItem(2,"Bar Code","BarCodeId"));
+        InfoFilter.add(new cSpinnerItem(3,"Label ID","LabelId"));
+        InfoFilter.add(new cSpinnerItem(4,"Reference","ReferenceId"));
+
 
         return  InfoFilter;
     }
@@ -509,33 +536,37 @@ public class InboundBD extends AppCompatActivity {
             lblTaskValueId.setText( txtImputFilterId.getText().toString().trim() + "  "  +  "Pick");
             lbOrderValueId.setText("365");
 
+            LsInboudItems =  new  ArrayList<>();
             InfoData = new ArrayList <> ();
-            oDataGrid.RemoveAllItems();
+
 
             cInboundViewInfo  oInboundViewInfo = new cInboundViewInfo();
-            cGlobalData  oGlobalData=  (cGlobalData)getApplication();
-            oGlobalData.LsIntboudItems = new  ArrayList<cInboundViewInfo>();
 
             for (int i = 0; i < lsData.size(); i++) {
                 cMaterial oMaterial = lsData.get(i);
 
                 if( !oMaterial.getProductCategoryID().trim().isEmpty()){
 
-                   // InfoData.add(new String[]{oMaterial.getProductCategoryID(), oMaterial.getQuantity() + " " + oMaterial.getQuantityUnitCode()});
-
-                    InfoData.add(new String[]{oMaterial.getProductCategoryID(), "5" + " " + oMaterial.getQuantityUnitCode()});
                     oInboundViewInfo = new cInboundViewInfo();
-                    oInboundViewInfo.ProductId = oMaterial.getProductCategoryID();
-                    oInboundViewInfo.Open =  "5";  // oMaterial.getQuantity();
+                    oInboundViewInfo.ProductId = oMaterial.getProductCategoryID() + "_"  + String.valueOf(i);
+                    oInboundViewInfo.Open = String.valueOf(i+3);  // oMaterial.getQuantity();
                     oInboundViewInfo.OpenUnit =  oMaterial.getQuantityUnitCode();
-                    oInboundViewInfo.TargetId = "MC64920-50-10-10-04";
+                    oInboundViewInfo.TargetId = "MC64920-50-10-10-04_" +  String.valueOf(i);
                     oInboundViewInfo.IdentStock = "";
 
-                    oGlobalData.LsIntboudItems.add(oInboundViewInfo);
+                    LsInboudItems.add(oInboundViewInfo);
 
+                    InfoData.add(new String[]{oInboundViewInfo.ProductId, oInboundViewInfo.Open + " " +  oInboundViewInfo.OpenUnit });
                 }
             }
 
+            cGlobalData  oGlobalData=  (cGlobalData)getApplication();
+            oGlobalData.LsIntboudItems = LsInboudItems;
+
+            lbOrderValueId.setText("1392");
+            lblTaskValueId.setText(txtImputFilterId.getText().toString());
+
+            oDataGrid.RemoveAllItems();
             fillDataGrid();
             p.hide();
         }
