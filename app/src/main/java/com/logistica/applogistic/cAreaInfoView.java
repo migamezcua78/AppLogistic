@@ -6,6 +6,7 @@ public class cAreaInfoView implements Serializable {
 
     public  cAreaInfoView (){
 
+        AreaId = "";
         TaskId = "";
         SourceId = "";
         TargetId = "";
@@ -25,6 +26,7 @@ public class cAreaInfoView implements Serializable {
     }
 
 
+    public  String  AreaId;
     public  String  TaskId;
     public  String  SourceId;
     public  String  TargetId;

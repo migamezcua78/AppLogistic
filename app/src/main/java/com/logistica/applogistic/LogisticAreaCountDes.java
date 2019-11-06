@@ -26,20 +26,20 @@ public class LogisticAreaCountDes extends AppCompatActivity {
     CheckBox chkRestrictedId;
     TextView lblCountItemsId;
 
-
-    ProgressDialog vProgressDialog;
-    AlertDialog  Dialog;
-
     ArrayList<cAreaInfoView> lsAreaInfoService;
     ArrayList<cAreaInfoView> lsAreaInfoView;
+    cAreaInfoView oAreaInfoView;
 
+    // Process
+    ProgressDialog vProgressDialog;
+    AlertDialog  Dialog;
     int countItems;
     int TotalItems;
     int consecutive;
     int Quantity;
     int iterater;
 
-
+    String  sAreaId;
     Intent intent;
 
     cAreaInfoView oParamAreaInfoView;
@@ -53,9 +53,11 @@ public class LogisticAreaCountDes extends AppCompatActivity {
         intent = getIntent();
         oParamAreaInfoView = (cAreaInfoView)intent.getSerializableExtra("oDataParam");
 
-        if ( !oParamAreaInfoView.TaskId.trim().isEmpty()){
+        sAreaId  = oParamAreaInfoView.AreaId;
 
-            AsyncTaskLoadingProduct AsyncTaskScanProduct = new AsyncTaskLoadingProduct();
+        if ( !oParamAreaInfoView.AreaId.trim().isEmpty()){
+
+            AsyncTaskLoadDataService AsyncTaskScanProduct = new AsyncTaskLoadDataService();
             AsyncTaskScanProduct.execute("params");
         }
     }
@@ -437,4 +439,81 @@ public class LogisticAreaCountDes extends AppCompatActivity {
             startActivity(oIntent);
         }
     }
+
+
+
+    private class AsyncTaskLoadDataService extends AsyncTask<String, String,  ArrayList<cStock>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(LogisticAreaCountDes.this);
+            vProgressDialog.setMessage("Please wait...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected ArrayList<cStock> doInBackground(String... strings) {
+            ArrayList<cStock> lsData = new ArrayList<>();
+
+            try {
+
+                cServices ocServices = new cServices();
+                lsData = ocServices.GetStockServiceData(cServices.StockFilterType.CLOG_AREA_UUID, oParamAreaInfoView.AreaId, "");
+
+                ArrayList<cMaterial>  lsMaterials = new ArrayList<>();
+                for (cStock  e: lsData){
+                    lsMaterials = ocServices.GetMaterialsServ(cServices.MaterialFilterType.SelectionByInternalID, e.CMATERIAL_UUID, "");
+                    if (lsMaterials != null && lsMaterials.size() > 0 ) {
+                        e.PRODUCT_ID = lsMaterials.get(0).ProductCategoryID;
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return lsData;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(ArrayList<cStock> lsData) {
+
+            super.onPostExecute(lsData);
+
+            lsAreaInfoService = new  ArrayList<>();
+            cAreaInfoView  oInboundViewInfo = new cAreaInfoView();
+
+            for (int i = 0; i < lsData.size(); i++) {
+                cStock oStock = lsData.get(i);
+
+                if( !oStock.CMATERIAL_UUID.trim().isEmpty()){
+
+                    oAreaInfoView= new  cAreaInfoView();
+                    oAreaInfoView.ProductId = oStock.PRODUCT_ID;
+                    lsAreaInfoService.add(oAreaInfoView);
+
+                   // InfoData.add(new String[]{ oInboundViewInfo.ProductId, oInboundViewInfo.Open + "  " + oInboundViewInfo.OpenUnit });
+                }
+            }
+
+            Toast.makeText(getApplicationContext(),lsAreaInfoService.size() +  " items founded", Toast.LENGTH_SHORT).show();
+
+            //  cGlobalData  oGlobalData=  (cGlobalData)getApplication();
+          //  oGlobalData.LsAr = lsAreaInfoService;
+
+         //   oDataGrid.RemoveAllItems();
+         //   fillDataGrid();
+            vProgressDialog.hide();
+        }
+    }
+
 }

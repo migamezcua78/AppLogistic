@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 
 public class LogisticAreaCount extends AppCompatActivity {
 
@@ -66,11 +68,11 @@ public class LogisticAreaCount extends AppCompatActivity {
     public void onStartTask(View view) {
 
         cAreaInfoView  oViewInfo = new   cAreaInfoView();
-        oViewInfo.TaskId =  txtAreaId.getText().toString();
+        oViewInfo.AreaId =  txtAreaId.getText().toString();
 
-        if (  oViewInfo.TaskId.trim().isEmpty() ){
+        if (  oViewInfo.AreaId.trim().isEmpty() ){
 
-            Toast.makeText(getApplicationContext(),"TASK field is required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"AREA field is required", Toast.LENGTH_SHORT).show();
 
         } else{
 
@@ -118,6 +120,7 @@ public class LogisticAreaCount extends AppCompatActivity {
 
             try {
                 Thread.sleep(500);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -133,8 +136,10 @@ public class LogisticAreaCount extends AppCompatActivity {
         @Override
         protected void onPostExecute(String lsData) {
             super.onPostExecute(lsData);
-            txtAreaId.setText("13-95-4A");
+            txtAreaId.setText("E01/E01-1");
             vProgressDialog.hide();
         }
     }
+
+
 }

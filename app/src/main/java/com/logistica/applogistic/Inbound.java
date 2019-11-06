@@ -24,31 +24,28 @@ import java.util.List;
 public class Inbound extends AppCompatActivity {
 
     // VIEWS
-
-    private Spinner spinner;
+    private Spinner     spinner;
     private TableLayout tableLayout;
     private  cDataGrid  oDataGrid;
-
-    private EditText txtImputFilterId;
-    private TextView  lblTaskValueId;
-    private TextView  lbOrderValueId;
-
+    private EditText    txtImputFilterId;
+    private TextView    lblTaskValueId;
+    private TextView    lbOrderValueId;
 
 
     //  DATA
-    private ArrayList <String[]> InfoData = new ArrayList <> ();
+    private ArrayList <String[]> InfoData;
     private String[] InfoHeader;
-    private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
+    private List<cSpinnerItem>  InfoFilter;
+    ArrayList<cInboundViewInfo>  lsInbounItems;
 
     DatabaseHelper BD;
-
     InputStream is = null;
     ImageView imageView= null;
-    ProgressDialog p;
-
     AlertDialog alert11;
 
+    // Process
     ProgressDialog vProgressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,15 +55,29 @@ public class Inbound extends AppCompatActivity {
 
         cGlobalData  oGlobalData=  (cGlobalData)getApplication();
         oGlobalData.setGlobalVarValue("Hola");
-
         init();
+        StartActivity();
+    }
+
+    private void init (){
+
+        txtImputFilterId = findViewById(R.id.txtImputFilterId);
+        lblTaskValueId = findViewById(R.id.lblTaskValueId);
+        lbOrderValueId = findViewById(R.id.lbOrderValueId);
+
+        spinner = findViewById(R.id.spFilterId);
+        tableLayout =(TableLayout)findViewById(R.id.tgProductos);
+
+        InfoData = new ArrayList <> ();
+        InfoFilter = new ArrayList<>();
+        lsInbounItems =  new  ArrayList<>();
+    }
+
+
+    private void StartActivity (){
         fillDataFilter();
         fillDataGrid();
 
-
-
-//        String recuperamos_variable_string = getIntent().getStringExtra("variable_string");
-//        String   s2  = recuperamos_variable_string;
 
     }
 
@@ -84,44 +95,6 @@ public class Inbound extends AppCompatActivity {
     }
 
 
-    private void init (){
-
-        txtImputFilterId = findViewById(R.id.txtImputFilterId);
-        lblTaskValueId = findViewById(R.id.lblTaskValueId);
-        lbOrderValueId = findViewById(R.id.lbOrderValueId);
-
-        spinner = findViewById(R.id.spFilterId);
-        tableLayout =(TableLayout)findViewById(R.id.tgProductos);
-
-        InfoData =  new ArrayList <> ();
-
-       /*
-
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(Inbound.this);
-        builder1.setMessage("Write your message here.");
-        builder1.setCancelable(true);
-
-        builder1.setPositiveButton(
-                "Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        Inbound.super.onBackPressed();
-                    }
-                });
-
-        builder1.setNegativeButton(
-                "No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        return;
-                    }
-                });
-
-        alert11 = builder1.create();
-*/
-    }
 
     private void fillDataFilter (){
         ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilter());
@@ -137,7 +110,7 @@ public class Inbound extends AppCompatActivity {
 
     public void onScan(View view) {
 
-       txtImputFilterId.setText("");
+        txtImputFilterId.setText("");
         lblTaskValueId.setText("");
         lbOrderValueId.setText("");
         AsyncTaskExample asyncTask=new AsyncTaskExample();
@@ -146,6 +119,17 @@ public class Inbound extends AppCompatActivity {
 //        txtImputFilterId.setText("");
 //        AsyncTaskScan asyncTask= new AsyncTaskScan();
 //        asyncTask.execute("params");
+    }
+
+    private cActivityMessage getActivityMsg(){
+        cActivityMessage   oMsg = new  cActivityMessage();
+
+        oMsg.setMessage("StartTask");
+        cSpinnerItem   oSpiItem=  (cSpinnerItem)spinner.getSelectedItem();
+        oMsg.setKey01(oSpiItem.getField());
+        oMsg.setKey02(txtImputFilterId.getText().toString().trim());
+
+        return  oMsg;
     }
 
 
@@ -158,10 +142,24 @@ public class Inbound extends AppCompatActivity {
 
         } else{
 
-            Intent oIntent = new Intent(this, PutAwayTarget.class);
+            if( lsInbounItems != null && lsInbounItems.size() > 0 ){
+
+                for ( cInboundViewInfo e:lsInbounItems){
+                    getParamInfo(e);
+                }
+
+                Intent oIntent = new Intent(this, PickSourceEmb.class);
+                oIntent.putExtra("oMsg", getActivityMsg());
+                startActivity(oIntent);
+
+            }else {
+                Toast.makeText(getApplicationContext(),"There are NO items in task selected", Toast.LENGTH_SHORT).show();
+            }
+
+/*            Intent oIntent = new Intent(this, PutAwayTarget.class);
             cActivityMessage   oMssg = new  cActivityMessage();
             oIntent.putExtra("oMssg",oMssg );
-            startActivity(oIntent);
+            startActivity(oIntent);*/
         }
 
 
@@ -220,16 +218,35 @@ public class Inbound extends AppCompatActivity {
         finish();
     }
 
+    private void  getParamInfo(cInboundViewInfo  pViewInfo) {
+
+        cSpinnerItem   oSpiItem=  (cSpinnerItem)spinner.getSelectedItem();
+
+        switch (oSpiItem.getField()){
+            case "TaskId":
+                pViewInfo.TaskId = txtImputFilterId.getText().toString().trim();
+                break;
+            case "ReferenceId":
+                pViewInfo.ReferenceId = txtImputFilterId.getText().toString().trim();
+                break;
+            case "LabelId":
+                pViewInfo.LabelId = txtImputFilterId.getText().toString().trim();
+                break;
+            case "BarCodeId":
+                pViewInfo.BarCodeId = txtImputFilterId.getText().toString().trim();
+                break;
+        }
+    }
 
 
     private  List<cSpinnerItem> getInfoFilter(){
-        //  List<cSpinnerItem>  ItemsList = new ArrayList<>();
+
         InfoFilter = new ArrayList<>();
 
-        InfoFilter.add(new cSpinnerItem(1,"Task ID"));
-        InfoFilter.add(new cSpinnerItem(1,"Reference"));
-        InfoFilter.add(new cSpinnerItem(1,"Label ID"));
-        InfoFilter.add(new cSpinnerItem(1,"Bar Code"));
+        InfoFilter.add(new cSpinnerItem(1,"Task ID", "TaskId"));
+        InfoFilter.add(new cSpinnerItem(2,"Bar Code","BarCodeId"));
+        InfoFilter.add(new cSpinnerItem(3,"Label ID","LabelId"));
+        InfoFilter.add(new cSpinnerItem(4,"Reference","ReferenceId"));
 
         return  InfoFilter;
     }
@@ -479,11 +496,11 @@ public class Inbound extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            p = new ProgressDialog(Inbound.this);
-            p.setMessage("Please wait...");
-            p.setIndeterminate(false);
-            p.setCancelable(true);
-            p.show();
+            vProgressDialog = new ProgressDialog(Inbound.this);
+            vProgressDialog.setMessage("Please wait...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
         }
 
 
@@ -494,7 +511,7 @@ public class Inbound extends AppCompatActivity {
             try {
 
                 cServices ocServices = new cServices();
-                lsData = ocServices.GetMaterialsServ(cServices.MaterialFilterType.SelectionByInternalID, "*", "1");
+                lsData = ocServices.GetMaterialsServ(cServices.MaterialFilterType.SelectionByInternalID, "*", "3");
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -510,39 +527,41 @@ public class Inbound extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<cMaterial> lsData) {
+
             super.onPostExecute(lsData);
             txtImputFilterId.setText("121");
             lblTaskValueId.setText( txtImputFilterId.getText().toString().trim() + "  "  +  "Pick");
             lbOrderValueId.setText("365");
 
-            InfoData = new ArrayList <> ();
-            oDataGrid.RemoveAllItems();
+            lsInbounItems = new  ArrayList<>();
 
+            InfoData = new ArrayList <> ();
             cInboundViewInfo  oInboundViewInfo = new cInboundViewInfo();
-            cGlobalData  oGlobalData=  (cGlobalData)getApplication();
-            oGlobalData.LsIntboudItems = new  ArrayList<cInboundViewInfo>();
 
             for (int i = 0; i < lsData.size(); i++) {
                 cMaterial oMaterial = lsData.get(i);
 
                 if( !oMaterial.getProductCategoryID().trim().isEmpty()){
 
-                    InfoData.add(new String[]{oMaterial.getProductCategoryID(), oMaterial.getQuantity() + " " + oMaterial.getQuantityUnitCode()});
-
                     oInboundViewInfo = new cInboundViewInfo();
-                    oInboundViewInfo.ProductId = oMaterial.getProductCategoryID();
-                    oInboundViewInfo.Open =  oMaterial.getQuantity();
+                    oInboundViewInfo.ProductId = oMaterial.getProductCategoryID() +  "_" + String.valueOf(i);
+                    oInboundViewInfo.Open = String.valueOf(i+2);   // oMaterial.getQuantity();
                     oInboundViewInfo.OpenUnit =  oMaterial.getQuantityUnitCode();
-                    oInboundViewInfo.TargetId = "MC64920-50-10-10-04";
+                    oInboundViewInfo.TargetId = "MC64920-50-10-10-04_" + String.valueOf(i);
                     oInboundViewInfo.IdentStock = "43668";
 
-                    oGlobalData.LsIntboudItems.add(oInboundViewInfo);
-
+                    lsInbounItems.add(oInboundViewInfo);
+                    InfoData.add(new String[]{ oInboundViewInfo.ProductId, oInboundViewInfo.Open + "  " + oInboundViewInfo.OpenUnit });
                 }
             }
 
+
+            cGlobalData  oGlobalData=  (cGlobalData)getApplication();
+            oGlobalData.LsIntboudItems = lsInbounItems;
+
+            oDataGrid.RemoveAllItems();
             fillDataGrid();
-            p.hide();
+            vProgressDialog.hide();
         }
     }
 
