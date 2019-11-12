@@ -81,7 +81,8 @@ public class PickSource extends AppCompatActivity {
         if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_SOURCE)){
 
             oCurrentInboundViewInfo =  oGlobalData.CurrentInboundViewInfo;
-            txtSourceId.setText("13-15-6A");
+           // txtSourceId.setText("13-15-6A");
+            txtSourceId.setText(oMsg.getKey01());
             oCurrentInboundViewInfo.SourceId = txtSourceId.getText().toString();
 
             setViewInfo(oCurrentInboundViewInfo);

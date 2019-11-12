@@ -83,9 +83,11 @@ public class Inbound extends AppCompatActivity {
         if( oMsg != null){
             if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_TASK)){
 
-                txtImputFilterId.setText("");
+               // txtImputFilterId.setText("");
                 lblTaskValueId.setText("");
                 lbOrderValueId.setText("");
+
+                txtImputFilterId.setText(oMsg.getKey01());
 
                 AsyncTaskExample asyncTask=new AsyncTaskExample();
                 asyncTask.execute("params");
@@ -542,7 +544,6 @@ public class Inbound extends AppCompatActivity {
         protected void onPostExecute(ArrayList<cMaterial> lsData) {
 
             super.onPostExecute(lsData);
-            txtImputFilterId.setText("121");
             lblTaskValueId.setText( txtImputFilterId.getText().toString().trim() + "  "  +  "Pick");
             lbOrderValueId.setText("365");
 

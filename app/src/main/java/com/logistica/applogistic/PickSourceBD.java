@@ -104,7 +104,8 @@ public class PickSourceBD extends AppCompatActivity {
 
                 oCurrentItemViewInfo =  oGlobalData.CurrentInboundViewInfo;
 
-                txtSourceId.setText("13-15-6A");
+              //  txtSourceId.setText("13-15-6A");
+                txtSourceId.setText(oMsg.getKey01());
                 chkSourceId.setChecked(true);
                 oCurrentItemViewInfo.SourceId = txtSourceId.getText().toString();
 

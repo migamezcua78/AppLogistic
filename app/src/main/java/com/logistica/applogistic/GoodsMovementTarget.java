@@ -72,7 +72,8 @@ public class GoodsMovementTarget extends AppCompatActivity {
             if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_TARGET))
             {
                 // oCurrentItemViewInfo.TargetId = oMsg.getKey01();
-                oCurrentItemViewInfo.TargetId = "13-154-A";
+                // oCurrentItemViewInfo.TargetId = "13-154-A";
+                oCurrentItemViewInfo.TargetId = oMsg.getKey01();
             }
 
             setViewInfo();

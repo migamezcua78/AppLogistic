@@ -100,14 +100,16 @@ public class Goods_Movement_Source extends AppCompatActivity {
         } else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_SOURCE)){
 
             // oCurrentItemViewInfo.SourceId = oMsg.getKey01();
-            oCurrentItemViewInfo.SourceId = "13-153-4";
+           // oCurrentItemViewInfo.SourceId = "13-153-4";
+            oCurrentItemViewInfo.SourceId = oMsg.getKey01();
             setViewInfo();
         }
 
         else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_PRODUCT)){
 
             //oCurrentItemViewInfo.SourceId = oMsg.getKey01();
-            oCurrentItemViewInfo.ProductId = "KECM0000608030";
+          //  oCurrentItemViewInfo.ProductId = "KECM0000608030";
+            oCurrentItemViewInfo.ProductId =  oMsg.getKey01();
             oCurrentItemViewInfo.Qty = "5";
             oCurrentItemViewInfo.IdentStock = "40567";
             // oCurrentItemViewInfo.FieldName = "1000020";

@@ -36,7 +36,9 @@ public class LogisticAreaCount extends AppCompatActivity {
         if( oMsg != null){
             if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_TASK)){
                 // oCurrentItemViewInfo.SourceId = oMsg.getKey01();
-                txtAreaId.setText("E01/E01-1");
+               // txtAreaId.setText("E01/E01-1");
+
+                txtAreaId.setText(oMsg.getKey01());
 
             }  else if (!oMsg.getMessage().equals(cMessage.Message.START)){
                 Toast.makeText(getApplicationContext(),oMsg.getMessage(), Toast.LENGTH_SHORT).show();

@@ -110,7 +110,7 @@ public class LogisticAreaCountDes extends AppCompatActivity {
 
 
             IterScan +=  1;
-            String  sProductId = "KECM0000608030_" + String.valueOf(IterScan);
+            String  sProductId = oMsg.getKey01();  // "KECM0000608030_" + String.valueOf(IterScan);
             txtProductId.setText(sProductId);
 
             oCurrenAreaInfoView.ProductId = sProductId;

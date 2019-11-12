@@ -108,7 +108,8 @@ public class PutAwayTarget extends AppCompatActivity {
             oCurrentInboundViewInfo.Qty = String.valueOf(inQtyId);
            // txtQtyId.setText(oCurrentInboundViewInfo.Qty);
 
-            txtSerialNumberId.setText(sSerialNumber + "_" + inQtyId);
+           // txtSerialNumberId.setText(sSerialNumber + "_" + inQtyId);
+            txtSerialNumberId.setText(oMsg.getKey01());
             oCurrentInboundViewInfo.SerialNumber = txtSerialNumberId.getText().toString();
 
             setViewInfo(oCurrentInboundViewInfo);

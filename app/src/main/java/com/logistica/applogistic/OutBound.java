@@ -71,6 +71,7 @@ public class OutBound extends AppCompatActivity {
             if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_TASK)){
 
                 // txtImputFilterId.setText("");
+                txtImputFilterId.setText(oMsg.getKey01());
                 AsyncTaskScan asyncTask=new AsyncTaskScan();
                 asyncTask.execute("params");
 
@@ -222,7 +223,7 @@ public class OutBound extends AppCompatActivity {
             super.onPostExecute(lsData);
 
 
-            txtImputFilterId.setText("2362");
+
             InfoData = new ArrayList <> ();
             lsOutbounItems =  new  ArrayList<>();
 
@@ -268,7 +269,7 @@ public class OutBound extends AppCompatActivity {
             cGlobalData  oGlobalData=  (cGlobalData)getApplication();
             oGlobalData.LsOutboudItems = lsOutbounItems;
 
-            lbOrderValueId.setText("1392");
+          //  lbOrderValueId.setText("1392");
             lbTaskValueId.setText(txtImputFilterId.getText().toString());
 
             oDataGrid.RemoveAllItems();

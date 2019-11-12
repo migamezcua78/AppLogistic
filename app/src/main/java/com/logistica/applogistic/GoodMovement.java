@@ -47,7 +47,9 @@ public class GoodMovement extends AppCompatActivity {
         if( oMsg != null){
             if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_TASK)){
                 // oCurrentItemViewInfo.SourceId = oMsg.getKey01();
-                txtFilterValue.setText("SCAN-VALUE-123");
+              //  txtFilterValue.setText("SCAN-VALUE-123");
+
+                txtFilterValue.setText(oMsg.getKey01());
             }
         }
         fillDataFilter();
