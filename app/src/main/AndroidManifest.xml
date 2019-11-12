@@ -3,6 +3,7 @@
     package="com.logistica.applogistic">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".cGlobalData"
@@ -12,13 +13,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GoodsMovementTarget"
-            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".Scanner"></activity>
+        <activity android:name=".MainScanner" />
+        <activity android:name=".MainCamara" />
+        <activity android:name=".FullScannerActivity" />
+        <activity
+            android:name=".GoodsMovementTarget"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Goods_Movement_Source"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".TestOfServices"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden">
 
             <!--
@@ -30,41 +39,54 @@
         </activity>
         <activity
             android:name=".Remaining"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".PickSourceEmb"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".OutBound"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".TargetConfirmationBD"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".GoodMovement"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".LogisticAreaCountDes"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity
+            android:name=".LogisticAreaCountDes"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".LogisticAreaCount"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".TargetConfirmation"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ConfirmTask"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".PutAwayTargetBD"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".PickSourceBD"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".PickSource"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".PutAwayTarget"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".Inicio" />
         <activity android:name=".Test" />
@@ -74,6 +96,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".InboundBD"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -8,6 +8,29 @@ public class cGlobalData extends Application {
 
     private String mGlobalVarValue;
 
+    public int consecutive;
+
+    public int Quantity;
+
+    public int iterater;
+
+    public int IterScan;
+
+    public String lblCountItemsId;
+
+
+    public cAreaInfoView  CurrenAreaInfoView;
+
+    public cOutboundViewInfo  CurrentOutboundViewInfo;
+
+    public cInboundViewInfo  CurrentInboundViewInfo;
+
+
+
+    public  ArrayList<cAreaInfoView> lsAreaInfoService;
+
+    public  ArrayList<cAreaInfoView> lsAreaInfoView;
+
     public ArrayList<cOutboundViewInfo> LsOutboudItems;
 
     public ArrayList<cInboundViewInfo> LsIntboudItems;

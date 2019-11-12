@@ -21,16 +21,28 @@ public class LogisticAreaCount extends AppCompatActivity {
     EditText  txtBarCodeId;
 
     ProgressDialog vProgressDialog;
-    cActivityMessage   oActivityMessage;
+    cActivityMessage oMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logistic_area_count);
         Init();
+        StarActivity();
+    }
 
-        oActivityMessage = (cActivityMessage)getIntent().getSerializableExtra("oMssg");
+    private void StarActivity() {
 
+        if( oMsg != null){
+            if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_TASK)){
+                // oCurrentItemViewInfo.SourceId = oMsg.getKey01();
+                txtAreaId.setText("E01/E01-1");
+
+            }  else if (!oMsg.getMessage().equals(cMessage.Message.START)){
+                Toast.makeText(getApplicationContext(),oMsg.getMessage(), Toast.LENGTH_SHORT).show();
+                oMsg.setMessage("");
+            }
+        }
     }
 
     private void Init (){
@@ -40,21 +52,13 @@ public class LogisticAreaCount extends AppCompatActivity {
         txtOrderId = findViewById(R.id.txtQtyId);
         txtBarCodeId =findViewById(R.id.txtStockId);
 
-        oActivityMessage = new cActivityMessage();
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
     }
+
 
     @Override
     protected void  onResume(){
         super.onResume();
-
-        if ( oActivityMessage != null  )
-        {
-            if ( !oActivityMessage.getMessage().isEmpty())
-            {
-                Toast.makeText(getApplicationContext(),oActivityMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                oActivityMessage.setMessage("");
-            }
-        }
     }
 
     @Override
@@ -77,7 +81,8 @@ public class LogisticAreaCount extends AppCompatActivity {
         } else{
 
             Intent oIntent = new Intent(this, LogisticAreaCountDes.class);
-            oIntent.putExtra("oDataParam",oViewInfo);
+            //oIntent.putExtra("oDataParam",oViewInfo);
+            oIntent.putExtra("oMsg", new cActivityMessage(cMessage.Message.START, oViewInfo.AreaId ));
             startActivity(oIntent);
         }
     }
@@ -85,9 +90,14 @@ public class LogisticAreaCount extends AppCompatActivity {
 
     public void onScan(View view) {
 
-        txtAreaId.setText("");
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("LogisticAreaCount",Scanner.ScanType.SCAN_TASK));
+        startActivity(oIntent);
+
+
+/*        txtAreaId.setText("");
         AsyncTaskScan asyncTask=new AsyncTaskScan();
-        asyncTask.execute("params");
+        asyncTask.execute("params");*/
     }
 
 
@@ -140,6 +150,4 @@ public class LogisticAreaCount extends AppCompatActivity {
             vProgressDialog.hide();
         }
     }
-
-
 }

@@ -28,7 +28,8 @@ public class LogisticAreaCountDes extends AppCompatActivity {
 
     ArrayList<cAreaInfoView> lsAreaInfoService;
     ArrayList<cAreaInfoView> lsAreaInfoView;
-    cAreaInfoView oAreaInfoView;
+
+    cAreaInfoView oCurrenAreaInfoView;
 
     // Process
     ProgressDialog vProgressDialog;
@@ -38,28 +39,21 @@ public class LogisticAreaCountDes extends AppCompatActivity {
     int consecutive;
     int Quantity;
     int iterater;
+    int IterScan;
+
 
     String  sAreaId;
     Intent intent;
 
-    cAreaInfoView oParamAreaInfoView;
+    // cAreaInfoView oParamAreaInfoView;
+    cActivityMessage oMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logistic_area_count_des);
         init();
-
-        intent = getIntent();
-        oParamAreaInfoView = (cAreaInfoView)intent.getSerializableExtra("oDataParam");
-
-        sAreaId  = oParamAreaInfoView.AreaId;
-
-        if ( !oParamAreaInfoView.AreaId.trim().isEmpty()){
-
-            AsyncTaskLoadDataService AsyncTaskScanProduct = new AsyncTaskLoadDataService();
-            AsyncTaskScanProduct.execute("params");
-        }
+        StartActivity();
     }
 
     private void init() {
@@ -71,19 +65,82 @@ public class LogisticAreaCountDes extends AppCompatActivity {
         chkRestrictedId = findViewById(R.id.chkRestrictedId);
         lblCountItemsId = findViewById(R.id.lblCountItemsId);
 
-
         lblCountItemsId.setText("0 of 0");
         countItems = 0;
         TotalItems = 0;
         consecutive = 0;
         Quantity = 1;
         iterater = 0;
+        IterScan = 1;
 
         lsAreaInfoService = new ArrayList<>();
         lsAreaInfoView = new ArrayList<>();
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
+
 
         BuildDialog ();
     }
+
+
+    public void StartActivity (){
+
+        if (oMsg.getMessage().equals(cMessage.Message.START)){
+
+            sAreaId  = oMsg.getKey01();
+
+            if ( !sAreaId.trim().isEmpty()){
+
+                AsyncTaskLoadDataService AsyncTaskScanProduct = new AsyncTaskLoadDataService();
+                AsyncTaskScanProduct.execute("params");
+            }
+        } else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_PRODUCT)){
+
+
+            oCurrenAreaInfoView =  ((cGlobalData)getApplication()).CurrenAreaInfoView;
+            lsAreaInfoService =  ((cGlobalData)getApplication()).lsAreaInfoService;
+            lsAreaInfoView =  ((cGlobalData)getApplication()).lsAreaInfoView;
+
+            consecutive = ((cGlobalData)getApplication()).consecutive;
+            Quantity = ((cGlobalData)getApplication()).Quantity;
+            iterater = ((cGlobalData)getApplication()).iterater;
+            IterScan = ((cGlobalData)getApplication()).IterScan;
+
+
+            lblCountItemsId.setText(((cGlobalData)getApplication()).lblCountItemsId);
+
+
+            IterScan +=  1;
+            String  sProductId = "KECM0000608030_" + String.valueOf(IterScan);
+            txtProductId.setText(sProductId);
+
+            oCurrenAreaInfoView.ProductId = sProductId;
+
+
+            setViewInfo(oCurrenAreaInfoView);
+
+
+        }
+        else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_QTY)){
+
+
+            oCurrenAreaInfoView =  ((cGlobalData)getApplication()).CurrenAreaInfoView;
+            lsAreaInfoService =  ((cGlobalData)getApplication()).lsAreaInfoService;
+            lsAreaInfoView =  ((cGlobalData)getApplication()).lsAreaInfoView;
+
+            consecutive = ((cGlobalData)getApplication()).consecutive;
+            Quantity = ((cGlobalData)getApplication()).Quantity;
+            iterater = ((cGlobalData)getApplication()).iterater;
+            IterScan = ((cGlobalData)getApplication()).IterScan;
+
+            lblCountItemsId.setText(((cGlobalData)getApplication()).lblCountItemsId);
+
+            oCurrenAreaInfoView.Qty = String.valueOf(IterScan);
+
+            setViewInfo(oCurrenAreaInfoView);
+
+        }
+    }
+
 
 
     @Override
@@ -93,7 +150,7 @@ public class LogisticAreaCountDes extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        oParamAreaInfoView = new cAreaInfoView();
+        // oMsg = new cAreaInfoView();
         Intent oIntent = new Intent(this, LogisticAreaCount.class);
         startActivity(oIntent);
     }
@@ -107,6 +164,19 @@ public class LogisticAreaCountDes extends AppCompatActivity {
         txtBarCodeId.setText(pAreaInfoView.BarCode);
         chkRestrictedId.setChecked(pAreaInfoView.Restricted);
     }
+
+    private void getViewInfo(cAreaInfoView pAreaInfoView){
+
+        pAreaInfoView.ProductId = txtProductId.getText().toString().trim();
+        pAreaInfoView.Qty = txtQtyId.getText().toString().trim();
+        pAreaInfoView.Lu = txtLuId.getText().toString().trim();
+        pAreaInfoView.LuQty = txtLuQty.getText().toString().trim();
+        pAreaInfoView.BarCode = txtBarCodeId.getText().toString().trim();
+        pAreaInfoView.Restricted = chkRestrictedId.isChecked();
+    }
+
+
+
 
     public void RemoveItem (String codigo){
         if (!codigo.trim().isEmpty()){
@@ -139,19 +209,19 @@ public class LogisticAreaCountDes extends AppCompatActivity {
 
     public void   onNextItem(View spinner) {
 
-         if ( iterater < lsAreaInfoView.size()){
-             iterater = iterater+1;
-             lblCountItemsId.setText(  iterater + " of " + lsAreaInfoView.size());
+        if ( iterater < lsAreaInfoView.size()){
+            iterater = iterater+1;
+            lblCountItemsId.setText(  iterater + " of " + lsAreaInfoView.size());
 
-             cAreaInfoView  oAreaInfoView = lsAreaInfoView.get(iterater - 1);
-             setViewInfo(oAreaInfoView);
-         }
+            cAreaInfoView  oAreaInfoView = lsAreaInfoView.get(iterater - 1);
+            setViewInfo(oAreaInfoView);
+        }
 
-         if ( lsAreaInfoView.size() > 0 & iterater == lsAreaInfoView.size()  ){
+        if ( lsAreaInfoView.size() > 0 & iterater == lsAreaInfoView.size()  ){
 
-             cAreaInfoView  oAreaInfoView = lsAreaInfoView.get(iterater-1);
-             setViewInfo(oAreaInfoView);
-         }
+            cAreaInfoView  oAreaInfoView = lsAreaInfoView.get(iterater-1);
+            setViewInfo(oAreaInfoView);
+        }
     }
 
 
@@ -178,12 +248,17 @@ public class LogisticAreaCountDes extends AppCompatActivity {
             cAreaInfoView.Restricted = chkRestrictedId.isChecked();
 
             // si ya esiste el elemento se debe de eliminar
+
             RemoveItem(cAreaInfoView.ProductId);
 
             // se agrega el nuevo Item
             lsAreaInfoView.add(cAreaInfoView);
             lblCountItemsId.setText(lsAreaInfoView.size()  + " of " + lsAreaInfoView.size());
             iterater = lsAreaInfoView.size();
+
+
+            ((cGlobalData)getApplication()).lsAreaInfoView = lsAreaInfoView;
+
 
             // se limpian campos
             txtProductId.setText("");
@@ -258,14 +333,51 @@ public class LogisticAreaCountDes extends AppCompatActivity {
 
     public void   onScanProduct(View spinner) {
 
-        AsyncTaskScanProduct AsyncTaskScanProduct = new AsyncTaskScanProduct();
-        AsyncTaskScanProduct.execute("params");
+        getViewInfo(oCurrenAreaInfoView);
+
+        ((cGlobalData)getApplication()).CurrenAreaInfoView = oCurrenAreaInfoView;
+        ((cGlobalData)getApplication()).lsAreaInfoService = lsAreaInfoService;
+        ((cGlobalData)getApplication()).lsAreaInfoView = lsAreaInfoView;
+
+        ((cGlobalData)getApplication()).consecutive = consecutive;
+        ((cGlobalData)getApplication()).Quantity = Quantity;
+        ((cGlobalData)getApplication()).iterater = iterater;
+        ((cGlobalData)getApplication()).IterScan = IterScan;
+
+        ((cGlobalData)getApplication()).lblCountItemsId = lblCountItemsId.getText().toString();
+
+
+
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("LogisticAreaCountDes",Scanner.ScanType.SCAN_PRODUCT));
+        startActivity(oIntent);
+
+//        AsyncTaskScanProduct AsyncTaskScanProduct = new AsyncTaskScanProduct();
+//        AsyncTaskScanProduct.execute("params");
     }
 
 
     public void   onScanQty(View spinner) {
-        AsyncTaskScanQty AsyncTaskScanProduct = new AsyncTaskScanQty();
-        AsyncTaskScanProduct.execute("params");
+
+        getViewInfo(oCurrenAreaInfoView);
+
+        ((cGlobalData)getApplication()).CurrenAreaInfoView = oCurrenAreaInfoView;
+        ((cGlobalData)getApplication()).lsAreaInfoService = lsAreaInfoService;
+        ((cGlobalData)getApplication()).lsAreaInfoView = lsAreaInfoView;
+
+        ((cGlobalData)getApplication()).consecutive = consecutive;
+        ((cGlobalData)getApplication()).Quantity = Quantity;
+        ((cGlobalData)getApplication()).iterater = iterater;
+        ((cGlobalData)getApplication()).IterScan = IterScan;
+
+        ((cGlobalData)getApplication()).lblCountItemsId = lblCountItemsId.getText().toString();
+
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("LogisticAreaCountDes",Scanner.ScanType.SCAN_QTY));
+        startActivity(oIntent);
+
+//        AsyncTaskScanQty AsyncTaskScanProduct = new AsyncTaskScanQty();
+//        AsyncTaskScanProduct.execute("params");
     }
 
 
@@ -461,15 +573,15 @@ public class LogisticAreaCountDes extends AppCompatActivity {
             try {
 
                 cServices ocServices = new cServices();
-                lsData = ocServices.GetStockServiceData(cServices.StockFilterType.CLOG_AREA_UUID, oParamAreaInfoView.AreaId, "");
+                lsData = ocServices.GetStockServiceData(cServices.StockFilterType.CLOG_AREA_UUID, sAreaId, "");
 
-                ArrayList<cMaterial>  lsMaterials = new ArrayList<>();
+/*                ArrayList<cMaterial>  lsMaterials = new ArrayList<>();
                 for (cStock  e: lsData){
-                    lsMaterials = ocServices.GetMaterialsServ(cServices.MaterialFilterType.SelectionByInternalID, e.CMATERIAL_UUID, "");
+                    lsMaterials = ocServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID, e.CMATERIAL_UUID, "");
                     if (lsMaterials != null && lsMaterials.size() > 0 ) {
                         e.PRODUCT_ID = lsMaterials.get(0).ProductCategoryID;
                     }
-                }
+                }*/
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -497,21 +609,24 @@ public class LogisticAreaCountDes extends AppCompatActivity {
 
                 if( !oStock.CMATERIAL_UUID.trim().isEmpty()){
 
-                    oAreaInfoView= new  cAreaInfoView();
-                    oAreaInfoView.ProductId = oStock.PRODUCT_ID;
-                    lsAreaInfoService.add(oAreaInfoView);
+                    oCurrenAreaInfoView= new  cAreaInfoView();
+                    oCurrenAreaInfoView.ProductId = oStock.PRODUCT_ID;
+                    lsAreaInfoService.add(oCurrenAreaInfoView);
 
-                   // InfoData.add(new String[]{ oInboundViewInfo.ProductId, oInboundViewInfo.Open + "  " + oInboundViewInfo.OpenUnit });
+                    // InfoData.add(new String[]{ oInboundViewInfo.ProductId, oInboundViewInfo.Open + "  " + oInboundViewInfo.OpenUnit });
                 }
             }
 
             Toast.makeText(getApplicationContext(),lsAreaInfoService.size() +  " items founded", Toast.LENGTH_SHORT).show();
 
             //  cGlobalData  oGlobalData=  (cGlobalData)getApplication();
-          //  oGlobalData.LsAr = lsAreaInfoService;
+            //  oGlobalData.LsAr = lsAreaInfoService;
 
-         //   oDataGrid.RemoveAllItems();
-         //   fillDataGrid();
+            //   oDataGrid.RemoveAllItems();
+            //   fillDataGrid();
+
+
+
             vProgressDialog.hide();
         }
     }

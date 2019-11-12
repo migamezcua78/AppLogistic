@@ -1,9 +1,13 @@
 package com.logistica.applogistic;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -38,6 +42,9 @@ public class Goods_Movement_Source extends AppCompatActivity {
     ProgressDialog vProgressDialog;
     cActivityMessage oMsg;
 
+
+    private static final int ZBAR_CAMERA_PERMISSION = 1;
+    private Class<?> mClss;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +97,21 @@ public class Goods_Movement_Source extends AppCompatActivity {
 
                 oCurrentItemViewInfo = new cMovementViewInfo();
             }
+        } else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_SOURCE)){
+
+            // oCurrentItemViewInfo.SourceId = oMsg.getKey01();
+            oCurrentItemViewInfo.SourceId = "13-153-4";
+            setViewInfo();
+        }
+
+        else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_PRODUCT)){
+
+            //oCurrentItemViewInfo.SourceId = oMsg.getKey01();
+            oCurrentItemViewInfo.ProductId = "KECM0000608030";
+            oCurrentItemViewInfo.Qty = "5";
+            oCurrentItemViewInfo.IdentStock = "40567";
+            // oCurrentItemViewInfo.FieldName = "1000020";
+            setViewInfo();
         }
 
         fillDataFilter();
@@ -174,22 +196,28 @@ public class Goods_Movement_Source extends AppCompatActivity {
     }
 
 
-
-
     public void onScanSource(View view){
 
-        txtSourceId.setText("");
+        getViewInfo();
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("Goods_Movement_Source",Scanner.ScanType.SCAN_SOURCE));
+        startActivity(oIntent);
+
+/*        txtSourceId.setText("");
         AsyncTaskScanSource  AsyncTaskScanSource = new AsyncTaskScanSource();
-        AsyncTaskScanSource.execute("params");
+        AsyncTaskScanSource.execute("params");*/
+
     }
 
     public void onScanProduct(View view){
-        txtProductId.setText("KECM0000608030");
-        txtQtyId.setText("5");
-        txIdentStockId.setText("40567");
-        txtFieldNameId.setText("1000020");
-        AsyncTaskScanProduct  AsyncTaskScanProduct = new AsyncTaskScanProduct();
-        AsyncTaskScanProduct.execute("params");
+
+        getViewInfo();
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("Goods_Movement_Source",Scanner.ScanType.SCAN_PRODUCT));
+        startActivity(oIntent);
+
+//        AsyncTaskScanProduct  AsyncTaskScanProduct = new AsyncTaskScanProduct();
+//        AsyncTaskScanProduct.execute("params");
     }
 
     public void onClickConfirm(View view){
@@ -206,11 +234,17 @@ public class Goods_Movement_Source extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(),"QTY field is required", Toast.LENGTH_SHORT).show();
 
-        }else{
+        }
+        else if (txtFieldNameId.getText().toString().trim().isEmpty() )
+        {
+            Toast.makeText(getApplicationContext(),"FIELD NUMBER field is required", Toast.LENGTH_SHORT).show();
+
+        }
+        else{
 
             getViewInfo();
             Intent oIntent = new Intent(this, GoodsMovementTarget.class);
-           // oIntent.putExtra("oDataParam",oMovementParam);
+            oIntent.putExtra("oMsg", new cActivityMessage(""));
             startActivity(oIntent);
         }
     }

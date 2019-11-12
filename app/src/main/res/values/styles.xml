@@ -8,4 +8,18 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TransparentToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+<!--
+        <item name="android:windowActionBarOverlay">false</item>
+        &lt;!&ndash; Support Library compability &ndash;&gt;
+        <item name="windowActionBarOverlay">false</item>
+-->
+
+        <item name="android:windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
+
+
 </resources>

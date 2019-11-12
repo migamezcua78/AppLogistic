@@ -36,15 +36,17 @@ public class OutBound extends AppCompatActivity {
     ArrayList<cOutboundViewInfo>  lsOutbounItems =  new  ArrayList<>();
 
     ProgressDialog vProgressDialog;
+    cActivityMessage oMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_out_bound);
         Init();
-        fillDataFilter();
-        fillDataGrid();
+        StarActivity();
     }
+
+
 
 
     private void Init (){
@@ -57,7 +59,28 @@ public class OutBound extends AppCompatActivity {
         spinner = findViewById(R.id.spFilterId);
         tableLayout =(TableLayout)findViewById(R.id.tgProductos);
 
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
+
         InfoData = new ArrayList <> ();
+    }
+
+
+    private void StarActivity() {
+
+        if( oMsg != null){
+            if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_TASK)){
+
+                // txtImputFilterId.setText("");
+                AsyncTaskScan asyncTask=new AsyncTaskScan();
+                asyncTask.execute("params");
+
+            }  else if (!oMsg.getMessage().equals(cMessage.Message.START)){
+
+            }
+        }
+
+        fillDataFilter();
+        fillDataGrid();
     }
 
     @Override
@@ -81,9 +104,18 @@ public class OutBound extends AppCompatActivity {
     }
 
     public void   onClickScanTask(View spinner) {
+
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("OutBound",Scanner.ScanType.SCAN_TASK));
+        startActivity(oIntent);
+
+
+
+/*
         txtImputFilterId.setText("");
         AsyncTaskScan asyncTask=new AsyncTaskScan();
         asyncTask.execute("params");
+*/
 
     }
 
@@ -161,7 +193,7 @@ public class OutBound extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             vProgressDialog = new ProgressDialog(OutBound.this);
-            vProgressDialog.setMessage("Scanning Task...");
+            vProgressDialog.setMessage("Loading Data...");
             vProgressDialog.setIndeterminate(false);
             vProgressDialog.setCancelable(true);
             vProgressDialog.show();
@@ -188,6 +220,8 @@ public class OutBound extends AppCompatActivity {
         @Override
         protected void onPostExecute(String lsData) {
             super.onPostExecute(lsData);
+
+
             txtImputFilterId.setText("2362");
             InfoData = new ArrayList <> ();
             lsOutbounItems =  new  ArrayList<>();

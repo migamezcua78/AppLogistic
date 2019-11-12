@@ -144,6 +144,25 @@ public class PickSourceEmb extends AppCompatActivity {
                     lblCountItemsId.setText(String.valueOf(iterater) + " of " + String.valueOf(lsOutbounItems.size()));
                 }
             }
+        } else if ( oMsg.getMessage().equals(Scanner.ScanType.SCAN_PRODUCT_QTY)){
+
+
+            oCurrentItemViewInfo =  ((cGlobalData)getApplication()).CurrentOutboundViewInfo;
+          //  lsAreaInfoService =  ((cGlobalData)getApplication()).lsAreaInfoService;
+          //  lsAreaInfoView =  ((cGlobalData)getApplication()).lsAreaInfoView;
+
+            consecutive = ((cGlobalData)getApplication()).consecutive;
+            Quantity = ((cGlobalData)getApplication()).Quantity;
+            iterater = ((cGlobalData)getApplication()).iterater;
+           // IterScan = ((cGlobalData)getApplication()).IterScan;
+
+            lblCountItemsId.setText(((cGlobalData)getApplication()).lblCountItemsId);
+
+            txtQtyId.setText("2");   // esta dato debe venir del Sscaneo del producto
+           // txtIdentStockId.setText("30541");
+            oCurrentItemViewInfo.Qty = txtQtyId.getText().toString();
+
+            setViewInfo(oCurrentItemViewInfo);
         }
 
         fillDataUnits();
@@ -212,8 +231,29 @@ public class PickSourceEmb extends AppCompatActivity {
     }
 
     public void   onScanProduct(View view) {
-        AsyncTaskScanProduct asyncTask=new AsyncTaskScanProduct();
-        asyncTask.execute("params");
+
+        getViewInfo(oCurrentItemViewInfo);
+
+        ((cGlobalData)getApplication()).CurrentOutboundViewInfo = oCurrentItemViewInfo;
+//        ((cGlobalData)getApplication()).lsAreaInfoService = lsAreaInfoService;
+//        ((cGlobalData)getApplication()).lsAreaInfoView = lsAreaInfoView;
+
+        ((cGlobalData)getApplication()).consecutive = consecutive;
+        ((cGlobalData)getApplication()).Quantity = Quantity;
+        ((cGlobalData)getApplication()).iterater = iterater;
+        //((cGlobalData)getApplication()).IterScan = IterScan;
+
+        ((cGlobalData)getApplication()).lblCountItemsId = lblCountItemsId.getText().toString();
+
+
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("PickSourceEmb",Scanner.ScanType.SCAN_PRODUCT_QTY));
+        startActivity(oIntent);
+
+
+//        AsyncTaskScanProduct asyncTask=new AsyncTaskScanProduct();
+//        asyncTask.execute("params");
+
     }
 
     public void   onClickNext(View spinner) {

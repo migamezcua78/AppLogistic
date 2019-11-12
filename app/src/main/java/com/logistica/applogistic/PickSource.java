@@ -30,9 +30,12 @@ public class PickSource extends AppCompatActivity {
     // DATA
     private List<cSpinnerItem> InfoFilter = new ArrayList<>();
 
-    cActivityMessage   oActivityMessage;
+
+    cGlobalData  oGlobalData;
     ArrayList<cInboundViewInfo>  lsInbounItems;
-    cInboundViewInfo  oInboundViewInfo;
+    cInboundViewInfo  oCurrentInboundViewInfo;
+
+    cActivityMessage oMsg;
 
 
     int countItems;
@@ -46,21 +49,12 @@ public class PickSource extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_source);
-        initPickSource();
-        fillDataOptions();
-
-        cGlobalData  oGlobalData=  (cGlobalData)getApplication();
-        lsInbounItems = oGlobalData.LsIntboudItems;
-
-
-        if (lsInbounItems.size() > 0 ){
-            iterater = 1;
-            oInboundViewInfo = lsInbounItems.get(iterater - 1);
-            setViewInfo(oInboundViewInfo);
-        }
+        init();
+        StartActivity();
     }
 
-    private void initPickSource (){
+
+    private void init (){
         spinner = findViewById(R.id.spiOptions);
 
         txtSourceId = findViewById(R.id.txtSourceId);
@@ -74,7 +68,40 @@ public class PickSource extends AppCompatActivity {
         consecutive = 0;
         Quantity = 1;
         iterater = 0;
+
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
+        oGlobalData=  (cGlobalData)getApplication();
+        lsInbounItems = oGlobalData.LsIntboudItems;
     }
+
+    public void StartActivity (){
+
+        fillDataOptions();
+
+        if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_SOURCE)){
+
+            oCurrentInboundViewInfo =  oGlobalData.CurrentInboundViewInfo;
+            txtSourceId.setText("13-15-6A");
+            oCurrentInboundViewInfo.SourceId = txtSourceId.getText().toString();
+
+            setViewInfo(oCurrentInboundViewInfo);
+
+        } else {
+
+            if (lsInbounItems.size() > 0 ){
+                iterater = 1;
+                oCurrentInboundViewInfo = lsInbounItems.get(iterater - 1);
+                setViewInfo(oCurrentInboundViewInfo);
+            }
+        }
+    }
+
+
+    private void fillDataOptions (){
+        ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilter());
+        spinner.setAdapter(adapter);
+    }
+
 
     private void setViewInfo(cInboundViewInfo pInboundViewInfo){
 
@@ -82,7 +109,6 @@ public class PickSource extends AppCompatActivity {
 
             txtProductId.setText(pInboundViewInfo.ProductId);
             txtQtyId.setText(pInboundViewInfo.Qty);
-            txtStockId.setText(pInboundViewInfo.IdentStock);
             lblOpenValueId.setText(pInboundViewInfo.Open + " " +  pInboundViewInfo.OpenUnit);
 
 
@@ -92,21 +118,40 @@ public class PickSource extends AppCompatActivity {
         }
     }
 
-    private void fillDataOptions (){
-        ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilter());
-        spinner.setAdapter(adapter);
+
+
+    private void getViewInfo(cInboundViewInfo pInboundViewInfo){
+
+        try {
+
+            pInboundViewInfo.SourceId = txtSourceId.getText().toString();
+            pInboundViewInfo.ProductId = txtProductId.getText().toString();
+            pInboundViewInfo.Qty = txtQtyId.getText().toString();
+
+        } catch (Exception e){
+
+            String s = e.getMessage();
+        }
     }
 
 
     public void   onScan(View view) {
 
-        AsyncTaskScan asyncTask=new AsyncTaskScan();
-        asyncTask.execute("params");
+        getViewInfo(oCurrentInboundViewInfo);
+        oGlobalData.CurrentInboundViewInfo = oCurrentInboundViewInfo;
+
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("PickSource",Scanner.ScanType.SCAN_SOURCE));
+        startActivity(oIntent);
+
+
+/*        AsyncTaskScan asyncTask=new AsyncTaskScan();
+        asyncTask.execute("params");*/
     }
 
     public void   onClickConfirm(View spinner) {
 
-        if(oInboundViewInfo.SourceId.trim().isEmpty()){
+        if(oCurrentInboundViewInfo.SourceId.trim().isEmpty()){
             Toast.makeText(getApplicationContext(),"SOURCE field is required", Toast.LENGTH_SHORT).show();
 
         }else {
@@ -114,7 +159,7 @@ public class PickSource extends AppCompatActivity {
             Intent oIntent = new Intent(this, PutAwayTarget.class);
             cActivityMessage  cActivityMessage = new cActivityMessage();
             cActivityMessage.setMessage("ItemConfirmed");
-            oIntent.putExtra("oMssg",cActivityMessage);
+            oIntent.putExtra("oMsg",cActivityMessage);
             startActivity(oIntent);
         }
     }
@@ -164,7 +209,7 @@ public class PickSource extends AppCompatActivity {
             super.onPostExecute(lsData);
 
             txtSourceId.setText("13-15-6A");
-            oInboundViewInfo.SourceId = txtSourceId.getText().toString();
+            oCurrentInboundViewInfo.SourceId = txtSourceId.getText().toString();
 
             vProgressDialog.hide();
         }

@@ -1,6 +1,7 @@
 package com.logistica.applogistic;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.content.AsyncTaskLoader;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -45,6 +46,7 @@ public class Inbound extends AppCompatActivity {
 
     // Process
     ProgressDialog vProgressDialog;
+    cActivityMessage oMsg;
 
 
     @Override
@@ -68,6 +70,8 @@ public class Inbound extends AppCompatActivity {
         spinner = findViewById(R.id.spFilterId);
         tableLayout =(TableLayout)findViewById(R.id.tgProductos);
 
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
+
         InfoData = new ArrayList <> ();
         InfoFilter = new ArrayList<>();
         lsInbounItems =  new  ArrayList<>();
@@ -75,10 +79,21 @@ public class Inbound extends AppCompatActivity {
 
 
     private void StartActivity (){
+
+        if( oMsg != null){
+            if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_TASK)){
+
+                txtImputFilterId.setText("");
+                lblTaskValueId.setText("");
+                lbOrderValueId.setText("");
+
+                AsyncTaskExample asyncTask=new AsyncTaskExample();
+                asyncTask.execute("params");
+            }
+        }
+
         fillDataFilter();
         fillDataGrid();
-
-
     }
 
     @Override
@@ -95,7 +110,6 @@ public class Inbound extends AppCompatActivity {
     }
 
 
-
     private void fillDataFilter (){
         ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilter());
         spinner.setAdapter(adapter);
@@ -110,11 +124,10 @@ public class Inbound extends AppCompatActivity {
 
     public void onScan(View view) {
 
-        txtImputFilterId.setText("");
-        lblTaskValueId.setText("");
-        lbOrderValueId.setText("");
-        AsyncTaskExample asyncTask=new AsyncTaskExample();
-        asyncTask.execute("params");
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("Inbound",Scanner.ScanType.SCAN_TASK));
+        startActivity(oIntent);
+
 
 //        txtImputFilterId.setText("");
 //        AsyncTaskScan asyncTask= new AsyncTaskScan();
@@ -148,7 +161,7 @@ public class Inbound extends AppCompatActivity {
                     getParamInfo(e);
                 }
 
-                Intent oIntent = new Intent(this, PickSourceEmb.class);
+                Intent oIntent = new Intent(this, PutAwayTarget.class);
                 oIntent.putExtra("oMsg", getActivityMsg());
                 startActivity(oIntent);
 
@@ -511,7 +524,7 @@ public class Inbound extends AppCompatActivity {
             try {
 
                 cServices ocServices = new cServices();
-                lsData = ocServices.GetMaterialsServ(cServices.MaterialFilterType.SelectionByInternalID, "*", "3");
+                lsData = ocServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID, "*", "1");
 
             } catch (Exception e) {
                 e.printStackTrace();

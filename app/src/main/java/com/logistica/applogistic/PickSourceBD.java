@@ -33,6 +33,7 @@ public class PickSourceBD extends AppCompatActivity {
 
     // DATA
     private List<cSpinnerItem> InfoFilter = new ArrayList<>();
+    cGlobalData  oGlobalData;
 
     cActivityMessage   oActivityMessage;
     ArrayList<cInboundViewInfo>  lsInbounItems;
@@ -58,32 +59,6 @@ public class PickSourceBD extends AppCompatActivity {
         StartActivity();
     }
 
-    public void StartActivity(){
-
-        fillDataOptions();
-
-        if ( oMsg.getMessage().equals("OtherTargetConfirmed") )
-        {
-
-            if ( lsInbounItems.size() > 0){
-                iterater = Integer.valueOf(oMsg.getKey01());
-                if ( iterater > 0 ){
-                    oCurrentItemViewInfo = lsInbounItems.get(iterater-1);
-                    setViewInfo(oCurrentItemViewInfo);
-                   // lblCountItemsId.setText(String.valueOf(iterater) + " of " + String.valueOf(lsInbounItems.size()));
-                }
-            }
-        } else {
-
-            // por  ahora solo se toma el primero
-            if (lsInbounItems.size() > 0 ){
-                iterater = 1;
-                oCurrentItemViewInfo = lsInbounItems.get(iterater - 1);
-                setViewInfo(oCurrentItemViewInfo);
-            }
-        }
-    }
-
 
     private void Init(){
         spinner = findViewById(R.id.spiOptions);
@@ -97,21 +72,149 @@ public class PickSourceBD extends AppCompatActivity {
         chkSourceId = findViewById(R.id.chkSourceId);
         chkProductId = findViewById(R.id.chkProductId);
 
-
         countItems = 0;
         TotalItems = 0;
         consecutive = 0;
         Quantity = 1;
-        iterater = 0;
+        iterater = 1;
 
         oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
+        oGlobalData=  (cGlobalData)getApplication();
         lsInbounItems = ((cGlobalData)getApplication()).LsIntboudItems;
     }
+
+    public void StartActivity(){
+
+        fillDataOptions();
+
+        if (oMsg != null ){
+
+            if ( oMsg.getMessage().equals("OtherTargetConfirmed") )
+            {
+
+                if ( lsInbounItems.size() > 0){
+                    iterater = Integer.valueOf(oMsg.getKey01());
+                    if ( iterater > 0 ){
+                        oCurrentItemViewInfo = lsInbounItems.get(iterater-1);
+                        setViewInfo(oCurrentItemViewInfo);
+                        // lblCountItemsId.setText(String.valueOf(iterater) + " of " + String.valueOf(lsInbounItems.size()));
+                    }
+                }
+            } else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_SOURCE)){
+
+                oCurrentItemViewInfo =  oGlobalData.CurrentInboundViewInfo;
+
+                txtSourceId.setText("13-15-6A");
+                chkSourceId.setChecked(true);
+                oCurrentItemViewInfo.SourceId = txtSourceId.getText().toString();
+
+                setViewInfo(oCurrentItemViewInfo);
+
+            } else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_PRODUCT_QTY)){
+
+                oCurrentItemViewInfo =  oGlobalData.CurrentInboundViewInfo;
+
+               // txtProductId.setText(oCurrentItemViewInfo.ProductId);
+                txtQtyId.setText("2");  //  proviene del scaner
+                txtStockId.setText("43668");  //  proviene del scaner
+                chkProductId.setChecked(true);
+                //.setText("43668");
+
+                // se asignan
+              //  oCurrentItemViewInfo.SourceId = txtSourceId.getText().toString();
+                oCurrentItemViewInfo.Qty = txtQtyId.getText().toString();
+                oCurrentItemViewInfo.IdentStock = txtStockId.getText().toString();
+
+                setViewInfo(oCurrentItemViewInfo);
+            }
+
+            else {
+
+                // por  ahora solo se toma el primero
+                if (lsInbounItems.size() > 0 ){
+                    iterater = 1;
+                    oCurrentItemViewInfo = lsInbounItems.get(iterater - 1);
+                    setViewInfo(oCurrentItemViewInfo);
+                }
+            }
+        }
+    }
+
+
+    public void   onScan(View view) {
+
+        getViewInfo(oCurrentItemViewInfo);
+        oGlobalData.CurrentInboundViewInfo = oCurrentItemViewInfo;
+
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("PickSourceBD",Scanner.ScanType.SCAN_SOURCE));
+        startActivity(oIntent);
+
+/*        AsyncTaskScan asyncTask=new AsyncTaskScan();
+        asyncTask.execute("params");*/
+    }
+
+
+    public void   onScanProduct(View view) {
+
+        getViewInfo(oCurrentItemViewInfo);
+        oGlobalData.CurrentInboundViewInfo = oCurrentItemViewInfo;
+
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("PickSourceBD",Scanner.ScanType.SCAN_PRODUCT_QTY));
+        startActivity(oIntent);
+
+
+/*        AsyncTaskScanProduct asyncTask=new AsyncTaskScanProduct();
+        asyncTask.execute("params");*/
+    }
+
+
+    public void   onClickConfirm(View spinner) {
+
+        getViewInfo(oCurrentItemViewInfo);
+
+        if(oCurrentItemViewInfo.SourceId.trim().isEmpty()){
+            Toast.makeText(getApplicationContext(),"SOURCE field is required", Toast.LENGTH_SHORT).show();
+
+        }else if (oCurrentItemViewInfo.ProductId.trim().isEmpty()){
+
+            Toast.makeText(getApplicationContext(),"PRODUCT field is required", Toast.LENGTH_SHORT).show();
+
+        }else if (oCurrentItemViewInfo.Qty.isEmpty()){
+
+            Toast.makeText(getApplicationContext(),"ACTUAL field is required", Toast.LENGTH_SHORT).show();
+        }
+
+        else if (oCurrentItemViewInfo.IdentStock.isEmpty()){
+
+            Toast.makeText(getApplicationContext(),"ID STOCK field is required", Toast.LENGTH_SHORT).show();
+        }
+
+        else {
+
+            Intent oIntent = new Intent(this, TargetConfirmationBD.class);
+            cActivityMessage  cActivityMessage = new cActivityMessage();
+            cActivityMessage.setMessage("ItemConfirmed");
+            oIntent.putExtra("oMssg",cActivityMessage);
+            startActivity(oIntent);
+        }
+    }
+
+    public void   onChangeArea(View view) {
+
+        Intent oIntent = new Intent(this, PutAwayTargetBD.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("AssignOtherArea", String.valueOf(iterater)));
+        startActivity(oIntent);
+
+    }
+
 
     private void setViewInfo(cInboundViewInfo pInboundViewInfo){
 
         try {
 
+            txtSourceId.setText(pInboundViewInfo.SourceId);
             txtProductId.setText(pInboundViewInfo.ProductId);
             txtQtyId.setText(pInboundViewInfo.Qty);
             txtStockId.setText(pInboundViewInfo.IdentStock);
@@ -145,57 +248,9 @@ public class PickSourceBD extends AppCompatActivity {
     }
 
 
-    public void   onScan(View view) {
-
-        AsyncTaskScan asyncTask=new AsyncTaskScan();
-        asyncTask.execute("params");
-    }
-
-    public void   onChangeArea(View view) {
-
-        Intent oIntent = new Intent(this, PutAwayTargetBD.class);
-        oIntent.putExtra("oMsg", new cActivityMessage("AssignOtherArea", String.valueOf(iterater)));
-        startActivity(oIntent);
-
-    }
 
 
-    public void   onScanProduct(View view) {
 
-        AsyncTaskScanProduct asyncTask=new AsyncTaskScanProduct();
-        asyncTask.execute("params");
-    }
-
-    public void   onClickConfirm(View spinner) {
-
-        getViewInfo(oCurrentItemViewInfo);
-
-        if(oCurrentItemViewInfo.SourceId.trim().isEmpty()){
-            Toast.makeText(getApplicationContext(),"SOURCE field is required", Toast.LENGTH_SHORT).show();
-
-        }else if (oCurrentItemViewInfo.ProductId.trim().isEmpty()){
-
-            Toast.makeText(getApplicationContext(),"PRODUCT field is required", Toast.LENGTH_SHORT).show();
-
-        }else if (oCurrentItemViewInfo.Qty.isEmpty()){
-
-            Toast.makeText(getApplicationContext(),"ACTUAL field is required", Toast.LENGTH_SHORT).show();
-        }
-
-        else if (oCurrentItemViewInfo.IdentStock.isEmpty()){
-
-            Toast.makeText(getApplicationContext(),"ID STOCK field is required", Toast.LENGTH_SHORT).show();
-        }
-
-        else {
-
-            Intent oIntent = new Intent(this, TargetConfirmationBD.class);
-            cActivityMessage  cActivityMessage = new cActivityMessage();
-            cActivityMessage.setMessage("ItemConfirmed");
-            oIntent.putExtra("oMssg",cActivityMessage);
-            startActivity(oIntent);
-        }
-    }
 
     private List<cSpinnerItem> getInfoFilter(){
 

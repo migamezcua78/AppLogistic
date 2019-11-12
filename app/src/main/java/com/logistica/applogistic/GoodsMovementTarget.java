@@ -67,7 +67,14 @@ public class GoodsMovementTarget extends AppCompatActivity {
 
     private  void StartActivity(){
 
-        if ( oCurrentItemViewInfo !=  null ){
+        if ( oCurrentItemViewInfo  != null   ) {
+
+            if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_TARGET))
+            {
+                // oCurrentItemViewInfo.TargetId = oMsg.getKey01();
+                oCurrentItemViewInfo.TargetId = "13-154-A";
+            }
+
             setViewInfo();
         }
 
@@ -148,16 +155,21 @@ public class GoodsMovementTarget extends AppCompatActivity {
 
     public void onScanTarget(View view){
 
-        txtTargetId.setText("");
+        getViewInfo();
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("GoodsMovementTarget",Scanner.ScanType.SCAN_TARGET));
+        startActivity(oIntent);
+
+/*        txtTargetId.setText("");
         AsyncTaskScanTarget AsyncTaskScantarget = new GoodsMovementTarget.AsyncTaskScanTarget();
-        AsyncTaskScantarget.execute("params");
+        AsyncTaskScantarget.execute("params");*/
     }
 
     public void onClickConfirm(View view){
 
         if ( txtTargetId.getText().toString().trim().isEmpty()){
 
-            Toast.makeText(getApplicationContext(),"SOURCE field is required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"TARGET field is required", Toast.LENGTH_SHORT).show();
 
         }else if ( txtProductId.getText().toString().trim().isEmpty())
         {

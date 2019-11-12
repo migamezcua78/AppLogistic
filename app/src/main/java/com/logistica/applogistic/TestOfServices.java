@@ -67,7 +67,7 @@ public class TestOfServices extends AppCompatActivity {
             try {
 
                 cServices ocServices = new cServices();
-                lsData = ocServices.GetMaterialsServ(cServices.MaterialFilterType.SelectionByInternalID,"*","8");
+                lsData = ocServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID,"*","8");
 
             } catch (Exception e) {
                 e.printStackTrace();

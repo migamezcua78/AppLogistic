@@ -51,6 +51,7 @@ public class InboundBD extends AppCompatActivity {
     AlertDialog alert11;
 
     ProgressDialog vProgressDialog;
+    cActivityMessage oMsg;
 
 
     @Override
@@ -58,12 +59,47 @@ public class InboundBD extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbound_bd);
 
-        cGlobalData  oGlobalData=  (cGlobalData)getApplication();
+        init();
+        StartActivity();
+    }
+
+
+
+    private void init (){
+
+        txtImputFilterId = findViewById(R.id.txtImputFilterId);
+        lblTaskValueId = findViewById(R.id.lblTaskValueId);
+        lbOrderValueId = findViewById(R.id.lbOrderValueId);
+
+        spinner = findViewById(R.id.spFilterId);
+        tableLayout =(TableLayout)findViewById(R.id.tgProductos);
+
+        cGlobalData  oGlobalData =  (cGlobalData)getApplication();
         oGlobalData.setGlobalVarValue("Hola");
 
-        init();
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
+
+        InfoData =  new ArrayList <> ();
+    }
+
+
+    public void StartActivity (){
+
+        if( oMsg != null){
+            if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_TASK)){
+
+                txtImputFilterId.setText("");
+                lblTaskValueId.setText("");
+                lbOrderValueId.setText("");
+
+                AsyncTaskExample asyncTask=new AsyncTaskExample();
+                asyncTask.execute("params");
+            }
+        }
+
         fillDataFilter();
         fillDataGrid();
+
     }
 
     @Override
@@ -80,44 +116,6 @@ public class InboundBD extends AppCompatActivity {
     }
 
 
-    private void init (){
-
-        txtImputFilterId = findViewById(R.id.txtImputFilterId);
-        lblTaskValueId = findViewById(R.id.lblTaskValueId);
-        lbOrderValueId = findViewById(R.id.lbOrderValueId);
-
-        spinner = findViewById(R.id.spFilterId);
-        tableLayout =(TableLayout)findViewById(R.id.tgProductos);
-
-        InfoData =  new ArrayList <> ();
-
-       /*
-
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(Inbound.this);
-        builder1.setMessage("Write your message here.");
-        builder1.setCancelable(true);
-
-        builder1.setPositiveButton(
-                "Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        Inbound.super.onBackPressed();
-                    }
-                });
-
-        builder1.setNegativeButton(
-                "No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        return;
-                    }
-                });
-
-        alert11 = builder1.create();
-*/
-    }
 
     private void fillDataFilter (){
         ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilter());
@@ -136,8 +134,18 @@ public class InboundBD extends AppCompatActivity {
         txtImputFilterId.setText("");
         lblTaskValueId.setText("");
         lbOrderValueId.setText("");
+
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("InboundBD",Scanner.ScanType.SCAN_TASK));
+        startActivity(oIntent);
+
+
+
+/*        txtImputFilterId.setText("");
+        lblTaskValueId.setText("");
+        lbOrderValueId.setText("");
         AsyncTaskExample asyncTask=new AsyncTaskExample();
-        asyncTask.execute("params");
+        asyncTask.execute("params");*/
 
 //        txtImputFilterId.setText("");
 //        AsyncTaskScan asyncTask= new AsyncTaskScan();
@@ -515,7 +523,7 @@ public class InboundBD extends AppCompatActivity {
             try {
 
                 cServices ocServices = new cServices();
-                lsData = ocServices.GetMaterialsServ(cServices.MaterialFilterType.SelectionByInternalID, "*", "1");
+                lsData = ocServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID, "*", "1");
 
             } catch (Exception e) {
                 e.printStackTrace();

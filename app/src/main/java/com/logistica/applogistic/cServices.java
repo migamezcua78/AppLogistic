@@ -307,7 +307,7 @@ public class cServices {
 
 
 
-    public ArrayList<cCustomer> GetCustomersServ(String FilterType, String FilterValue, String  MaximumNumberValue){
+    public ArrayList<cCustomer> GetCustomersServiceData(String FilterType, String FilterValue, String  MaximumNumberValue){
 
         // SOAP
         String Soap_Action = "FindByElements";
@@ -419,7 +419,7 @@ public class cServices {
 
 
 
-    public ArrayList<cMaterial> GetMaterialsServ(String FilterType, String FilterValue, String  MaximumNumberValue){
+    public ArrayList<cMaterial> GetMaterialsServiceData(String FilterType, String FilterValue, String  MaximumNumberValue){
 
         // SOAP
         String Soap_Action = "FindByElements";

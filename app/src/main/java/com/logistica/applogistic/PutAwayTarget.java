@@ -35,11 +35,14 @@ public class PutAwayTarget extends AppCompatActivity {
 
 
 
-    cActivityMessage   oActivityMessage;
+   // cActivityMessage   oActivityMessage;
     ArrayList<cInboundViewInfo>  lsInbounItems;
-    cInboundViewInfo  oInboundViewInfo;
+    cInboundViewInfo  oCurrentInboundViewInfo;
+    cGlobalData  oGlobalData;
 
     ProgressDialog vProgressDialog;
+    cActivityMessage oMsg;
+
 
     int countItems;
     int TotalItems;
@@ -57,29 +60,7 @@ public class PutAwayTarget extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_put_away_target);
         init();
-
-        oActivityMessage = (cActivityMessage)getIntent().getSerializableExtra("oMssg");
-
-        cGlobalData  oGlobalData=  (cGlobalData)getApplication();
-        lsInbounItems = oGlobalData.LsIntboudItems;
-
-        if (oActivityMessage.getMessage().equals("ItemConfirmed")){
-
-            AsyncTaskAllItemConfirmed asyncTask=new AsyncTaskAllItemConfirmed();
-            asyncTask.execute("params");
-
-        } else{
-
-            if (lsInbounItems.size() > 0 ){
-                iterater = 1;
-                lblCountItemsId.setText(String.valueOf(iterater) + " of " + String.valueOf(lsInbounItems.size()) );
-                oInboundViewInfo = lsInbounItems.get(iterater - 1);
-                setViewInfo(oInboundViewInfo);
-            }
-        }
-
-
-        fillDataUnits();
+        StartActivity();
     }
 
     private void init (){
@@ -103,6 +84,49 @@ public class PutAwayTarget extends AppCompatActivity {
         iterater = 0;
 
         sSerialNumber = "SNID88046999927";
+
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
+        oGlobalData=  (cGlobalData)getApplication();
+        lsInbounItems = oGlobalData.LsIntboudItems;
+    }
+
+    public void  StartActivity (){
+
+        if (oMsg.getMessage().equals("ItemConfirmed")){
+
+            AsyncTaskAllItemConfirmed asyncTask=new AsyncTaskAllItemConfirmed();
+            asyncTask.execute("params");
+        }else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_SERIAL_NUMBER)){
+
+            lsInbounItems = oGlobalData.LsIntboudItems;
+
+            oCurrentInboundViewInfo =  oGlobalData.CurrentInboundViewInfo;
+
+           // txtSerialNumberId.setText(sSerialNumber);
+            int inQtyId =  Integer.valueOf(oCurrentInboundViewInfo.Qty);
+            inQtyId = inQtyId + 1;
+            oCurrentInboundViewInfo.Qty = String.valueOf(inQtyId);
+           // txtQtyId.setText(oCurrentInboundViewInfo.Qty);
+
+            txtSerialNumberId.setText(sSerialNumber + "_" + inQtyId);
+            oCurrentInboundViewInfo.SerialNumber = txtSerialNumberId.getText().toString();
+
+            setViewInfo(oCurrentInboundViewInfo);
+
+        }
+
+
+        else{
+
+            if (lsInbounItems.size() > 0 ){
+                iterater = 1;
+                lblCountItemsId.setText(String.valueOf(iterater) + " of " + String.valueOf(lsInbounItems.size()) );
+                oCurrentInboundViewInfo = lsInbounItems.get(iterater - 1);
+                setViewInfo(oCurrentInboundViewInfo);
+            }
+        }
+
+        fillDataUnits();
     }
 
 
@@ -125,6 +149,29 @@ public class PutAwayTarget extends AppCompatActivity {
         }
     }
 
+
+
+    private void getViewInfo(cInboundViewInfo pInboundViewInfo){
+
+        try {
+
+            pInboundViewInfo.TargetId = txtTargetId.getText().toString();
+            pInboundViewInfo.ProductId = txtProductId.getText().toString();
+            pInboundViewInfo.Qty = txtQtyId.getText().toString();
+            pInboundViewInfo.Restricted = cheRestrictedId.isChecked();
+            pInboundViewInfo.LuQty = txtLuQtyId.getText().toString();
+            pInboundViewInfo.BarCode = txtBarCodeId.getText().toString();
+            pInboundViewInfo.SerialNumber = txtSerialNumberId.getText().toString();
+
+
+        } catch (Exception e){
+
+            String s = e.getMessage();
+        }
+    }
+
+
+
     private void fillDataUnits (){
         ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilter());
         spinner.setAdapter(adapter);
@@ -133,16 +180,25 @@ public class PutAwayTarget extends AppCompatActivity {
 
     public void   onScan(View view) {
 
-        txtSerialNumberId.setText("");
-        AsyncTaskScan asyncTask=new AsyncTaskScan();
-        asyncTask.execute("params");
+        getViewInfo(oCurrentInboundViewInfo);
 
+        oGlobalData.CurrentInboundViewInfo = oCurrentInboundViewInfo;
+
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("PutAwayTarget",Scanner.ScanType.SCAN_SERIAL_NUMBER));
+        startActivity(oIntent);
+
+
+/*        txtSerialNumberId.setText("");
+        AsyncTaskScan asyncTask=new AsyncTaskScan();
+        asyncTask.execute("params");*/
     }
 
 
     public void   onClickConfirm(View spinner) {
 
         Intent oIntent = new Intent(this, PickSource.class);
+        oIntent.putExtra("oMsg",  new cActivityMessage(""));
         startActivity(oIntent);
     }
 
@@ -196,10 +252,11 @@ public class PutAwayTarget extends AppCompatActivity {
         @Override
         protected void onPostExecute(String lsData) {
             super.onPostExecute(lsData);
+
             int inQtyId =  Integer.valueOf(txtQtyId.getText().toString());
             inQtyId = inQtyId + 1;
-            oInboundViewInfo.Qty = String.valueOf(inQtyId);
-            txtQtyId.setText(oInboundViewInfo.Qty);
+            oCurrentInboundViewInfo.Qty = String.valueOf(inQtyId);
+            txtQtyId.setText(oCurrentInboundViewInfo.Qty);
 
             txtSerialNumberId.setText(sSerialNumber + "_" + inQtyId);
 

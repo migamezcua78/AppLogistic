@@ -16,5 +16,10 @@
     <color name="colorLblDefault">#000000</color>
     <color name="colorTxtInsertData">#CEEBCE</color>
 
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="viewfinder_laser">#ffcc0000</color>
+    <color name="viewfinder_border">#ffafed44</color>
+
+    <color name="actionbar_opacity">#33000000</color>
 
 </resources>

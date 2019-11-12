@@ -31,6 +31,7 @@ public class GoodMovement extends AppCompatActivity {
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
 
     ProgressDialog vProgressDialog;
+    cActivityMessage oMsg;
 
 
     @Override
@@ -38,9 +39,31 @@ public class GoodMovement extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_good_movement);
         Init();
+        StarActivity();
+    }
+
+    public   void StarActivity(){
+
+        if( oMsg != null){
+            if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_TASK)){
+                // oCurrentItemViewInfo.SourceId = oMsg.getKey01();
+                txtFilterValue.setText("SCAN-VALUE-123");
+            }
+        }
         fillDataFilter();
         fillDataGrid();
     }
+
+
+    private void Init (){
+        lblSelectedFilter =  findViewById(R.id.lbTaskId);
+        txtFilterValue = findViewById(R.id.txtImputFilterId);
+        spinner = findViewById(R.id.spFilterId);
+        tableLayout =(TableLayout)findViewById(R.id.tgProductos);
+
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -48,13 +71,6 @@ public class GoodMovement extends AppCompatActivity {
         Intent oIntent = new Intent(this, Inicio.class);
         // oIntent.putExtra("oDataParam",oMovementParam);
         startActivity(oIntent);
-    }
-
-    private void Init (){
-        lblSelectedFilter =  findViewById(R.id.lbTaskId);
-        txtFilterValue = findViewById(R.id.txtImputFilterId);
-        spinner = findViewById(R.id.spFilterId);
-        tableLayout =(TableLayout)findViewById(R.id.tgProductos);
     }
 
 
@@ -131,9 +147,15 @@ public class GoodMovement extends AppCompatActivity {
 
     public void onScan(View view) {
 
-        txtFilterValue.setText("");
+
+        txtFilterValue.setText("SCAN-VALUE-123");
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("GoodMovement",Scanner.ScanType.SCAN_TASK));
+        startActivity(oIntent);
+
+/*        txtFilterValue.setText("");
         AsyncTaskScan asyncTask=new AsyncTaskScan();
-        asyncTask.execute("params");
+        asyncTask.execute("params");*/
     }
 
 
