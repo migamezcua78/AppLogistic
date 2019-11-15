@@ -93,6 +93,9 @@ public class LogisticAreaCountDes extends AppCompatActivity {
                 AsyncTaskLoadDataService AsyncTaskScanProduct = new AsyncTaskLoadDataService();
                 AsyncTaskScanProduct.execute("params");
             }
+
+
+
         } else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_PRODUCT)){
 
 
@@ -332,6 +335,9 @@ public class LogisticAreaCountDes extends AppCompatActivity {
     }
 
     public void   onScanProduct(View spinner) {
+
+        if(oCurrenAreaInfoView ==  null)
+            oCurrenAreaInfoView = new cAreaInfoView();
 
         getViewInfo(oCurrenAreaInfoView);
 

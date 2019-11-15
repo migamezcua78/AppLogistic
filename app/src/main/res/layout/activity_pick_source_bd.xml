@@ -87,7 +87,7 @@
 
             <TextView
                 android:id="@+id/lblServiceId"
-                android:layout_width="wrap_content"
+                android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/lblService"
@@ -99,12 +99,12 @@
                 android:id="@+id/txtSourceId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="90dp"
+                android:layout_marginStart="110dp"
                 android:ems="10"
                 android:hint="@string/txtHintImput"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/chkSourceId"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -139,7 +139,7 @@
                 android:hint="@string/txtHintImput"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtSourceId" />
 
@@ -297,26 +297,28 @@
 
             <Button
                 android:id="@+id/btnScanId"
-                android:layout_width="60dp"
+                android:layout_width="75dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="4dp"
                 android:onClick="onScan"
                 android:text="@string/btnScan"
                 android:textAllCaps="false"
                 android:textColor="@color/colorTextTitle"
+                android:textSize="9sp"
                 app:backgroundTint="@color/colorAccent"
                 app:layout_constraintBaseline_toBaselineOf="@+id/chkSourceId"
                 app:layout_constraintStart_toEndOf="@+id/chkSourceId" />
 
             <Button
                 android:id="@+id/btnScanProductId"
-                android:layout_width="60dp"
+                android:layout_width="75dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="4dp"
                 android:onClick="onScanProduct"
                 android:text="@string/btnScan"
                 android:textAllCaps="false"
                 android:textColor="@color/colorTextTitle"
+                android:textSize="9sp"
                 app:backgroundTint="@color/colorAccent"
                 app:layout_constraintBaseline_toBaselineOf="@+id/chkProductId"
                 app:layout_constraintStart_toEndOf="@+id/chkProductId" />

@@ -73,7 +73,7 @@
 
             <TextView
                 android:id="@+id/lblTargetId"
-                android:layout_width="wrap_content"
+                android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/lblTarget"
@@ -84,7 +84,7 @@
                 android:id="@+id/txtTargetId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="90dp"
+                android:layout_marginStart="110dp"
                 android:ems="10"
                 android:hint="@string/txtHintImput"
                 android:importantForAutofill="no"
@@ -292,13 +292,13 @@
 
             <Button
                 android:id="@+id/btnScanSourceId"
-                android:layout_width="60dp"
+                android:layout_width="75dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="5dp"
-                android:text="@string/btnScan"
-                android:textSize="12sp"
                 android:onClick="onScanTarget"
+                android:text="@string/btnScan"
                 android:textColor="@color/colorTextTitle"
+                android:textSize="9sp"
                 app:backgroundTint="@color/colorAccent"
                 app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
                 app:layout_constraintStart_toEndOf="@+id/txtTargetId" />

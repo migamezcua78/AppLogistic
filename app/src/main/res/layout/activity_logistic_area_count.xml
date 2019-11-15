@@ -156,13 +156,14 @@
 
             <Button
                 android:id="@+id/btnScanProductId"
-                android:layout_width="61dp"
+                android:layout_width="75dp"
                 android:layout_height="40dp"
                 android:backgroundTint="@color/colorAccent"
                 android:onClick="onScan"
                 android:text="@string/btnScan"
                 android:textAllCaps="false"
                 android:textColor="@color/colorTextTitle"
+                android:textSize="9sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/txtSourceId"
                 app:layout_constraintStart_toEndOf="@+id/txtSourceId" />
 

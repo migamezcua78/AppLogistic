@@ -104,25 +104,25 @@
 
         <TextView
             android:id="@+id/lblTargetId"
-            android:layout_width="wrap_content"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="@string/lblTarget"
+            android:textSize="12sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent" />
 
 
         <EditText
             android:id="@+id/txtTargetId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
+            android:layout_marginStart="100dp"
             android:ems="10"
             android:hint="@string/txtHintImput"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/chkConfirmedId"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -152,14 +152,14 @@
             android:id="@+id/txtProductId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/shape_txt_fill"
             android:ems="10"
             android:hint="@string/txtHintImput"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtTargetId" />
 
@@ -201,7 +201,7 @@
             android:ems="2"
             android:inputType="textPersonName"
             android:text="1"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblOpenValueId" />
 
@@ -306,13 +306,14 @@
 
         <Button
             android:id="@+id/btnScanId"
-            android:layout_width="60dp"
+            android:layout_width="75dp"
             android:layout_height="40dp"
             android:layout_marginStart="4dp"
             android:onClick="onScan"
             android:text="@string/btnScan"
             android:textAllCaps="false"
             android:textColor="@color/colorTextTitle"
+            android:textSize="9sp"
             app:backgroundTint="@color/colorAccent"
             app:layout_constraintBaseline_toBaselineOf="@+id/txtSerialNumberId"
             app:layout_constraintStart_toEndOf="@+id/txtSerialNumberId" />

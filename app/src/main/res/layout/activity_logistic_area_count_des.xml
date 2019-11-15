@@ -71,7 +71,7 @@
 
         <Button
             android:id="@+id/btnConfirmItemId"
-            android:layout_width="60dp"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="onConfirmItem"
@@ -84,7 +84,7 @@
         <Button
             android:id="@+id/btnConfirmTaskId"
             android:layout_width="90dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="onConfirmTask"
             android:text="@string/btnConfirmTaskDesc"
@@ -112,27 +112,27 @@
 
         <Button
             android:id="@+id/btnScanQuantityId"
-            android:layout_width="60dp"
+            android:layout_width="75dp"
             android:layout_height="40dp"
             android:layout_marginStart="4dp"
             android:backgroundTint="@color/colorAccent"
             android:onClick="onScanQty"
             android:text="@string/btnScan"
             android:textColor="@color/colorTextTitle"
-            android:textSize="12sp"
+            android:textSize="9sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/btnF9"
             app:layout_constraintStart_toEndOf="@+id/btnF9" />
 
         <Button
             android:id="@+id/btnScanProductId"
-            android:layout_width="60dp"
+            android:layout_width="75dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:backgroundTint="@color/colorAccent"
             android:onClick="onScanProduct"
             android:text="@string/btnScan"
             android:textColor="@color/colorTextTitle"
-            android:textSize="12sp"
+            android:textSize="9sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/txtProductId"
             app:layout_constraintStart_toEndOf="@+id/txtProductId" />
 
@@ -150,7 +150,7 @@
             android:id="@+id/txtProductId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
+            android:layout_marginStart="120dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:textSize="14sp"
