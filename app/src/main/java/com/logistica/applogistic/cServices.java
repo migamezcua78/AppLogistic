@@ -178,6 +178,223 @@ public class cServices {
 
 
 
+    public ArrayList<cPurchaseItem> GetPurchaseItemServiceData(String  pFilterType, String pFilterValue, String pMaximumNumberValue){
+
+        // SOAP
+        String Soap_Action = "Read";
+        String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/yypf5fcnxy_purchaseorder?sap-vhost=my346674.sapbydesign.com";
+        HttpTransportSE transporte;
+        SoapSerializationEnvelope envelope;
+
+        // Data
+        String  ErrorMsg = "";
+        Vector vResponse = new  Vector();
+        ArrayList<cPurchaseItem> lsData = new  ArrayList<>();
+
+        try {
+
+            List<HeaderProperty> headerPropertieList = new ArrayList<HeaderProperty>();
+            headerPropertieList.add(new HeaderProperty("Authorization", AUTHORIZATION_SOAP_VALUE));
+
+            envelope = new SAPSerializationEnvelope(110,NAME_SPACE_SOAP);
+            envelope.dotNet = false;
+            envelope.setOutputSoapObject(getBodySoapObjectByFilterType_PurchaseItem(pFilterType,pFilterValue,pMaximumNumberValue));
+
+            transporte = new HttpTransportSE(url,CONNECT_TIMEOUT_SOAP);
+            transporte.debug = true;
+
+            transporte.setReadTimeout(READ_TIMEOUT_SOAP);
+
+            transporte.call(Soap_Action, envelope,headerPropertieList);
+            vResponse = (Vector)envelope.getResponse();
+            lsData = getPurchaseItemData(vResponse);
+
+        } catch (Exception e) {
+
+            ErrorMsg = e.getMessage();
+        }
+
+        return lsData;
+    }
+
+    private  SoapObject  getBodySoapObjectByFilterType_PurchaseItem(String FilterType, String FilterValue, String  MaximumNumberValue){
+
+        SoapObject  oSoapObjectResult = new SoapObject(NAME_SPACE_SOAP, "PurchaseOrderReadByIDQuery_sync");
+        SoapObject soN1 =  new SoapObject("", "PurchaseOrder");
+        soN1.addProperty(FilterType, FilterValue);
+
+
+/*        SoapObject soN2 = new SoapObject("", FilterType);
+        soN2.addProperty("InclusionExclusionCode", "I");
+        soN2.addProperty("IntervalBoundaryTypeCode", "1");
+        soN2.addProperty("LowerBoundaryID", FilterValue);*/
+       // soN1.addSoapObject(soN2);
+
+        oSoapObjectResult.addSoapObject(soN1);
+
+/*        if ( MaximumNumberValue != null  &  MaximumNumberValue.trim() != ""  )
+        {
+            soN1 = new SoapObject("", "ProcessingConditions");
+            soN1.addProperty("QueryHitsMaximumNumberValue", MaximumNumberValue);
+            soN1.addProperty("QueryHitsUnlimitedIndicator", "false");
+
+            oSoapObjectResult.addSoapObject(soN1);
+        }*/
+
+        return oSoapObjectResult;
+    }
+
+    private ArrayList<cPurchaseItem> getPurchaseItemData (Vector  pVector){
+
+        cPurchaseItem  oPurchaseItem = new cPurchaseItem();
+        ArrayList<cPurchaseItem>  lsData = new  ArrayList<>();
+        SoapObject   oSoap = new  SoapObject();
+        PropertyInfo oPropertyInfo =  new PropertyInfo();
+
+        for (int i = 0; i < pVector.size() ; i++) {
+
+            oSoap = (SoapObject) pVector.get(i);
+
+            for( int j= 0; j < oSoap.getPropertyCount(); j++ ){
+
+                oPurchaseItem =  new cPurchaseItem();
+
+                oPropertyInfo = oSoap.getPropertyInfo(j);
+                SetPurchaseItemProperty(oPurchaseItem,  oPropertyInfo);
+
+                if (!oPurchaseItem.ID.isEmpty()){
+                    lsData.add(oPurchaseItem);
+                }
+            }
+        }
+
+        return lsData;
+    }
+
+    private void SetPurchaseItemProperty(cPurchaseItem oObj, PropertyInfo oPropertyInfo) {
+        switch (oPropertyInfo.getName()){
+
+//            case  "ID": oObj.ID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
+//                break;
+
+            case  "Item":
+
+                oObj.ID = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("ID")).getValue().toString().trim();
+                oObj.Description = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("Description")).getValue().toString().trim();
+                oObj.Quantity = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("Quantity")).getValue().toString().trim();
+                oObj.QuantityUnitCode = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("Quantity")).getAttribute("unitCode").toString().trim();
+
+                break;
+
+            default:break;
+        }
+    }
+
+
+
+
+
+    public ArrayList<cPurchaseOrder> GetPurchaseOrderServiceData(String  pFilterType, String pFilterValue, String pMaximumNumberValue){
+
+        // SOAP
+        String Soap_Action = "QueryByElements";
+        String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/yypf5fcnxy_purchaseorder?sap-vhost=my346674.sapbydesign.com";
+        HttpTransportSE transporte;
+        SoapSerializationEnvelope envelope;
+
+        // Data
+        String  ErrorMsg = "";
+        Vector vResponse = new  Vector();
+        ArrayList<cPurchaseOrder> lsData = new  ArrayList<>();
+
+        try {
+
+            List<HeaderProperty> headerPropertieList = new ArrayList<HeaderProperty>();
+            headerPropertieList.add(new HeaderProperty("Authorization", AUTHORIZATION_SOAP_VALUE));
+
+            envelope = new SAPSerializationEnvelope(110,NAME_SPACE_SOAP);
+            envelope.dotNet = false;
+            envelope.setOutputSoapObject(getBodySoapObjectByFilterType_PurchaseOrder(pFilterType,pFilterValue,pMaximumNumberValue));
+
+            transporte = new HttpTransportSE(url,CONNECT_TIMEOUT_SOAP);
+            transporte.debug = true;
+
+            transporte.setReadTimeout(READ_TIMEOUT_SOAP);
+
+            transporte.call(Soap_Action, envelope,headerPropertieList);
+            vResponse = (Vector)envelope.getResponse();
+            lsData = getPurchaseOrderData(vResponse);
+
+        } catch (Exception e) {
+
+            ErrorMsg = e.getMessage();
+        }
+
+        return lsData;
+    }
+
+    private  SoapObject  getBodySoapObjectByFilterType_PurchaseOrder(String FilterType, String FilterValue, String  MaximumNumberValue){
+
+        SoapObject  oSoapObjectResult = new SoapObject(NAME_SPACE_SOAP, "PurchaseOrderQueryByElementsSimpleByRequest_sync");
+        SoapObject soN1 =  new SoapObject("", "PurchaseOrderSimpleSelectionBy");
+
+        SoapObject soN2 = new SoapObject("", FilterType);
+        soN2.addProperty("InclusionExclusionCode", "I");
+        soN2.addProperty("IntervalBoundaryTypeCode", "1");
+        soN2.addProperty("LowerBoundaryID", FilterValue);
+
+        soN1.addSoapObject(soN2);
+        oSoapObjectResult.addSoapObject(soN1);
+
+        if ( MaximumNumberValue != null  &  MaximumNumberValue.trim() != ""  )
+        {
+            soN1 = new SoapObject("", "ProcessingConditions");
+            soN1.addProperty("QueryHitsMaximumNumberValue", MaximumNumberValue);
+            soN1.addProperty("QueryHitsUnlimitedIndicator", "false");
+
+            oSoapObjectResult.addSoapObject(soN1);
+        }
+
+        return oSoapObjectResult;
+    }
+
+    private ArrayList<cPurchaseOrder> getPurchaseOrderData (Vector  pVector){
+
+        cPurchaseOrder  cPurchaseOrder = new cPurchaseOrder();
+        ArrayList<cPurchaseOrder>  lsData = new  ArrayList<>();
+        SoapObject   oSoap = new  SoapObject();
+        PropertyInfo oPropertyInfo =  new PropertyInfo();
+
+        for (int i = 0; i < pVector.size() ; i++) {
+            cPurchaseOrder =  new cPurchaseOrder();
+            oSoap = (SoapObject) pVector.get(i);
+
+            for( int j= 0; j < oSoap.getPropertyCount(); j++ ){
+                oPropertyInfo = oSoap.getPropertyInfo(j);
+                SetPurchaseOrderProperty(cPurchaseOrder,  oPropertyInfo);
+            }
+
+            lsData.add(cPurchaseOrder);
+        }
+
+        return lsData;
+    }
+
+    private void SetPurchaseOrderProperty(cPurchaseOrder oObj, PropertyInfo oPropertyInfo) {
+        switch (oPropertyInfo.getName()){
+
+            case  "ID": oObj.ID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
+                break;
+
+            default:break;
+        }
+    }
+
+
+
+
+
+
     public ArrayList<cLogisticsArea> GetLogisticAreaServiceData(String  pFilterType, String pFilterValue, String pMaximumNumberValue){
 
         // SOAP
@@ -675,6 +892,19 @@ public class cServices {
     public  static  class  LogisticAreaFilterType {
         public static final String SelectionByID = "SelectionByID";
     }
+
+    public  static  class  PurchaseOrderFilterType {
+        public static final String SelectionByID = "SelectionByID";
+        public static final String SelectionByItemStatusPurchaseOrderItemLifeCycleStatusCode = "SelectionByItemStatusPurchaseOrderItemLifeCycleStatusCode";
+    }
+
+    public  static  class  PurchaseItemFilterType {
+        public static final String ID = "ID";
+
+    }
+
+
+
 
     public  static  class  MaterialFilterType {
         public static final String SelectionByInternalID = "SelectionByInternalID";
