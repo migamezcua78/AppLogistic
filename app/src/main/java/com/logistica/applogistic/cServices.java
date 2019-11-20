@@ -178,6 +178,107 @@ public class cServices {
 
 
 
+
+
+    public ArrayList<cInboundDeliveryResponse> PutInboundDeliveryServiceData(cInboundDelivery  pInboundDelivery){
+
+        // SOAP
+        String Soap_Action = "Create";
+        String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/yypf5fcnxy_z_inbounddelivery?sap-vhost=my346674.sapbydesign.com";
+        HttpTransportSE transporte;
+        SoapSerializationEnvelope envelope;
+
+        // Data
+        String  ErrorMsg = "";
+        Vector vResponse = new  Vector();
+        ArrayList<cInboundDeliveryResponse> lsData = new  ArrayList<>();
+
+        try {
+
+            List<HeaderProperty> headerPropertieList = new ArrayList<HeaderProperty>();
+            headerPropertieList.add(new HeaderProperty("Authorization", AUTHORIZATION_SOAP_VALUE));
+
+            envelope = new SAPSerializationEnvelope(110,NAME_SPACE_SOAP);
+            envelope.dotNet = false;
+            envelope.setOutputSoapObject(getBodySoapObjectByFilterType_InboundDelivery(pInboundDelivery));
+
+            transporte = new HttpTransportSE(url,CONNECT_TIMEOUT_SOAP);
+            transporte.debug = true;
+
+            transporte.setReadTimeout(READ_TIMEOUT_SOAP);
+
+            transporte.call(Soap_Action, envelope,headerPropertieList);
+            vResponse = (Vector)envelope.getResponse();
+            lsData = getInboundDeliveryResponseData(vResponse);
+
+        } catch (Exception e) {
+
+            ErrorMsg = e.getMessage();
+        }
+
+        return lsData;
+    }
+
+    private  SoapObject  getBodySoapObjectByFilterType_InboundDelivery(cInboundDelivery pInboundDelivery){
+
+        SoapObject  oSoapObjectResult = new SoapObject(NAME_SPACE_SOAP, "Z_InboundDeliveryCreateRequest_sync");
+        SoapObject soN1 =  new SoapObject("", "Z_InboundDelivery");
+        soN1.addProperty("ID", pInboundDelivery.ID );
+
+        SoapObject soN2 = new SoapObject("", "item");
+        soN2.addProperty("ID", pInboundDelivery.oInboundDeliveryItem.ID);
+        soN2.addProperty("CantidadConfirmada", pInboundDelivery.oInboundDeliveryItem.CantidadConfirmada);
+        soN2.addProperty("IDAreaLogistica", pInboundDelivery.oInboundDeliveryItem.IDAreaLogistica);
+        soN2.addProperty("IDStockIdentificado", pInboundDelivery.oInboundDeliveryItem.IDStockIdentificado);
+
+
+        soN1.addSoapObject(soN2);
+
+        oSoapObjectResult.addSoapObject(soN1);
+
+        return oSoapObjectResult;
+    }
+
+    private ArrayList<cInboundDeliveryResponse> getInboundDeliveryResponseData (Vector  pVector){
+
+        cInboundDeliveryResponse  oInboundDeliveryResponse = new cInboundDeliveryResponse();
+        ArrayList<cInboundDeliveryResponse>  lsData = new  ArrayList<>();
+        SoapObject   oSoap = new  SoapObject();
+        PropertyInfo oPropertyInfo =  new PropertyInfo();
+
+        for (int i = 0; i < pVector.size() ; i++) {
+
+            oSoap = (SoapObject) pVector.get(i);
+
+            for( int j= 0; j < oSoap.getPropertyCount(); j++ ){
+
+                oInboundDeliveryResponse =  new cInboundDeliveryResponse();
+
+                oPropertyInfo = oSoap.getPropertyInfo(j);
+                SetInboundDeliveryResponseProperty(oInboundDeliveryResponse,  oPropertyInfo);
+
+                if (!oInboundDeliveryResponse.TypeID.isEmpty()){
+                    lsData.add(oInboundDeliveryResponse);
+                }
+            }
+        }
+
+        return lsData;
+    }
+
+    private void SetInboundDeliveryResponseProperty(cInboundDeliveryResponse oObj, PropertyInfo oPropertyInfo) {
+        switch (oPropertyInfo.getName()){
+
+            case  "Log":
+                oObj.TypeID = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("MaximumLogItemSeverityCode")).getValue().toString().trim();
+
+            default:break;
+        }
+    }
+
+
+
+
     public ArrayList<cPurchaseItem> GetPurchaseItemServiceData(String  pFilterType, String pFilterValue, String pMaximumNumberValue){
 
         // SOAP

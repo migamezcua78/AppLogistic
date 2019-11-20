@@ -89,11 +89,21 @@ public class PickSource extends AppCompatActivity {
 
         } else {
 
-            if (lsInbounItems.size() > 0 ){
+
+            oCurrentInboundViewInfo =  oGlobalData.CurrentInboundViewInfo;
+
+            // txtSourceId.setText("13-15-6A");
+           // txtSourceId.setText(oMsg.getKey01());
+           // oCurrentInboundViewInfo.SourceId = txtSourceId.getText().toString();
+
+            setViewInfo(oCurrentInboundViewInfo);
+
+
+/*            if (lsInbounItems.size() > 0 ){
                 iterater = 1;
                 oCurrentInboundViewInfo = lsInbounItems.get(iterater - 1);
                 setViewInfo(oCurrentInboundViewInfo);
-            }
+            }*/
         }
     }
 
@@ -108,8 +118,10 @@ public class PickSource extends AppCompatActivity {
 
         try {
 
+            txtSourceId.setText(pInboundViewInfo.SourceId);
             txtProductId.setText(pInboundViewInfo.ProductId);
             txtQtyId.setText(pInboundViewInfo.Qty);
+            txtStockId.setText(pInboundViewInfo.IdentStock);
             lblOpenValueId.setText(pInboundViewInfo.Open + " " +  pInboundViewInfo.OpenUnit);
 
 
@@ -128,6 +140,7 @@ public class PickSource extends AppCompatActivity {
             pInboundViewInfo.SourceId = txtSourceId.getText().toString();
             pInboundViewInfo.ProductId = txtProductId.getText().toString();
             pInboundViewInfo.Qty = txtQtyId.getText().toString();
+            pInboundViewInfo.IdentStock = txtStockId.getText().toString();
 
         } catch (Exception e){
 
@@ -152,10 +165,15 @@ public class PickSource extends AppCompatActivity {
 
     public void   onClickConfirm(View spinner) {
 
+        getViewInfo(oCurrentInboundViewInfo);
+
         if(oCurrentInboundViewInfo.SourceId.trim().isEmpty()){
-            Toast.makeText(getApplicationContext(),"SOURCE field is required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"El Área Logística es requerida ", Toast.LENGTH_SHORT).show();
 
         }else {
+
+            oCurrentInboundViewInfo.Confirmed = true;
+            oGlobalData.CurrentInboundViewInfo = oCurrentInboundViewInfo;
 
             Intent oIntent = new Intent(this, PutAwayTarget.class);
             cActivityMessage  cActivityMessage = new cActivityMessage();

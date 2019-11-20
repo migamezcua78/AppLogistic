@@ -29,10 +29,9 @@ public class PutAwayTarget extends AppCompatActivity {
     private EditText txtLuQtyId;
     private EditText txtBarCodeId;
     private CheckBox cheRestrictedId;
-
+    private CheckBox chkConfirmedId;
 
     private TextView lblCountItemsId;
-
 
 
    // cActivityMessage   oActivityMessage;
@@ -65,6 +64,13 @@ public class PutAwayTarget extends AppCompatActivity {
 
     private void init (){
 
+        countItems = 0;
+        TotalItems = 0;
+        consecutive = 0;
+        Quantity = 1;
+        iterater = 1;
+
+
         txtTargetId = findViewById(R.id.txtTargetId);
         txtProductId = findViewById(R.id.txtProductId);
         lblOpenValueId = findViewById(R.id.lblOpenValueId);
@@ -73,29 +79,51 @@ public class PutAwayTarget extends AppCompatActivity {
         txtLuQtyId = findViewById(R.id.txtLuQtyId);
         txtBarCodeId = findViewById(R.id.txtStockId);
         cheRestrictedId = findViewById(R.id.cheRestrictedId);
+        chkConfirmedId = findViewById(R.id.chkConfirmedId);
+
         lblCountItemsId = findViewById(R.id.lblCountItemsId);
 
         spinner = findViewById(R.id.spiUnitId);
-
-        countItems = 0;
-        TotalItems = 0;
-        consecutive = 0;
-        Quantity = 1;
-        iterater = 0;
 
         sSerialNumber = "SNID88046999927";
 
         oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
         oGlobalData=  (cGlobalData)getApplication();
         lsInbounItems = oGlobalData.LsIntboudItems;
+        oCurrentInboundViewInfo =  oGlobalData.CurrentInboundViewInfo;
     }
 
     public void  StartActivity (){
 
         if (oMsg.getMessage().equals("ItemConfirmed")){
 
-            AsyncTaskAllItemConfirmed asyncTask=new AsyncTaskAllItemConfirmed();
-            asyncTask.execute("params");
+            Boolean finish = true;
+            for ( cInboundViewInfo e:lsInbounItems){
+                if ( !e.Confirmed)  {
+                    finish = false;
+                    break;
+                }
+            }
+
+            if (finish){
+
+                AsyncTaskAllItemConfirmed asyncTask=new AsyncTaskAllItemConfirmed();
+                asyncTask.execute("params");
+
+            } else {
+
+                for(int i = 0; i <  lsInbounItems.size(); i++ ){
+
+                    cInboundViewInfo   e = lsInbounItems.get(i);
+                    if ( e.ProductId == oCurrentInboundViewInfo.ProductId){
+                        iterater =  i + 1;
+                        lblCountItemsId.setText(String.valueOf(iterater) + " of " + String.valueOf(lsInbounItems.size()) );
+                        setViewInfo(oCurrentInboundViewInfo);
+                    }
+                }
+            }
+
+
         }else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_SERIAL_NUMBER)){
 
             lsInbounItems = oGlobalData.LsIntboudItems;
@@ -112,14 +140,25 @@ public class PutAwayTarget extends AppCompatActivity {
             txtSerialNumberId.setText(oMsg.getKey01());
             oCurrentInboundViewInfo.SerialNumber = txtSerialNumberId.getText().toString();
 
-            setViewInfo(oCurrentInboundViewInfo);
 
+            for(int i = 0; i <  lsInbounItems.size(); i++ ){
+
+                cInboundViewInfo   e = lsInbounItems.get(i);
+                if ( e.ProductId == oCurrentInboundViewInfo.ProductId){
+                    iterater =  i + 1;
+                    lblCountItemsId.setText(String.valueOf(iterater) + " of " + String.valueOf(lsInbounItems.size()) );
+                    setViewInfo(oCurrentInboundViewInfo);
+                }
+            }
+
+
+           // setViewInfo(oCurrentInboundViewInfo);
         }
-
 
         else{
 
             if (lsInbounItems.size() > 0 ){
+
                 iterater = 1;
                 lblCountItemsId.setText(String.valueOf(iterater) + " of " + String.valueOf(lsInbounItems.size()) );
                 oCurrentInboundViewInfo = lsInbounItems.get(iterater - 1);
@@ -139,6 +178,7 @@ public class PutAwayTarget extends AppCompatActivity {
             txtProductId.setText(pInboundViewInfo.ProductId);
             txtQtyId.setText(pInboundViewInfo.Qty);
             cheRestrictedId.setChecked(pInboundViewInfo.Restricted);
+            chkConfirmedId.setChecked(pInboundViewInfo.Confirmed);
             txtLuQtyId.setText(pInboundViewInfo.LuQty);
             txtBarCodeId.setText(pInboundViewInfo.BarCode);
             lblOpenValueId.setText(pInboundViewInfo.Open + " " +  pInboundViewInfo.OpenUnit);
@@ -160,6 +200,7 @@ public class PutAwayTarget extends AppCompatActivity {
             pInboundViewInfo.ProductId = txtProductId.getText().toString();
             pInboundViewInfo.Qty = txtQtyId.getText().toString();
             pInboundViewInfo.Restricted = cheRestrictedId.isChecked();
+            pInboundViewInfo.Confirmed = chkConfirmedId.isChecked();
             pInboundViewInfo.LuQty = txtLuQtyId.getText().toString();
             pInboundViewInfo.BarCode = txtBarCodeId.getText().toString();
             pInboundViewInfo.SerialNumber = txtSerialNumberId.getText().toString();
@@ -198,17 +239,69 @@ public class PutAwayTarget extends AppCompatActivity {
 
     public void   onClickConfirm(View spinner) {
 
-        Intent oIntent = new Intent(this, PickSource.class);
-        oIntent.putExtra("oMsg",  new cActivityMessage(""));
-        startActivity(oIntent);
+        if (  txtTargetId.getText().toString().isEmpty() ){
+            Toast.makeText(getApplicationContext(),"El Área Logística es requerida", Toast.LENGTH_SHORT).show();
+        }  else {
+
+            getViewInfo(oCurrentInboundViewInfo);
+            oGlobalData.CurrentInboundViewInfo = oCurrentInboundViewInfo;
+
+
+            Intent oIntent = new Intent(this, PickSource.class);
+            oIntent.putExtra("oMsg",  new cActivityMessage(""));
+            startActivity(oIntent);
+        }
     }
 
     public void   onClickNext(View spinner) {
-        Toast.makeText(getApplicationContext(),"Next", Toast.LENGTH_SHORT).show();
+
+        if ( iterater < lsInbounItems.size()){
+            iterater = iterater+1;
+            lblCountItemsId.setText(  iterater + " of " + lsInbounItems.size());
+
+            // almacena  lo que hay en la vista
+            getViewInfo(oCurrentInboundViewInfo);
+
+            // se obtiene el sigiente
+            oCurrentInboundViewInfo = lsInbounItems.get(iterater - 1);
+            setViewInfo(oCurrentInboundViewInfo);
+        }
+
+        if ( lsInbounItems.size() > 0 && iterater == lsInbounItems.size()  ){
+
+            // almacena  lo que hay en la vista
+            getViewInfo(oCurrentInboundViewInfo);
+
+            oCurrentInboundViewInfo = lsInbounItems.get(iterater-1);
+            setViewInfo(oCurrentInboundViewInfo);
+        }
+
+
+        //Toast.makeText(getApplicationContext(),"Next", Toast.LENGTH_SHORT).show();
     }
 
     public void   onClickPrevious(View spinner) {
-        Toast.makeText(getApplicationContext(),"Previous", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(getApplicationContext(),"Previous", Toast.LENGTH_SHORT).show();
+
+        if ( iterater >  1){
+            iterater = iterater-1;
+            lblCountItemsId.setText(  iterater + " of " + lsInbounItems.size());
+
+            // almacena  lo que hay en la vista
+            getViewInfo(oCurrentInboundViewInfo);
+
+            oCurrentInboundViewInfo = lsInbounItems.get(iterater - 1);
+            setViewInfo(oCurrentInboundViewInfo);
+        }
+
+        if (  lsInbounItems.size() == 1 ){
+
+            // almacena  lo que hay en la vista
+            getViewInfo(oCurrentInboundViewInfo);
+
+            oCurrentInboundViewInfo = lsInbounItems.get(0);
+            setViewInfo(oCurrentInboundViewInfo);
+        }
     }
 
     private List<cSpinnerItem> getInfoFilter(){

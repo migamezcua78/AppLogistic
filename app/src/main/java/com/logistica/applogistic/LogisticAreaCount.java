@@ -80,7 +80,10 @@ public class LogisticAreaCount extends AppCompatActivity {
 
             Toast.makeText(getApplicationContext(),"AREA field is required", Toast.LENGTH_SHORT).show();
 
+
         } else{
+
+            ((cGlobalData)getApplication()).CurrentArea = oViewInfo.AreaId.trim();
 
             Intent oIntent = new Intent(this, LogisticAreaCountDes.class);
             //oIntent.putExtra("oDataParam",oViewInfo);

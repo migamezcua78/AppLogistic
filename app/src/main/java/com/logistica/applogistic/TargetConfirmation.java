@@ -41,6 +41,9 @@ public class TargetConfirmation extends AppCompatActivity {
 
     private void Init (){
         tableLayout = findViewById(R.id.tgProductos);
+
+
+
     }
 
     public void   onClickConfirm(View spinner) {
@@ -83,7 +86,25 @@ public class TargetConfirmation extends AppCompatActivity {
         protected String doInBackground(String... strings) {
 
             try {
-                Thread.sleep(1000);
+               // Thread.sleep(1000);
+
+                cServices  oServices = new cServices();
+                cGlobalData  oGlobalData=  (cGlobalData)getApplication();
+
+                if  (oGlobalData.LsIntboudItems != null ){
+                    for ( cInboundViewInfo e:oGlobalData.LsIntboudItems){
+
+                        cInboundDelivery  oInboundDelivery = new cInboundDelivery();
+
+                        oInboundDelivery.ID = e.TaskId;
+                        oInboundDelivery.oInboundDeliveryItem.ID = e.ProductId;
+                        oInboundDelivery.oInboundDeliveryItem.CantidadConfirmada = e.Qty;
+                        oInboundDelivery.oInboundDeliveryItem.IDAreaLogistica = e.TargetId;
+                        oInboundDelivery.oInboundDeliveryItem.IDStockIdentificado = e.IdentStock;
+
+                        oServices.PutInboundDeliveryServiceData(oInboundDelivery);
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

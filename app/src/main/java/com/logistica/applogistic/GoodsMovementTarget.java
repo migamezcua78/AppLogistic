@@ -264,7 +264,19 @@ public class GoodsMovementTarget extends AppCompatActivity {
         protected String doInBackground(String... strings) {
 
             try {
-                Thread.sleep(1000);
+                //Thread.sleep(1000);
+
+                cServices  oServices = new cServices();
+                cInboundDelivery  oInboundDelivery = new cInboundDelivery();
+
+                oInboundDelivery.ID = oCurrentItemViewInfo.TaskId;
+                oInboundDelivery.oInboundDeliveryItem.ID = oCurrentItemViewInfo.ProductId;
+                oInboundDelivery.oInboundDeliveryItem.CantidadConfirmada = oCurrentItemViewInfo.Qty;
+                oInboundDelivery.oInboundDeliveryItem.IDAreaLogistica = oCurrentItemViewInfo.TargetId;
+                oInboundDelivery.oInboundDeliveryItem.IDStockIdentificado = oCurrentItemViewInfo.IdentStock;
+
+                oServices.PutInboundDeliveryServiceData(oInboundDelivery);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -282,7 +294,7 @@ public class GoodsMovementTarget extends AppCompatActivity {
             super.onPostExecute(lsData);
             vProgressDialog.hide();
 
-            Toast.makeText(getApplicationContext(), "Process successful", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Item Confirmed", Toast.LENGTH_SHORT).show();
 
             SaveFilterValues();
             Intent oIntent = new Intent(GoodsMovementTarget.this, Goods_Movement_Source.class);

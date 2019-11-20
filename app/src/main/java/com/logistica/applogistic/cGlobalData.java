@@ -18,6 +18,10 @@ public class cGlobalData extends Application {
 
     public String lblCountItemsId;
 
+    public String CurrentArea;
+
+    public String CurrentTaskId;
+
 
     public cAreaInfoView  CurrenAreaInfoView;
 

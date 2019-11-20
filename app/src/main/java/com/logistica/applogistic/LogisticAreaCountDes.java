@@ -532,7 +532,41 @@ public class LogisticAreaCountDes extends AppCompatActivity {
         protected String doInBackground(String... strings) {
 
             try {
-                Thread.sleep(1000);
+                //Thread.sleep(1000);
+
+                if ( ((cGlobalData)getApplication()).CurrentArea != null){
+
+                    cServices  oServices = new cServices();
+
+                    for ( cAreaInfoView e:lsAreaInfoView){
+
+                        cInboundDelivery  oInboundDelivery = new cInboundDelivery();
+
+                        oInboundDelivery.ID = ((cGlobalData)getApplication()).CurrentArea ;
+                        oInboundDelivery.oInboundDeliveryItem.ID = e.ProductId;
+                        oInboundDelivery.oInboundDeliveryItem.CantidadConfirmada = e.Qty;
+                        oInboundDelivery.oInboundDeliveryItem.IDAreaLogistica = ((cGlobalData)getApplication()).CurrentArea ;
+                        oInboundDelivery.oInboundDeliveryItem.IDStockIdentificado = e.IdentStock;
+
+                        oServices.PutInboundDeliveryServiceData(oInboundDelivery);
+                    }
+
+
+                    for ( cAreaInfoView e:lsAreaInfoService){
+
+                        cInboundDelivery  oInboundDelivery = new cInboundDelivery();
+
+                        oInboundDelivery.ID = ((cGlobalData)getApplication()).CurrentArea;
+                        oInboundDelivery.oInboundDeliveryItem.ID = e.ProductId;
+                        oInboundDelivery.oInboundDeliveryItem.CantidadConfirmada = e.Qty;
+                        oInboundDelivery.oInboundDeliveryItem.IDAreaLogistica =((cGlobalData)getApplication()).CurrentArea;
+                        oInboundDelivery.oInboundDeliveryItem.IDStockIdentificado = e.IdentStock;
+
+                        oServices.PutInboundDeliveryServiceData(oInboundDelivery);
+                    }
+
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
