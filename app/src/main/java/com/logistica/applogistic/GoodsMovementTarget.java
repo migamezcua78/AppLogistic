@@ -187,8 +187,13 @@ public class GoodsMovementTarget extends AppCompatActivity {
         else{
 
             getViewInfo();
-            AsyncTaskSendingInformation AsyncTaskSendingInformation = new GoodsMovementTarget.AsyncTaskSendingInformation();
-            AsyncTaskSendingInformation.execute("params");
+
+            if ( ((cGlobalData)getApplication()).ReferenceId  != null && !((cGlobalData)getApplication()).ReferenceId.isEmpty()){
+                AsyncTaskSendingInformation AsyncTaskSendingInformation = new GoodsMovementTarget.AsyncTaskSendingInformation();
+                AsyncTaskSendingInformation.execute("params");
+            } else {
+                Toast.makeText(getApplicationContext(), "El ID de Referencia es requerido", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -248,7 +253,7 @@ public class GoodsMovementTarget extends AppCompatActivity {
 
     }
 
-    private class AsyncTaskSendingInformation extends AsyncTask<String, String,  String> {
+    private class AsyncTaskSendingInformation extends AsyncTask<String, String,  cMovementResponse> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -261,12 +266,48 @@ public class GoodsMovementTarget extends AppCompatActivity {
 
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected cMovementResponse doInBackground(String... strings) {
+
+            cMovementResponse oResponse = new  cMovementResponse();
 
             try {
+
+
+/*                oRequest.ExternalID = "MOV01";
+                oRequest.SiteID = "E01";
+                oRequest.ExternalItemID = "10";
+                oRequest.MaterialInternalID = "777";
+                oRequest.OwnerPartyInternalID = "E01";
+                oRequest.InventoryRestrictedUseIndicator = "false";
+                oRequest.SourceLogisticsAreaID = "E01-1";
+                oRequest.TargetLogisticsAreaID = "E01-8";
+                oRequest.Quantity = "100";
+                oRequest.QuantityUnitCode = "ZPZ";
+                //oRequest.QuantityUnitCode = "";*/
+
+                    cServices  oServices = new cServices();
+                    cMovementRequest  oRequest = new cMovementRequest();
+
+                    oRequest.ExternalID =  oCurrentItemViewInfo.ReferenceId;
+                    oRequest.SiteID =   oCurrentItemViewInfo.Lu;   // sede
+                    oRequest.ExternalItemID =  oCurrentItemViewInfo.FieldName;  // ID externo de posición
+                    oRequest.MaterialInternalID =  oCurrentItemViewInfo.ProductId;
+                    oRequest.OwnerPartyInternalID = oCurrentItemViewInfo.LuQty;  //  Empresa
+                    oRequest.InventoryRestrictedUseIndicator = String.valueOf(oCurrentItemViewInfo.Restricted);
+                    oRequest.SourceLogisticsAreaID = oCurrentItemViewInfo.SourceId;
+                    oRequest.TargetLogisticsAreaID = oCurrentItemViewInfo.TargetId;
+                    oRequest.Quantity = oCurrentItemViewInfo.Qty;
+                    oRequest.QuantityUnitCode = oCurrentItemViewInfo.QtyUnitCode;
+
+                    //oRequest.QuantityUnitCode = "";
+
+                    oResponse = oServices.PutMovementServiceData(oRequest);
+
+
+
                 //Thread.sleep(1000);
 
-                cServices  oServices = new cServices();
+/*                cServices  oServices = new cServices();
                 cInboundDelivery  oInboundDelivery = new cInboundDelivery();
 
                 oInboundDelivery.ID = oCurrentItemViewInfo.TaskId;
@@ -275,12 +316,13 @@ public class GoodsMovementTarget extends AppCompatActivity {
                 oInboundDelivery.oInboundDeliveryItem.IDAreaLogistica = oCurrentItemViewInfo.TargetId;
                 oInboundDelivery.oInboundDeliveryItem.IDStockIdentificado = oCurrentItemViewInfo.IdentStock;
 
-                oServices.PutInboundDeliveryServiceData(oInboundDelivery);
+                oServices.PutInboundDeliveryServiceData(oInboundDelivery);*/
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return "";
+
+            return oResponse;
         }
 
         @Override
@@ -290,16 +332,21 @@ public class GoodsMovementTarget extends AppCompatActivity {
 
 
         @Override
-        protected void onPostExecute(String lsData) {
+        protected void onPostExecute(cMovementResponse lsData) {
             super.onPostExecute(lsData);
             vProgressDialog.hide();
 
-            Toast.makeText(getApplicationContext(), "Item Confirmed", Toast.LENGTH_SHORT).show();
+            if(lsData.GACID == "1"){
+                Toast.makeText(getApplicationContext(), "Movimiento Realizado Correctamente", Toast.LENGTH_LONG).show();
 
-            SaveFilterValues();
-            Intent oIntent = new Intent(GoodsMovementTarget.this, Goods_Movement_Source.class);
-            oIntent.putExtra("oMsg",new cActivityMessage("OtherItem"));
-            startActivity(oIntent);
+                SaveFilterValues();
+                Intent oIntent = new Intent(GoodsMovementTarget.this, Goods_Movement_Source.class);
+                oIntent.putExtra("oMsg",new cActivityMessage("OtherItem"));
+                startActivity(oIntent);
+
+            } else {
+                Toast.makeText(getApplicationContext(), lsData.MSG, Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

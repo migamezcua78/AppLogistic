@@ -149,6 +149,7 @@ public class Goods_Movement_Source extends AppCompatActivity {
         oCurrentItemViewInfo.FieldName =txtFieldNameId.getText().toString();
         oCurrentItemViewInfo.BarCode =txtBarCodeId.getText().toString();
         oCurrentItemViewInfo.msg = "";
+        oCurrentItemViewInfo.QtyUnitCode = ((cSpinnerItem)spinner.getSelectedItem()).getDescription();
     }
 
     private void setViewInfo(){
@@ -193,7 +194,7 @@ public class Goods_Movement_Source extends AppCompatActivity {
 
     private List<cSpinnerItem> getInfoFilter(){
         InfoFilter = new ArrayList<>();
-        InfoFilter.add(new cSpinnerItem(1,"ea"));
+        InfoFilter.add(new cSpinnerItem(1,"ZPZ"));
         return  InfoFilter;
     }
 
@@ -226,20 +227,28 @@ public class Goods_Movement_Source extends AppCompatActivity {
 
         if ( txtSourceId.getText().toString().trim().isEmpty()){
 
-            Toast.makeText(getApplicationContext(),"SOURCE field is required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Área Logística Origen es requerida", Toast.LENGTH_SHORT).show();
 
         }else if ( txtProductId.getText().toString().trim().isEmpty())
         {
-            Toast.makeText(getApplicationContext(),"PRODUCT field is required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"PRODUCTO  es requerido", Toast.LENGTH_SHORT).show();
         }
         else if (txtQtyId.getText().toString().trim().isEmpty() )
         {
-            Toast.makeText(getApplicationContext(),"QTY field is required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"QTY es requerido", Toast.LENGTH_SHORT).show();
 
         }
         else if (txtFieldNameId.getText().toString().trim().isEmpty() )
         {
-            Toast.makeText(getApplicationContext(),"FIELD NUMBER field is required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"ID Externo de Posicion es requerido", Toast.LENGTH_SHORT).show();
+
+        } else if (txtLuId.getText().toString().trim().isEmpty() )
+        {
+            Toast.makeText(getApplicationContext(),"ID de Sede es requerida", Toast.LENGTH_SHORT).show();
+
+        } else if (txtLuQtyId.getText().toString().trim().isEmpty() )
+        {
+            Toast.makeText(getApplicationContext(),"ID de Empresa es requerida", Toast.LENGTH_SHORT).show();
 
         }
         else{

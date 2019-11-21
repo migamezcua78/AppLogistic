@@ -158,7 +158,10 @@ public class PickSourceEmb extends AppCompatActivity {
 
             lblCountItemsId.setText(((cGlobalData)getApplication()).lblCountItemsId);
 
-            txtQtyId.setText("2");   // esta dato debe venir del Sscaneo del producto
+           // txtQtyId.setText("2");   // esta dato debe venir del Sscaneo del producto
+            txtQtyId.setText(oMsg.getKey01());
+
+
            // txtIdentStockId.setText("30541");
             oCurrentItemViewInfo.Qty = txtQtyId.getText().toString();
 

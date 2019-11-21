@@ -12,6 +12,7 @@ public class cMovementViewInfo implements Serializable {
     public  String  TargetId;
     public  String  ProductId;
     public  String  Qty;
+    public  String  QtyUnitCode;
     public  String  IdentStock;
     public  Boolean Restricted;
     public  String  Lu;
@@ -27,6 +28,7 @@ public class cMovementViewInfo implements Serializable {
         this.TargetId = "";
         this.ProductId = "";
         this.Qty = "";
+        this.QtyUnitCode = "";
         this.IdentStock = "";
         this.Restricted = false;
         this.Lu = "";
@@ -46,6 +48,7 @@ public class cMovementViewInfo implements Serializable {
         this.TargetId = "";
         this.ProductId = "";
         this.Qty = "";
+        this.QtyUnitCode = "";
         this.IdentStock = "";
         this.Restricted = false;
         this.Lu = "";

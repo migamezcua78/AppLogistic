@@ -181,4 +181,8 @@
     <string name="LabelId">No. Etiqueta</string>
     <string name="ReferenceId">No. Referencia</string>
 
+    <string name="SiteID">ID de Sede</string>
+    <string name="EmpresaId">ID de Empresa</string>
+    <string name="ExternalItemID">ID Externo Posición</string>
+
 </resources>

@@ -22,6 +22,8 @@ public class cGlobalData extends Application {
 
     public String CurrentTaskId;
 
+    public String ReferenceId;
+
 
     public cAreaInfoView  CurrenAreaInfoView;
 

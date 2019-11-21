@@ -123,7 +123,39 @@ public class ConfirmTask extends AppCompatActivity {
         protected String doInBackground(String... strings) {
 
             try {
-                Thread.sleep(1000);
+
+              //  Thread.sleep(1000);
+
+
+                if (lsOutbounItems != null & lsOutbounItems.size() > 0  )
+                {
+                   // InfoData = new ArrayList <> ();
+                    cServices  oServices = new cServices();
+
+                    for ( cOutboundViewInfo e:lsOutbounItems){
+                        int  dif = 0;
+                        if (Integer.parseInt(e.Open) < Integer.parseInt(e.Qty)){
+                            dif = 0;
+                        } else {
+
+                            dif = Integer.parseInt(e.Open) - Integer.parseInt(e.Qty);
+                        }
+
+                        cInboundDelivery  oInboundDelivery = new cInboundDelivery();
+
+                        oInboundDelivery.ID = e.TaskId;
+                        oInboundDelivery.oInboundDeliveryItem.ID = e.ProductId;
+                        oInboundDelivery.oInboundDeliveryItem.CantidadConfirmada =  String.valueOf(dif);
+                        oInboundDelivery.oInboundDeliveryItem.IDAreaLogistica = e.SourceId;
+                        oInboundDelivery.oInboundDeliveryItem.IDStockIdentificado = e.IdentStock;
+
+                        oServices.PutInboundDeliveryServiceData(oInboundDelivery);
+
+                       // InfoData.add(new String[]{ e.ProductId, dif + " " + e.OpenUnit, e.SourceId });
+                    }
+                }
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

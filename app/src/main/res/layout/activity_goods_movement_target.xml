@@ -196,7 +196,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="20dp"
-                android:text="@string/lblLU"
+                android:text="@string/SiteID"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblRestrictedId" />
 
@@ -218,7 +218,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="25dp"
-                android:text="@string/lblLUQty"
+                android:text="@string/EmpresaId"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblLu" />
 
@@ -226,7 +226,7 @@
                 android:id="@+id/txtLuQtyId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="90dp"
+                android:layout_marginStart="120dp"
                 android:ems="10"
                 android:inputType="none"
                 android:textIsSelectable="true"
@@ -240,7 +240,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="25dp"
-                android:text="@string/lblFieldName"
+                android:text="@string/ExternalItemID"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblLuQty" />
 
@@ -248,7 +248,7 @@
                 android:id="@+id/txtFieldName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="90dp"
+                android:layout_marginStart="150dp"
                 android:ems="10"
                 android:inputType="none"
                 android:textIsSelectable="true"
@@ -302,6 +302,16 @@
                 app:backgroundTint="@color/colorAccent"
                 app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
                 app:layout_constraintStart_toEndOf="@+id/txtTargetId" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="*"
+                android:textColor="@color/viewfinder_laser"
+                android:textSize="18sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblTargetId"
+                app:layout_constraintStart_toEndOf="@+id/lblTargetId" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -376,6 +376,8 @@ public class Inbound extends AppCompatActivity {
 
 
     private class AsyncTaskConfirm extends AsyncTask<String, String,  ArrayList<cPurchaseItem>> {
+
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -468,6 +470,7 @@ public class Inbound extends AppCompatActivity {
 
             vProgressDialog.hide();
         }
+
     }
 
 

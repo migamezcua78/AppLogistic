@@ -37,6 +37,7 @@ public class OutBound extends AppCompatActivity {
 
     ProgressDialog vProgressDialog;
     cActivityMessage oMsg;
+    Boolean Scanned;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class OutBound extends AppCompatActivity {
         lbOrderValueId = findViewById(R.id.lbOrderValueId);
         lbTaskValueId = findViewById(R.id.lblTaskValueId);
 
+        Scanned = false;
 
         spinner = findViewById(R.id.spFilterId);
         tableLayout =(TableLayout)findViewById(R.id.tgProductos);
@@ -70,13 +72,19 @@ public class OutBound extends AppCompatActivity {
         if( oMsg != null){
             if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_TASK)){
 
-                // txtImputFilterId.setText("");
+               //  txtImputFilterId.setText("15");
+
+
                 txtImputFilterId.setText(oMsg.getKey01());
+
+                Scanned = true;
                 AsyncTaskScan asyncTask=new AsyncTaskScan();
                 asyncTask.execute("params");
 
             }  else if (!oMsg.getMessage().equals(cMessage.Message.START)){
 
+                AsyncTaskStart asyncTask=new AsyncTaskStart();
+                asyncTask.execute("params");
             }
         }
 
@@ -140,7 +148,7 @@ public class OutBound extends AppCompatActivity {
 
         } else{
 
-            if( lsOutbounItems != null && lsOutbounItems.size() > 0 ){
+            if( lsOutbounItems != null && lsOutbounItems.size() > 0 &&  Scanned == true ){
 
                 for ( cOutboundViewInfo e:lsOutbounItems){
                     getParamInfo(e);
@@ -151,7 +159,11 @@ public class OutBound extends AppCompatActivity {
                 startActivity(oIntent);
 
             }else {
-                Toast.makeText(getApplicationContext(),"There are NO items in task selected", Toast.LENGTH_SHORT).show();
+
+              //  Toast.makeText(getApplicationContext(),"There are NO items in task selected", Toast.LENGTH_SHORT).show();
+
+                AsyncTaskStart asyncTaskConfirm=new AsyncTaskStart();
+                asyncTaskConfirm.execute("params");
             }
         }
     }
@@ -188,8 +200,9 @@ public class OutBound extends AppCompatActivity {
     }
 
 
+/*
 
-    private class AsyncTaskScan extends AsyncTask<String, String,  String> {
+    private class AsyncTaskScan extends AsyncTask<String, String,  ArrayList<cPurchaseItem>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -204,12 +217,19 @@ public class OutBound extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
 
+            ArrayList<cPurchaseItem> lsData = new ArrayList<>();
+
             try {
-                Thread.sleep(1000);
+
+                cServices ocServices = new cServices();
+                lsData = ocServices.GetPurchaseItemServiceData(cServices.PurchaseItemFilterType.ID, txtImputFilterId.getText().toString(), "");
+
+                //  lsData = ocServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID, "*", "1");
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return "";
+            return lsData;
         }
 
         @Override
@@ -275,6 +295,207 @@ public class OutBound extends AppCompatActivity {
             oDataGrid.RemoveAllItems();
 
             fillDataGrid();
+
+            vProgressDialog.hide();
+        }
+    }
+*/
+
+
+
+
+
+
+    private class AsyncTaskScan extends AsyncTask<String, String,  ArrayList<cPurchaseItem>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(OutBound.this);
+            vProgressDialog.setMessage("Please wait...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected ArrayList<cPurchaseItem> doInBackground(String... strings) {
+            ArrayList<cPurchaseItem> lsData = new ArrayList<>();
+
+            try {
+
+                cServices ocServices = new cServices();
+                lsData = ocServices.GetPurchaseItemServiceData(cServices.PurchaseItemFilterType.ID, txtImputFilterId.getText().toString(), "");
+
+                //  lsData = ocServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID, "*", "1");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return lsData;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(ArrayList<cPurchaseItem> lsData) {
+
+            super.onPostExecute(lsData);
+
+           // lblTaskValueId.setText( txtImputFilterId.getText().toString().trim() + "  "  +  "Pick");
+            //lbOrderValueId.setText("365");
+
+            lsOutbounItems = new  ArrayList<>();
+
+            InfoData = new ArrayList <> ();
+            cOutboundViewInfo  oItemView = new cOutboundViewInfo();
+
+            for (int i = 0; i < lsData.size(); i++) {
+                cPurchaseItem oData = lsData.get(i);
+
+                if( !oData.ID.trim().isEmpty()){
+
+                    oItemView = new cOutboundViewInfo();
+                    oItemView.ProductId = oData.ID;
+                    oItemView.Open = oData.Quantity;
+                    oItemView.OpenUnit = oData.QuantityUnitCode;
+
+
+                /*    oInboundViewInfo.ProductId = oData.getProductCategoryID() +  "_" + String.valueOf(i);
+                    oInboundViewInfo.Open = String.valueOf(i+2);   // oMaterial.getQuantity();
+                    oInboundViewInfo.OpenUnit =  oData.getQuantityUnitCode();
+                    oInboundViewInfo.TargetId = "MC64920-50-10-10-04_" + String.valueOf(i);
+                    oInboundViewInfo.IdentStock = "43668";*/
+
+                    lsOutbounItems.add(oItemView);
+                    InfoData.add(new String[]{ oItemView.ProductId, oItemView.Open + "  " + oItemView.OpenUnit });
+                }
+            }
+
+
+            cGlobalData  oGlobalData=  (cGlobalData)getApplication();
+            oGlobalData.LsOutboudItems = lsOutbounItems;
+
+            oDataGrid.RemoveAllItems();
+            fillDataGrid();
+
+
+/*            if( lsOutbounItems != null && lsOutbounItems.size() > 0 ){
+
+                for ( cOutboundViewInfo e:lsOutbounItems){
+                    getParamInfo(e);
+                }
+
+                Intent oIntent = new Intent(OutBound.this, PutAwayTarget.class);
+                oIntent.putExtra("oMsg", getActivityMsg());
+                startActivity(oIntent);
+
+            }else {
+                Toast.makeText(getApplicationContext(),"No hay elementos para la Tarea seleccionada", Toast.LENGTH_SHORT).show();
+            }*/
+
+            vProgressDialog.hide();
+        }
+    }
+
+
+    private class AsyncTaskStart extends AsyncTask<String, String,  ArrayList<cPurchaseItem>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(OutBound.this);
+            vProgressDialog.setMessage("Please wait...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected ArrayList<cPurchaseItem> doInBackground(String... strings) {
+            ArrayList<cPurchaseItem> lsData = new ArrayList<>();
+
+            try {
+
+                cServices ocServices = new cServices();
+                lsData = ocServices.GetPurchaseItemServiceData(cServices.PurchaseItemFilterType.ID, txtImputFilterId.getText().toString(), "");
+
+                //  lsData = ocServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID, "*", "1");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return lsData;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(ArrayList<cPurchaseItem> lsData) {
+
+            super.onPostExecute(lsData);
+
+            // lblTaskValueId.setText( txtImputFilterId.getText().toString().trim() + "  "  +  "Pick");
+            //lbOrderValueId.setText("365");
+
+            lsOutbounItems = new  ArrayList<>();
+
+            InfoData = new ArrayList <> ();
+            cOutboundViewInfo  oItemView = new cOutboundViewInfo();
+
+            for (int i = 0; i < lsData.size(); i++) {
+                cPurchaseItem oData = lsData.get(i);
+
+                if( !oData.ID.trim().isEmpty()){
+
+                    oItemView = new cOutboundViewInfo();
+                    oItemView.ProductId = oData.ID;
+                    oItemView.Open = oData.Quantity;
+                    oItemView.OpenUnit = oData.QuantityUnitCode;
+
+
+                /*    oInboundViewInfo.ProductId = oData.getProductCategoryID() +  "_" + String.valueOf(i);
+                    oInboundViewInfo.Open = String.valueOf(i+2);   // oMaterial.getQuantity();
+                    oInboundViewInfo.OpenUnit =  oData.getQuantityUnitCode();
+                    oInboundViewInfo.TargetId = "MC64920-50-10-10-04_" + String.valueOf(i);
+                    oInboundViewInfo.IdentStock = "43668";*/
+
+                    lsOutbounItems.add(oItemView);
+                    InfoData.add(new String[]{ oItemView.ProductId, oItemView.Open + "  " + oItemView.OpenUnit });
+                }
+            }
+
+
+            cGlobalData  oGlobalData=  (cGlobalData)getApplication();
+            oGlobalData.LsOutboudItems = lsOutbounItems;
+
+            oDataGrid.RemoveAllItems();
+            fillDataGrid();
+
+
+            if( lsOutbounItems != null && lsOutbounItems.size() > 0 ){
+
+                for ( cOutboundViewInfo e:lsOutbounItems){
+                    getParamInfo(e);
+                }
+
+                Intent oIntent = new Intent(OutBound.this, PickSourceEmb.class);
+                oIntent.putExtra("oMsg", getActivityMsg() );
+                startActivity(oIntent);
+
+            }else {
+                Toast.makeText(getApplicationContext(),"No hay elementos para la Tarea seleccionada", Toast.LENGTH_SHORT).show();
+            }
 
             vProgressDialog.hide();
         }

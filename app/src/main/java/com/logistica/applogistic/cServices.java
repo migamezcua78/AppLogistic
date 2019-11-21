@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.ksoap2.HeaderProperty;
 import org.ksoap2.SoapFault;
+import org.ksoap2.serialization.AttributeInfo;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
@@ -178,8 +179,130 @@ public class cServices {
 
 
 
+    // Send Movement
+
+    public  cMovementResponse PutMovementServiceData(cMovementRequest pObj){
+
+        // SOAP
+        String Soap_Action = "DoGoodsMovementGoodsAndActivityConfirmation";
+        String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/inventoryprocessinggoodsandac2?sap-vhost=my346674.sapbydesign.com";
+        HttpTransportSE transporte;
+        SoapSerializationEnvelope envelope;
+
+        // Data
+        String  ErrorMsg = "";
+        Vector vResponse = new  Vector();
+        cMovementResponse oResponse = new  cMovementResponse();
+
+        try {
+
+            List<HeaderProperty> headerPropertieList = new ArrayList<HeaderProperty>();
+            headerPropertieList.add(new HeaderProperty("Authorization", AUTHORIZATION_SOAP_VALUE));
+
+            envelope = new SAPSerializationEnvelope(110,NAME_SPACE_SOAP);
+            envelope.dotNet = false;
+            envelope.setOutputSoapObject(getBodySoapObjectByFilterType_Movement(pObj));
+
+            transporte = new HttpTransportSE(url,CONNECT_TIMEOUT_SOAP);
+            transporte.debug = true;
+
+            transporte.setReadTimeout(READ_TIMEOUT_SOAP);
+
+            transporte.call(Soap_Action, envelope,headerPropertieList);
+
+            if ((envelope.getResponse().getClass()).getName().equals("org.ksoap2.serialization.SoapObject")){
+               SoapObject  so =   (SoapObject)envelope.getResponse();
+               //so.getProperty("");
+
+                oResponse.GACID = "1";
+                oResponse.MSG = "";
+            }
+
+           // vResponse = (Vector)envelope.getResponse();
+           // lsData = getMovementResponseData(vResponse);
+
+        } catch (Exception e) {
+
+            ErrorMsg = e.getMessage();
+            oResponse.GACID = "0";
+            oResponse.MSG = "No fue posible realizar la operación: Favor de validar que los datos enviados son correctos";
+            return  oResponse;
+
+        }
+
+        return oResponse;
+    }
+
+    private  SoapObject  getBodySoapObjectByFilterType_Movement(cMovementRequest pObj){
+
+        SoapObject  oSoapObjectResult = new SoapObject(NAME_SPACE_SOAP, "GoodsAndActivityConfirmationGoodsMovement");
+        SoapObject soN1 =  new SoapObject("", "GoodsAndActivityConfirmation");
+        soN1.addProperty("ExternalID", pObj.ExternalID);
+        soN1.addProperty("SiteID", pObj.SiteID);
+
+        SoapObject soN2 =  new SoapObject("", "InventoryChangeItemGoodsMovement");
+        soN2.addProperty("ExternalItemID", pObj.ExternalItemID);
+        soN2.addProperty("MaterialInternalID", pObj.MaterialInternalID);
+        soN2.addProperty("OwnerPartyInternalID", pObj.OwnerPartyInternalID);
+        soN2.addProperty("InventoryRestrictedUseIndicator", pObj.InventoryRestrictedUseIndicator);
+        soN2.addProperty("SourceLogisticsAreaID", pObj.SourceLogisticsAreaID);
+        soN2.addProperty("TargetLogisticsAreaID", pObj.TargetLogisticsAreaID);
 
 
+        SoapObject soN3 =  new SoapObject("", "InventoryItemChangeQuantity");
+        SoapPrimitive  spN = new SoapPrimitive("", "Quantity", pObj.Quantity);
+        spN.addAttribute("unitCode", pObj.QuantityUnitCode );
+        soN3.addProperty("Quantity",spN);
+
+        soN2.addSoapObject(soN3);
+
+        soN1.addSoapObject(soN2);
+
+        oSoapObjectResult.addSoapObject(soN1);
+
+        return oSoapObjectResult;
+    }
+
+    private ArrayList<cMovementResponse> getMovementResponseData (Vector  pVector){
+
+        cMovementResponse  oResponse = new cMovementResponse();
+        ArrayList<cMovementResponse>  lsData = new  ArrayList<>();
+        SoapObject   oSoap = new  SoapObject();
+        PropertyInfo oPropertyInfo =  new PropertyInfo();
+
+        for (int i = 0; i < pVector.size() ; i++) {
+
+            oSoap = (SoapObject) pVector.get(i);
+
+            for( int j= 0; j < oSoap.getPropertyCount(); j++ ){
+
+                oResponse =  new cMovementResponse();
+
+                oPropertyInfo = oSoap.getPropertyInfo(j);
+                SetMovementResponseProperty(oResponse,  oPropertyInfo);
+
+//                if (!oResponse.TypeID.isEmpty()){
+//                    lsData.add(oResponse);
+//                }
+            }
+        }
+
+        return lsData;
+    }
+
+    private void SetMovementResponseProperty(cMovementResponse oObj, PropertyInfo oPropertyInfo) {
+        switch (oPropertyInfo.getName()){
+
+            case  "GACDetails":
+                oObj.GACID = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("GACID")).getValue().toString().trim();
+
+            default:break;
+        }
+    }
+
+
+
+   //  Send Inbound
     public ArrayList<cInboundDeliveryResponse> PutInboundDeliveryServiceData(cInboundDelivery  pInboundDelivery){
 
         // SOAP
