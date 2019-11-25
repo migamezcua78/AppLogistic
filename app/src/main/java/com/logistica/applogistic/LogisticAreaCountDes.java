@@ -20,8 +20,8 @@ public class LogisticAreaCountDes extends AppCompatActivity {
 
     EditText txtProductId;
     EditText txtQtyId;
-    EditText txtLuId;
-    EditText txtLuQty;
+   // EditText txtLuId;
+    //EditText txtLuQty;
     EditText txtBarCodeId;
     CheckBox chkRestrictedId;
     TextView lblCountItemsId;
@@ -30,6 +30,7 @@ public class LogisticAreaCountDes extends AppCompatActivity {
     ArrayList<cAreaInfoView> lsAreaInfoView;
 
     cAreaInfoView oCurrenAreaInfoView;
+    cProductViewInfo oCurrectProductViewInfo;
 
     // Process
     ProgressDialog vProgressDialog;
@@ -59,9 +60,9 @@ public class LogisticAreaCountDes extends AppCompatActivity {
     private void init() {
         txtProductId = findViewById(R.id.txtProductId);
         txtQtyId = findViewById(R.id.txtQtyId);
-        txtLuId = findViewById(R.id.txtSerialNumberId);
-        txtLuQty = findViewById(R.id.txtLuQty);
-        txtBarCodeId = findViewById(R.id.txtStockId);
+        //txtLuId = findViewById(R.id.txtSerialNumberId);
+       // txtLuQty = findViewById(R.id.txtLuQty);
+        txtBarCodeId = findViewById(R.id.txtBarCodeId);
         chkRestrictedId = findViewById(R.id.chkRestrictedId);
         lblCountItemsId = findViewById(R.id.lblCountItemsId);
 
@@ -94,8 +95,6 @@ public class LogisticAreaCountDes extends AppCompatActivity {
                 AsyncTaskScanProduct.execute("params");
             }
 
-
-
         } else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_PRODUCT)){
 
 
@@ -118,9 +117,7 @@ public class LogisticAreaCountDes extends AppCompatActivity {
 
             oCurrenAreaInfoView.ProductId = sProductId;
 
-
             setViewInfo(oCurrenAreaInfoView);
-
 
         }
         else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_QTY)){
@@ -141,6 +138,30 @@ public class LogisticAreaCountDes extends AppCompatActivity {
 
             setViewInfo(oCurrenAreaInfoView);
 
+        }  else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_BAR_CODE)){
+
+
+            oCurrenAreaInfoView =  ((cGlobalData)getApplication()).CurrenAreaInfoView;
+            lsAreaInfoService =  ((cGlobalData)getApplication()).lsAreaInfoService;
+            lsAreaInfoView =  ((cGlobalData)getApplication()).lsAreaInfoView;
+
+            consecutive = ((cGlobalData)getApplication()).consecutive;
+            Quantity = ((cGlobalData)getApplication()).Quantity;
+            iterater = ((cGlobalData)getApplication()).iterater;
+            IterScan = ((cGlobalData)getApplication()).IterScan;
+
+            lblCountItemsId.setText(((cGlobalData)getApplication()).lblCountItemsId);
+
+            oCurrenAreaInfoView.BarCode = oMsg.getKey01();
+
+            setViewInfo(oCurrenAreaInfoView);
+
+            oCurrectProductViewInfo = new cProductViewInfo();
+            oCurrectProductViewInfo.ProductoSAPId = oCurrenAreaInfoView.ProductId;
+            oCurrectProductViewInfo.CodigoBarra = oCurrenAreaInfoView.BarCode;
+
+            AsyncTaskValidateProduct asyncTask=new AsyncTaskValidateProduct();
+            asyncTask.execute("params");
         }
     }
 
@@ -162,8 +183,8 @@ public class LogisticAreaCountDes extends AppCompatActivity {
 
         txtProductId.setText(pAreaInfoView.ProductId);
         txtQtyId.setText(pAreaInfoView.Qty);
-        txtLuId.setText(pAreaInfoView.Lu);
-        txtLuQty.setText(pAreaInfoView.LuQty);
+        //txtLuId.setText(pAreaInfoView.Lu);
+        //txtLuQty.setText(pAreaInfoView.LuQty);
         txtBarCodeId.setText(pAreaInfoView.BarCode);
         chkRestrictedId.setChecked(pAreaInfoView.Restricted);
     }
@@ -172,8 +193,8 @@ public class LogisticAreaCountDes extends AppCompatActivity {
 
         pAreaInfoView.ProductId = txtProductId.getText().toString().trim();
         pAreaInfoView.Qty = txtQtyId.getText().toString().trim();
-        pAreaInfoView.Lu = txtLuId.getText().toString().trim();
-        pAreaInfoView.LuQty = txtLuQty.getText().toString().trim();
+      //  pAreaInfoView.Lu = txtLuId.getText().toString().trim();
+      //  pAreaInfoView.LuQty = txtLuQty.getText().toString().trim();
         pAreaInfoView.BarCode = txtBarCodeId.getText().toString().trim();
         pAreaInfoView.Restricted = chkRestrictedId.isChecked();
     }
@@ -245,8 +266,8 @@ public class LogisticAreaCountDes extends AppCompatActivity {
 
             cAreaInfoView.ProductId = txtProductId.getText().toString().trim();
             cAreaInfoView.Qty = txtQtyId.getText().toString().trim();
-            cAreaInfoView.Lu = txtLuId.getText().toString().trim();
-            cAreaInfoView.LuQty = txtLuQty.getText().toString().trim();
+            //cAreaInfoView.Lu = txtLuId.getText().toString().trim();
+           // cAreaInfoView.LuQty = txtLuQty.getText().toString().trim();
             cAreaInfoView.BarCode = txtBarCodeId.getText().toString().trim();
             cAreaInfoView.Restricted = chkRestrictedId.isChecked();
 
@@ -266,8 +287,8 @@ public class LogisticAreaCountDes extends AppCompatActivity {
             // se limpian campos
             txtProductId.setText("");
             txtQtyId.setText("");
-            txtLuId.setText("");
-            txtLuQty.setText("");
+            //txtLuId.setText("");
+           // txtLuQty.setText("");
             txtBarCodeId.setText("");
             chkRestrictedId.setChecked(false);
 
@@ -365,6 +386,9 @@ public class LogisticAreaCountDes extends AppCompatActivity {
 
     public void   onScanQty(View spinner) {
 
+        if(oCurrenAreaInfoView ==  null)
+            oCurrenAreaInfoView = new cAreaInfoView();
+
         getViewInfo(oCurrenAreaInfoView);
 
         ((cGlobalData)getApplication()).CurrenAreaInfoView = oCurrenAreaInfoView;
@@ -380,6 +404,33 @@ public class LogisticAreaCountDes extends AppCompatActivity {
 
         Intent oIntent = new Intent(this, Scanner.class);
         oIntent.putExtra("oMsg", new cActivityMessage("LogisticAreaCountDes",Scanner.ScanType.SCAN_QTY));
+        startActivity(oIntent);
+
+//        AsyncTaskScanQty AsyncTaskScanProduct = new AsyncTaskScanQty();
+//        AsyncTaskScanProduct.execute("params");
+    }
+
+
+    public void   onScanBarCode(View spinner) {
+
+        if(oCurrenAreaInfoView ==  null)
+            oCurrenAreaInfoView = new cAreaInfoView();
+
+        getViewInfo(oCurrenAreaInfoView);
+
+        ((cGlobalData)getApplication()).CurrenAreaInfoView = oCurrenAreaInfoView;
+        ((cGlobalData)getApplication()).lsAreaInfoService = lsAreaInfoService;
+        ((cGlobalData)getApplication()).lsAreaInfoView = lsAreaInfoView;
+
+        ((cGlobalData)getApplication()).consecutive = consecutive;
+        ((cGlobalData)getApplication()).Quantity = Quantity;
+        ((cGlobalData)getApplication()).iterater = iterater;
+        ((cGlobalData)getApplication()).IterScan = IterScan;
+
+        ((cGlobalData)getApplication()).lblCountItemsId = lblCountItemsId.getText().toString();
+
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("LogisticAreaCountDes",Scanner.ScanType.SCAN_BAR_CODE));
         startActivity(oIntent);
 
 //        AsyncTaskScanQty AsyncTaskScanProduct = new AsyncTaskScanQty();
@@ -666,6 +717,76 @@ public class LogisticAreaCountDes extends AppCompatActivity {
             //   fillDataGrid();
 
 
+
+            vProgressDialog.hide();
+        }
+    }
+
+
+    private class AsyncTaskValidateProduct extends AsyncTask<String, String,cProductResponse> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(LogisticAreaCountDes.this);
+            vProgressDialog.setMessage("Validando Producto...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected cProductResponse doInBackground(String... strings) {
+            cProductResponse oResp = new  cProductResponse();
+
+            try {
+
+                cServices ocServices = new cServices();
+
+                //oCurrectProductViewInfo.ProductoSAPId = "1";
+                //    oCurrectProductViewInfo.Nombre = "productoPrueba3";
+                //   oCurrectProductViewInfo.Descripcion = "productoPruebaDescripcion3";
+                // oCurrectProductViewInfo.CodigoBarra = "12312312312";
+                //      oCurrectProductViewInfo.Estado = "Activo";
+
+                //oCurrectProductViewInfo.Usuario = "tcabrera";
+
+                oResp = ocServices.PostProductAssignedDataService(oCurrectProductViewInfo);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return oResp;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values){
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(cProductResponse lsData) {
+            super.onPostExecute(lsData);
+
+            if  (lsData != null){
+
+                if(!lsData.ResponseId.equals("-1")){
+
+                    if (lsData.Assigned){
+
+                        Toast.makeText(getApplicationContext(),"Producto ASIGNADO" , Toast.LENGTH_LONG).show();
+
+                    } else {
+
+                        Toast.makeText(getApplicationContext(),"Producto NO ASIGNADO" , Toast.LENGTH_LONG).show();
+                    }
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(),"Error al intentar registrar el producto " , Toast.LENGTH_LONG).show();
+                }
+            }
 
             vProgressDialog.hide();
         }
