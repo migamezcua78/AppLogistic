@@ -26,8 +26,8 @@ public class PickSourceEmb extends AppCompatActivity {
     EditText txtIdentStockId;
     CheckBox cheRestrictedId;
     CheckBox chkConfirmedId;
-    EditText txtLuId;
-    EditText txtLuQtyId;
+   // EditText txtLuId;
+  //  EditText txtLuQtyId;
     EditText txtBarCodeId;
     TextView lblOpenValueId;
     TextView lblCountItemsId;
@@ -37,6 +37,7 @@ public class PickSourceEmb extends AppCompatActivity {
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
     ArrayList<cOutboundViewInfo>  lsOutbounItems;
     cOutboundViewInfo  oCurrentItemViewInfo;
+    cProductViewInfo oCurrectProductViewInfo;
 
     // Process
     ProgressDialog vProgressDialog;
@@ -74,9 +75,9 @@ public class PickSourceEmb extends AppCompatActivity {
         txtIdentStockId = findViewById(R.id.txtIdentStockId);
         cheRestrictedId = findViewById(R.id.cheRestrictedId);
         chkConfirmedId = findViewById(R.id.chkConfirmedId);
-        txtLuId = findViewById(R.id.txtSerialNumberId);
-        txtLuQtyId = findViewById(R.id.txtLuQtyId);
-        txtBarCodeId = findViewById(R.id.txtStockId);
+       // txtLuId = findViewById(R.id.txtSerialNumberId);
+       // txtLuQtyId = findViewById(R.id.txtLuQtyId);
+        txtBarCodeId = findViewById(R.id.txtBarCodeIdId);
         lblOpenValueId = findViewById(R.id.lblOpenValueId);
         lblCountItemsId = findViewById(R.id.lblCountItemsId);
 
@@ -166,6 +167,36 @@ public class PickSourceEmb extends AppCompatActivity {
             oCurrentItemViewInfo.Qty = txtQtyId.getText().toString();
 
             setViewInfo(oCurrentItemViewInfo);
+        } else if ( oMsg.getMessage().equals(Scanner.ScanType.SCAN_BAR_CODE)){
+
+
+            oCurrentItemViewInfo =  ((cGlobalData)getApplication()).CurrentOutboundViewInfo;
+            //  lsAreaInfoService =  ((cGlobalData)getApplication()).lsAreaInfoService;
+            //  lsAreaInfoView =  ((cGlobalData)getApplication()).lsAreaInfoView;
+
+            consecutive = ((cGlobalData)getApplication()).consecutive;
+            Quantity = ((cGlobalData)getApplication()).Quantity;
+            iterater = ((cGlobalData)getApplication()).iterater;
+            // IterScan = ((cGlobalData)getApplication()).IterScan;
+
+            lblCountItemsId.setText(((cGlobalData)getApplication()).lblCountItemsId);
+
+            // txtQtyId.setText("2");   // esta dato debe venir del Sscaneo del producto
+            //txtQtyId.setText(oMsg.getKey01());
+
+            // txtIdentStockId.setText("30541");
+           // oCurrentItemViewInfo.Qty = txtQtyId.getText().toString();
+
+            oCurrentItemViewInfo.BarCode = oMsg.getKey01();
+
+            setViewInfo(oCurrentItemViewInfo);
+
+            oCurrectProductViewInfo = new cProductViewInfo();
+            oCurrectProductViewInfo.ProductoSAPId = oCurrentItemViewInfo.ProductId;
+            oCurrectProductViewInfo.CodigoBarra = oCurrentItemViewInfo.BarCode;
+
+            AsyncTaskValidateProduct asyncTask=new AsyncTaskValidateProduct();
+            asyncTask.execute("params");
         }
 
         fillDataUnits();
@@ -187,12 +218,12 @@ public class PickSourceEmb extends AppCompatActivity {
 
                 getViewInfo(oCurrentItemViewInfo);
 
-                int  dif = 0;
-                if (Integer.parseInt(oCurrentItemViewInfo.Open) < Integer.parseInt(oCurrentItemViewInfo.Qty)){
+                float  dif = 0;
+                if ( Float.parseFloat(oCurrentItemViewInfo.Open) < Float.parseFloat(oCurrentItemViewInfo.Qty)){
                     dif = 0;
                 } else {
 
-                    dif = Integer.parseInt(oCurrentItemViewInfo.Open) - Integer.parseInt(oCurrentItemViewInfo.Qty);
+                    dif = Float.parseFloat(oCurrentItemViewInfo.Open) - Float.parseFloat(oCurrentItemViewInfo.Qty);
                 }
 
                 if(dif > 0){
@@ -258,6 +289,33 @@ public class PickSourceEmb extends AppCompatActivity {
 //        asyncTask.execute("params");
 
     }
+
+    public void   onScanBarCode(View view) {
+
+        getViewInfo(oCurrentItemViewInfo);
+
+        ((cGlobalData)getApplication()).CurrentOutboundViewInfo = oCurrentItemViewInfo;
+//        ((cGlobalData)getApplication()).lsAreaInfoService = lsAreaInfoService;
+//        ((cGlobalData)getApplication()).lsAreaInfoView = lsAreaInfoView;
+
+        ((cGlobalData)getApplication()).consecutive = consecutive;
+        ((cGlobalData)getApplication()).Quantity = Quantity;
+        ((cGlobalData)getApplication()).iterater = iterater;
+        //((cGlobalData)getApplication()).IterScan = IterScan;
+
+        ((cGlobalData)getApplication()).lblCountItemsId = lblCountItemsId.getText().toString();
+
+
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("PickSourceEmb",Scanner.ScanType.SCAN_BAR_CODE));
+        startActivity(oIntent);
+
+
+//        AsyncTaskScanProduct asyncTask=new AsyncTaskScanProduct();
+//        asyncTask.execute("params");
+
+    }
+
 
     public void   onClickNext(View spinner) {
 
@@ -325,8 +383,8 @@ public class PickSourceEmb extends AppCompatActivity {
             txtQtyId.setText(pOutboundViewInfo.Qty);
             txtIdentStockId.setText(pOutboundViewInfo.IdentStock);
             cheRestrictedId.setChecked(pOutboundViewInfo.Restricted);
-            txtLuId.setText(pOutboundViewInfo.Lu);
-            txtLuQtyId.setText(pOutboundViewInfo.LuQty);
+            //txtLuId.setText(pOutboundViewInfo.Lu);
+           // txtLuQtyId.setText(pOutboundViewInfo.LuQty);
             txtBarCodeId.setText(pOutboundViewInfo.BarCode);
             lblOpenValueId.setText(pOutboundViewInfo.Open + " " +  pOutboundViewInfo.OpenUnit);
             chkConfirmedId.setChecked(pOutboundViewInfo.Confirmed);
@@ -344,8 +402,8 @@ public class PickSourceEmb extends AppCompatActivity {
             pOutboundViewInfo.SourceId =  txtSourceId.getText().toString().trim();
             pOutboundViewInfo.Qty =  txtQtyId.getText().toString().trim();
             pOutboundViewInfo.Restricted =  cheRestrictedId.isChecked();
-            pOutboundViewInfo.Lu =  txtLuId.getText().toString().trim();
-            pOutboundViewInfo.LuQty =  txtLuQtyId.getText().toString().trim();
+           // pOutboundViewInfo.Lu =  txtLuId.getText().toString().trim();
+           // pOutboundViewInfo.LuQty =  txtLuQtyId.getText().toString().trim();
             pOutboundViewInfo.BarCode =  txtBarCodeId.getText().toString().trim();
             pOutboundViewInfo.Confirmed =  chkConfirmedId.isChecked();
 
@@ -450,4 +508,74 @@ public class PickSourceEmb extends AppCompatActivity {
             startActivity(oIntent);
         }
     }
+
+    private class AsyncTaskValidateProduct extends AsyncTask<String, String,cProductResponse> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(PickSourceEmb.this);
+            vProgressDialog.setMessage("Validando Producto...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected cProductResponse doInBackground(String... strings) {
+            cProductResponse oResp = new  cProductResponse();
+
+            try {
+
+                cServices ocServices = new cServices();
+
+                //oCurrectProductViewInfo.ProductoSAPId = "1";
+                //    oCurrectProductViewInfo.Nombre = "productoPrueba3";
+                //   oCurrectProductViewInfo.Descripcion = "productoPruebaDescripcion3";
+                // oCurrectProductViewInfo.CodigoBarra = "12312312312";
+                //      oCurrectProductViewInfo.Estado = "Activo";
+
+                //oCurrectProductViewInfo.Usuario = "tcabrera";
+
+                oResp = ocServices.PostProductAssignedDataService(oCurrectProductViewInfo);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return oResp;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values){
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(cProductResponse lsData) {
+            super.onPostExecute(lsData);
+
+            if  (lsData != null){
+
+                if(!lsData.ResponseId.equals("-1")){
+
+                    if (lsData.Assigned){
+
+                        Toast.makeText(getApplicationContext(),"Código de Barras ASIGNADO al ID de Producto" , Toast.LENGTH_LONG).show();
+
+                    } else {
+
+                        Toast.makeText(getApplicationContext(),"El Código de Barras NO ESTA ASIGNADO al ID de Producto" , Toast.LENGTH_LONG).show();
+                    }
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(),"Error al intentar validar el Producto" , Toast.LENGTH_LONG).show();
+                }
+            }
+
+            vProgressDialog.hide();
+        }
+    }
+
 }

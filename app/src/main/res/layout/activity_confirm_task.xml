@@ -80,6 +80,7 @@
         </ScrollView>
     </LinearLayout>
 
+<!--
     <TextView
         android:id="@+id/lblBarcodeId"
         android:layout_width="wrap_content"
@@ -97,9 +98,9 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="91P100201"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+-->
 
     <Button
         android:id="@+id/btnDetailsId"
@@ -108,11 +109,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/btnDetails"
-        app:backgroundTint="@color/colorAccent"
-        android:textColor="@color/colorTextTitle"
         android:textAllCaps="false"
+        android:textColor="@color/colorTextTitle"
+        app:backgroundTint="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtStockId" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <Button
         android:id="@+id/btnClearQueryId"

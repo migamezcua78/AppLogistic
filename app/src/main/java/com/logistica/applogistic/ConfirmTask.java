@@ -70,12 +70,12 @@ public class ConfirmTask extends AppCompatActivity {
             InfoData = new ArrayList <> ();
 
             for ( cOutboundViewInfo e:lsOutbounItems){
-                int  dif = 0;
-                if (Integer.parseInt(e.Open) < Integer.parseInt(e.Qty)){
+                float  dif = 0;
+                if (Float.parseFloat(e.Open) < Float.parseFloat(e.Qty)){
                     dif = 0;
                 } else {
 
-                    dif = Integer.parseInt(e.Open) - Integer.parseInt(e.Qty);
+                    dif = Float.parseFloat(e.Open) - Float.parseFloat(e.Qty);
                 }
 
                 InfoData.add(new String[]{ e.ProductId, dif + " " + e.OpenUnit, e.SourceId });
@@ -133,12 +133,12 @@ public class ConfirmTask extends AppCompatActivity {
                     cServices  oServices = new cServices();
 
                     for ( cOutboundViewInfo e:lsOutbounItems){
-                        int  dif = 0;
-                        if (Integer.parseInt(e.Open) < Integer.parseInt(e.Qty)){
+                        float  dif = 0;
+                        if (Float.parseFloat(e.Open) < Float.parseFloat(e.Qty)){
                             dif = 0;
                         } else {
 
-                            dif = Integer.parseInt(e.Open) - Integer.parseInt(e.Qty);
+                            dif = Float.parseFloat(e.Open) - Float.parseFloat(e.Qty);
                         }
 
                         cInboundDelivery  oInboundDelivery = new cInboundDelivery();
