@@ -7,7 +7,6 @@
     android:orientation="vertical"
     tools:context=".Inicio">
 
-
     <Button
         android:id="@+id/btnInbound"
         android:layout_width="match_parent"
@@ -95,4 +94,17 @@
         android:textAllCaps="false"
         android:textColor="@color/colorTextTitle"
         app:backgroundTint="@color/colorAccent" />
+
+
+    <Button
+        android:id="@+id/btnMappingProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="goMappingProducts"
+        android:text="@string/ttlMappingProducts"
+        android:textAllCaps="false"
+        android:textColor="@color/colorTextTitle"
+        app:backgroundTint="@color/colorAccent" />
+
+
 </LinearLayout>

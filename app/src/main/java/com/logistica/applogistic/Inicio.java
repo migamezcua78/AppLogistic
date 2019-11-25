@@ -57,6 +57,13 @@ public class Inicio extends AppCompatActivity {
         startActivity(oIntent);
     }
 
+    public void goMappingProducts(View view){
+        Intent oIntent = new Intent(this, MappingProducts.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("Start"));
+        startActivity(oIntent);
+    }
+
+
 /*    public void goRequestRemoval(View view){
         Intent oIntent = new Intent(this, MainCamara.class);
         //oIntent.setExtrasClassLoader();

@@ -99,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="8dp"
 
                 android:text="@string/lblProductSimple"
                 app:layout_constraintStart_toStartOf="parent"
@@ -111,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/lblQty"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblProductId" />
@@ -124,8 +124,8 @@
                 android:ems="2"
                 android:inputType="none"
                 android:text="0"
-                android:textSize="14sp"
                 android:textIsSelectable="true"
+                android:textSize="12sp"
 
                 app:layout_constraintBaseline_toBaselineOf="@+id/lblQty"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -144,7 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/lblIdent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblQty" />
@@ -157,7 +157,7 @@
                 android:ems="10"
                 android:inputType="none"
                 android:textIsSelectable="true"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/lblIdentStockId"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -166,7 +166,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/lblPrs"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblIdentStockId" />
@@ -176,7 +176,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/lblRestricted"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblPrsId" />
@@ -208,7 +208,7 @@
                 android:ems="10"
                 android:inputType="none"
                 android:textIsSelectable="true"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/lblLu"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -230,7 +230,7 @@
                 android:ems="10"
                 android:inputType="none"
                 android:textIsSelectable="true"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/lblLuQty"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -252,7 +252,7 @@
                 android:ems="10"
                 android:inputType="none"
                 android:textIsSelectable="true"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/lblFieldName"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -264,7 +264,7 @@
                 android:ems="10"
                 android:inputType="none"
                 android:textIsSelectable="true"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/lblProductId"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -286,7 +286,7 @@
                 android:ems="10"
                 android:inputType="none"
                 android:textIsSelectable="true"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/lblBarCode"
                 app:layout_constraintStart_toStartOf="parent" />
 

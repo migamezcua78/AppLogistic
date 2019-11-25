@@ -96,6 +96,7 @@ public class Goods_Movement_Source extends AppCompatActivity {
             }else  {
 
                 oCurrentItemViewInfo = new cMovementViewInfo();
+                setViewInfo();
             }
         } else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_SOURCE)){
 
@@ -110,9 +111,21 @@ public class Goods_Movement_Source extends AppCompatActivity {
             //oCurrentItemViewInfo.SourceId = oMsg.getKey01();
           //  oCurrentItemViewInfo.ProductId = "KECM0000608030";
             oCurrentItemViewInfo.ProductId =  oMsg.getKey01();
-            oCurrentItemViewInfo.Qty = "5";
-            oCurrentItemViewInfo.IdentStock = "40567";
+            //oCurrentItemViewInfo.Qty = "5";
+           // oCurrentItemViewInfo.IdentStock = "40567";
             // oCurrentItemViewInfo.FieldName = "1000020";
+            setViewInfo();
+        }else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_SERIAL_NUMBER)){
+
+            //oCurrentItemViewInfo.SourceId = oMsg.getKey01();
+            //  oCurrentItemViewInfo.ProductId = "KECM0000608030";
+            oCurrentItemViewInfo.BarCode =  oMsg.getKey01();
+            //oCurrentItemViewInfo.Qty = "5";
+            // oCurrentItemViewInfo.IdentStock = "40567";
+            // oCurrentItemViewInfo.FieldName = "1000020";
+            setViewInfo();
+        } else {
+
             setViewInfo();
         }
 
@@ -217,6 +230,18 @@ public class Goods_Movement_Source extends AppCompatActivity {
         getViewInfo();
         Intent oIntent = new Intent(this, Scanner.class);
         oIntent.putExtra("oMsg", new cActivityMessage("Goods_Movement_Source",Scanner.ScanType.SCAN_PRODUCT));
+        startActivity(oIntent);
+
+//        AsyncTaskScanProduct  AsyncTaskScanProduct = new AsyncTaskScanProduct();
+//        AsyncTaskScanProduct.execute("params");
+    }
+
+
+    public void onScanSerialNumber(View view){
+
+        getViewInfo();
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("Goods_Movement_Source",Scanner.ScanType.SCAN_SERIAL_NUMBER));
         startActivity(oIntent);
 
 //        AsyncTaskScanProduct  AsyncTaskScanProduct = new AsyncTaskScanProduct();

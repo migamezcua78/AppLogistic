@@ -14,47 +14,47 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
 
-<!--    <string name="action_menu1">Select Inbound Task</string>-->
+    <!--    <string name="action_menu1">Select Inbound Task</string>-->
     <string name="action_menu1">Procesar tarea de entrada mercancia</string>
-<!--    <string name="action_menu2">Select Internal Task</string>-->
+    <!--    <string name="action_menu2">Select Internal Task</string>-->
     <string name="action_menu2">Procesar tarea interna</string>
-<!--    <string name="action_menu3">Select Outbound Task</string>-->
+    <!--    <string name="action_menu3">Select Outbound Task</string>-->
     <string name="action_menu3">Procesar tarea de Salida de mercancia</string>
     <string name="action_menu4">System Guided By Folder</string>
     <string name="action_menu5">Select Open Task</string>
-<!--    <string name="action_menu6">Goods Movement</string>-->
+    <!--    <string name="action_menu6">Goods Movement</string>-->
     <string name="action_menu6">Movimiento de Mercancías</string>
     <string name="action_menu7">Request Replenishment</string>
     <string name="action_menu8">Request Removal</string>
-<!--    <string name="action_menu9">Logistics Area Count</string>-->
+    <!--    <string name="action_menu9">Logistics Area Count</string>-->
     <string name="action_menu9">Recuento de Area Logistica</string>
 
 
     <string name="app_name">AppLogistica</string>
-<!--    <string name="btn_main_inbound">Select Inbound Task</string>-->
+    <!--    <string name="btn_main_inbound">Select Inbound Task</string>-->
     <string name="btn_main_inbound">Procesar tarea de entrada mercancia</string>
     <string name="btnBack">F8 &lt;</string>
     <string name="btnNext">&gt; F4</string>
-<!--    <string name="txtTitleOutbound">Select an Outbound Task</string>-->
+    <!--    <string name="txtTitleOutbound">Select an Outbound Task</string>-->
     <string name="txtTitleOutbound">Procesar una tarea de Salida de mercancia</string>
-<!--    <string name="txtHintImput">Insert Data</string>-->
+    <!--    <string name="txtHintImput">Insert Data</string>-->
     <string name="txtHintImput">Ingresar Información</string>
-<!--    <string name="btnStarTask">F5 Start Task</string>-->
+    <!--    <string name="btnStarTask">F5 Start Task</string>-->
     <string name="btnStarTask">Iniciar Tarea</string>
-<!--    <string name="lblTaskId">Task ID</string>-->
+    <!--    <string name="lblTaskId">Task ID</string>-->
     <string name="lblTaskId">No. Tarea</string>
     <string name="lblTaskValue">121 Pick</string>
-<!--    <string name="lblOrderId">Order ID</string>-->
+    <!--    <string name="lblOrderId">Order ID</string>-->
     <string name="lblOrderId">ID Pedido de compra</string>
     <string name="lblOrdeValue">365</string>
 
     <string name="txtTitlePutAwayTarget">Put Away 124: Target</string>
-<!--    <string name="btnConfirmTask">F5 Confirm</string>-->
+    <!--    <string name="btnConfirmTask">F5 Confirm</string>-->
     <string name="btnConfirmTask">Confirmar</string>
 
-<!--    <string name="lblTarget">Target</string>-->
+    <!--    <string name="lblTarget">Target</string>-->
     <string name="lblTarget">Área logistica destino</string>
-<!--    <string name="lblProduct">Product ID</string>-->
+    <!--    <string name="lblProduct">Product ID</string>-->
     <string name="lblProduct">ID de Producto</string>
     <string name="lblOpen">Open</string>
     <string name="lblActual">Actual</string>
@@ -67,11 +67,11 @@
 
 
     <string name="txtTitlePickService">Pick 131: Área logistica origen</string>
-<!--    <string name="btnConfirmItem">F5 Confirm Item</string>-->
+    <!--    <string name="btnConfirmItem">F5 Confirm Item</string>-->
     <string name="btnConfirmItem">Confirmar Artículo</string>
-<!--    <string name="lblService">Source</string>-->
+    <!--    <string name="lblService">Source</string>-->
     <string name="lblService">Área logistica origen</string>
-<!--    <string name="lblProductServ">Product</string>-->
+    <!--    <string name="lblProductServ">Product</string>-->
     <string name="lblProductServ">Producto</string>
     <string name="lblTitleGas">Gas Boiler Combi 75</string>
     <string name="lblStockId">ID STOCK</string>
@@ -80,9 +80,9 @@
     <string name="btnReportedItems">F7 Reported Items</string>
 
 
-<!--    <string name="txtTitleTargetConfirm">Pick 131: Target</string>-->
+    <!--    <string name="txtTitleTargetConfirm">Pick 131: Target</string>-->
     <string name="txtTitleTargetConfirm">Pick 131: Área logistica destino</string>
-<!--    <string name="btnConfirm">F5 Confirm</string>-->
+    <!--    <string name="btnConfirm">F5 Confirm</string>-->
     <string name="btnConfirm">Confirmar</string>
 
     <string name="txtTitleRemaining">Process Remaining Quantity</string>
@@ -99,19 +99,19 @@
     <string name="btnClearQuery">F9 Clear Query</string>
 
 
-<!--    <string name="lblLogisticTitle">Logistics Area Count</string>-->
+    <!--    <string name="lblLogisticTitle">Logistics Area Count</string>-->
     <string name="lblLogisticTitle">Recuento de Area Logistica</string>
     <string name="lblLogisticMain">Replenish by Logistics Area and Product</string>
     <string name="lblLogistic">Replenish by Production Order</string>
     <string name="lblArea">Area</string>
 
     <string name="lblOrder">Order</string>
-<!--    <string name="btnScan">Scan</string>-->
+    <!--    <string name="btnScan">Scan</string>-->
     <string name="btnScan">Escanear</string>
     <string name="cheDistinctLogisticArea">Distinct Logistic Area</string>
 
 
-<!--    <string name="lblLogisticDesTitle">Logistics Area Count Description</string>-->
+    <!--    <string name="lblLogisticDesTitle">Logistics Area Count Description</string>-->
     <string name="lblLogisticDesTitle">Recuento de Area Logistica Descripción</string>
     <string name="lblQuantity">Quantity</string>
     <string name="lblLU">LU</string>
@@ -124,27 +124,27 @@
 
     <string name="btnModify">Modify</string>
 
-<!--    <string name="lblGoodsTitle">Goods Movement</string>-->
+    <!--    <string name="lblGoodsTitle">Goods Movement</string>-->
     <string name="lblGoodsTitle">Movimiento de Mercancías</string>
 
-<!--    <string name="lblTitleGoodsMovementSource">Confirm Source</string>-->
+    <!--    <string name="lblTitleGoodsMovementSource">Confirm Source</string>-->
     <string name="lblTitleGoodsMovementSource">Confirmar Área logistica origen</string>
 
-<!--    <string name="lblSource">Source</string>-->
+    <!--    <string name="lblSource">Source</string>-->
     <string name="lblSource">Área logistica origen</string>
-<!--    <string name="lblProductSimple">Product</string>-->
+    <!--    <string name="lblProductSimple">Product</string>-->
     <string name="lblProductSimple">Producto</string>
     <string name="lblQty">Qty</string>
     <string name="lblPrs">PRS</string>
     <string name="lblFieldName">FieldName</string>
 
-<!--    <string name="lblTitleGoodsMovementTarget">Confirm Target</string>-->
+    <!--    <string name="lblTitleGoodsMovementTarget">Confirm Target</string>-->
     <string name="lblTitleGoodsMovementTarget">Confirmar Área logistica destino</string>
 
-<!--    <string name="btnConfirmTaskDesc">Confirm Task</string>-->
+    <!--    <string name="btnConfirmTaskDesc">Confirm Task</string>-->
     <string name="btnConfirmTaskDesc">Confirmar Tarea</string>
 
-<!--    <string name="btnConfirmItemDesc">Confirm</string>-->
+    <!--    <string name="btnConfirmItemDesc">Confirm</string>-->
     <string name="btnConfirmItemDesc">Confirmar</string>
 
     <string name="btnBackSmall">&lt;</string>
@@ -184,5 +184,16 @@
     <string name="SiteID">ID de Sede</string>
     <string name="EmpresaId">ID de Empresa</string>
     <string name="ExternalItemID">ID Externo Posición</string>
+
+    <string name="ttlMappingProducts">Asignación de Código de Barras</string>
+    <string name="lblBarCodeGlb">Código de Barras</string>
+
+
+    <string name="lblNombreGlb">Nombre</string>
+    <string name="lblDescripcionGlb">Descripción</string>
+    <string name="lblCodigoBarrasGlb">Código de Barras</string>
+    <string name="lblEstadoGlb">Código de Barras</string>
+    <string name="lblUsuarioGlb">Usuario</string>
+    <string name="btnGuardarGlb">Guardar</string>
 
 </resources>

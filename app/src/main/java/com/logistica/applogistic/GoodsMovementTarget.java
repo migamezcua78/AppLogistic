@@ -47,6 +47,14 @@ public class GoodsMovementTarget extends AppCompatActivity {
         StartActivity();
     }
 
+    @Override
+    public void onBackPressed() {
+
+        Intent oIntent = new Intent(this, Goods_Movement_Source.class);
+        oIntent.putExtra("oMsg",new cActivityMessage(""));
+        startActivity(oIntent);
+    }
+
     private void init() {
 
         txtTargetId = findViewById(R.id.txtTargetId);
@@ -272,6 +280,9 @@ public class GoodsMovementTarget extends AppCompatActivity {
 
             try {
 
+                cServices  oServices = new cServices();
+                cMovementRequest  oRequest = new cMovementRequest();
+
 
 /*                oRequest.ExternalID = "MOV01";
                 oRequest.SiteID = "E01";
@@ -282,11 +293,10 @@ public class GoodsMovementTarget extends AppCompatActivity {
                 oRequest.SourceLogisticsAreaID = "E01-1";
                 oRequest.TargetLogisticsAreaID = "E01-8";
                 oRequest.Quantity = "100";
-                oRequest.QuantityUnitCode = "ZPZ";
-                //oRequest.QuantityUnitCode = "";*/
+                oRequest.QuantityUnitCode = "ZPZ";*/
 
-                    cServices  oServices = new cServices();
-                    cMovementRequest  oRequest = new cMovementRequest();
+
+
 
                     oRequest.ExternalID =  oCurrentItemViewInfo.ReferenceId;
                     oRequest.SiteID =   oCurrentItemViewInfo.Lu;   // sede
@@ -298,6 +308,12 @@ public class GoodsMovementTarget extends AppCompatActivity {
                     oRequest.TargetLogisticsAreaID = oCurrentItemViewInfo.TargetId;
                     oRequest.Quantity = oCurrentItemViewInfo.Qty;
                     oRequest.QuantityUnitCode = oCurrentItemViewInfo.QtyUnitCode;
+
+                    // opcionales
+                    oRequest.IdentifiedStockID =  oCurrentItemViewInfo.IdentStock;
+                    oRequest.SerialID =  oCurrentItemViewInfo.BarCode;
+
+
 
                     //oRequest.QuantityUnitCode = "";
 
@@ -336,8 +352,8 @@ public class GoodsMovementTarget extends AppCompatActivity {
             super.onPostExecute(lsData);
             vProgressDialog.hide();
 
-            if(lsData.GACID == "1"){
-                Toast.makeText(getApplicationContext(), "Movimiento Realizado Correctamente", Toast.LENGTH_LONG).show();
+            if( !lsData.GACID.isEmpty()   &&   lsData.GACID != "0"){
+                Toast.makeText(getApplicationContext(), "Movimiento Realizado Correctamente, ID de movimiento: " + lsData.GACID , Toast.LENGTH_LONG).show();
 
                 SaveFilterValues();
                 Intent oIntent = new Intent(GoodsMovementTarget.this, Goods_Movement_Source.class);

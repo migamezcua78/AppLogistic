@@ -27,7 +27,7 @@ public class cMovementViewInfo implements Serializable {
         this.SourceId = "";
         this.TargetId = "";
         this.ProductId = "";
-        this.Qty = "";
+        this.Qty = "0";
         this.QtyUnitCode = "";
         this.IdentStock = "";
         this.Restricted = false;
@@ -47,7 +47,7 @@ public class cMovementViewInfo implements Serializable {
         this.SourceId = "";
         this.TargetId = "";
         this.ProductId = "";
-        this.Qty = "";
+        this.Qty = "0";
         this.QtyUnitCode = "";
         this.IdentStock = "";
         this.Restricted = false;

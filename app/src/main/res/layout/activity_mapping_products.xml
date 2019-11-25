@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MappingProducts">
+
+
+    <LinearLayout
+        android:id="@+id/liTitleId"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/txtTitleId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/ttlMappingProducts"
+            android:textColor="@color/colorTextTitle" />
+    </LinearLayout>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/liItems"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorBackSubtitle"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/liTitleId"
+        tools:layout_editor_absoluteX="16dp">
+
+
+        <Button
+            android:id="@+id/btnConfirmItemId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_weight="1"
+
+            android:onClick="onBack"
+            android:text="@string/btn_inbound_back"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextTitle"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnConfirmItemId2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:onClick="onSave"
+            android:text="@string/btnGuardarGlb"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextTitle"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintStart_toEndOf="@+id/btnConfirmItemId"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/liItems"
+        app:layout_constraintVertical_bias="1.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@+id/lblBarCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="180dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/lblBarCodeGlb"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblProductId" />
+
+            <TextView
+                android:id="@+id/lblProductId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/lblProduct"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/lblNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/lblNombreGlb"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblProductId" />
+
+            <TextView
+                android:id="@+id/lblDescripcion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/lblDescripcionGlb"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblNombre" />
+
+            <TextView
+                android:id="@+id/lblActivo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/lblDescripcionGlb"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblDescripcion" />
+
+            <EditText
+                android:id="@+id/txtProductId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="120dp"
+                android:ems="8"
+                android:hint="@string/txtHintImput"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblProductId"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/txtNombreId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="120dp"
+                android:ems="14"
+                android:hint="@string/txtHintImput"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblNombre"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/txtDescripcionId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="120dp"
+                android:ems="14"
+                android:hint="@string/txtHintImput"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblDescripcion"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/txtBarCodeId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="120dp"
+                android:ems="10"
+                android:hint="@string/txtHintImput"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblBarCode"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/btnScanId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:onClick="onScan"
+                android:text="@string/btnScan"
+                android:textAllCaps="false"
+                android:textColor="@color/colorTextTitle"
+                app:backgroundTint="@color/colorAccent"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtBarCodeId"
+                app:layout_constraintStart_toEndOf="@+id/txtBarCodeId" />
+
+            <CheckBox
+                android:id="@+id/chkActivoId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="120dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblActivo"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

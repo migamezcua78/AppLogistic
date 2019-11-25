@@ -15,6 +15,7 @@ public class cMovementRequest {
         TargetLogisticsAreaID = "";
         Quantity = "";
         QuantityUnitCode = "";
+        SerialID = "";
     }
 
     public String  ExternalID;
@@ -28,4 +29,7 @@ public class cMovementRequest {
     public String  TargetLogisticsAreaID;
     public String  Quantity;
     public String  QuantityUnitCode;
+    public String  SerialID;
+
+
 }

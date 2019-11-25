@@ -5,7 +5,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.ksoap2.HeaderProperty;
 import org.ksoap2.SoapFault;
-import org.ksoap2.serialization.AttributeInfo;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
@@ -19,8 +18,10 @@ import java.util.List;
 import java.util.Vector;
 
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import java.util.concurrent.TimeUnit;
@@ -28,9 +29,12 @@ import java.util.concurrent.TimeUnit;
 public class cServices {
 
 
+    public  String END_POINT_REST = "";
+
     public  String NAME_SPACE_SOAP = "";
     public  String NAME_SPACE_REST = "";
     public  String NAME_RESOURCE_REST = "";
+
 
     public  int  CONNECT_TIMEOUT_REST = 0;
     public  int  WRITE_TIMEOUT_REST = 0;
@@ -64,6 +68,7 @@ public class cServices {
         NAME_RESOURCE_REST = getNameResourceRest();
         AUTHORIZATION_REST_VALUE = getAuthorizationRest();
         AUTHORIZATION_SOAP_VALUE = getAuthorizationSoap();
+        END_POINT_REST = getEndPointProductRest();
     }
 
     private String getAuthorizationRest (){
@@ -95,6 +100,87 @@ public class cServices {
         sResult = "/sap/byd/odata/ana_businessanalytics_analytics.svc/RPSCMINVV02_Q0001QueryResults";
         return sResult;
     }
+
+    private String getEndPointProductRest (){
+        String  sResult = "";
+        sResult = "http://3.92.221.195";
+        return sResult;
+    }
+
+
+    public cProductResponse PostProductDataService(cProductViewInfo  pObj){
+
+        String Resource = "/ws_ApiLogistic/api/RegistrarProducto";
+        cProductResponse oResponse = new  cProductResponse();
+        Response response;
+        String  sResult  = "";
+
+
+        try {
+
+            if (pObj != null){
+
+                // se construye  el httpCliente
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .connectTimeout(CONNECT_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .writeTimeout(WRITE_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .readTimeout(READ_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .build();
+
+
+                // se crea el json de request
+                JSONObject   jRequest = new JSONObject();
+                jRequest.put("idProductoSAP",pObj.ProductoSAPId);
+                jRequest.put("Nombre",pObj.Nombre);
+                jRequest.put("Descripcion",pObj.Descripcion);
+                jRequest.put("CodigoBarra",pObj.CodigoBarra);
+                jRequest.put("Estado",pObj.Estado);
+                jRequest.put("Usuario",pObj.Usuario);
+
+
+                // Se crea el request
+                HttpUrl route = HttpUrl.parse(END_POINT_REST + Resource);
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                RequestBody body = RequestBody.create(JSON, jRequest.toString());
+                Request request = new Request.Builder()
+                        .url(route)
+                        .post(body)
+                        .build();
+
+
+                // se invoca el servicio
+                response = client.newCall(request).execute();
+
+
+                // se guarda la respuesta
+                if ( response.isSuccessful() ){
+                    sResult =  response.body().string();
+                    JSONObject  jr = new JSONObject(sResult);
+
+                    if (!jr.get("idProductoSAP").toString().equals("null"))
+                    {
+                        oResponse.ResponseId =  jr.get("idProductoSAP").toString();
+
+                    } else {
+
+                        JSONObject  oError =  jr.getJSONObject("Error");
+                        oResponse.Msg = oError.get("ErrorDescripcion").toString();
+                        oResponse.ResponseId= "0";
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+
+            oResponse.ResponseId= "0";
+            oResponse.Msg = e.getMessage();
+            return oResponse;
+        }
+
+        return oResponse;
+    }
+
+
 
 
     public ArrayList<cStock> GetStockServiceData(String  pFilterType, String pFilterValue, String pMaximumNumberValue){
@@ -179,6 +265,7 @@ public class cServices {
 
 
 
+
     // Send Movement
 
     public  cMovementResponse PutMovementServiceData(cMovementRequest pObj){
@@ -214,12 +301,10 @@ public class cServices {
                SoapObject  so =   (SoapObject)envelope.getResponse();
                //so.getProperty("");
 
-                oResponse.GACID = "1";
+                oResponse.GACID = ((SoapPrimitive)so.getProperty("GACID")).getValue().toString();
                 oResponse.MSG = "";
             }
 
-           // vResponse = (Vector)envelope.getResponse();
-           // lsData = getMovementResponseData(vResponse);
 
         } catch (Exception e) {
 
@@ -245,16 +330,28 @@ public class cServices {
         soN2.addProperty("MaterialInternalID", pObj.MaterialInternalID);
         soN2.addProperty("OwnerPartyInternalID", pObj.OwnerPartyInternalID);
         soN2.addProperty("InventoryRestrictedUseIndicator", pObj.InventoryRestrictedUseIndicator);
+
+        if (!pObj.IdentifiedStockID.isEmpty()){
+            soN2.addProperty("IdentifiedStockID", pObj.IdentifiedStockID);
+        }
+
         soN2.addProperty("SourceLogisticsAreaID", pObj.SourceLogisticsAreaID);
         soN2.addProperty("TargetLogisticsAreaID", pObj.TargetLogisticsAreaID);
 
 
         SoapObject soN3 =  new SoapObject("", "InventoryItemChangeQuantity");
         SoapPrimitive  spN = new SoapPrimitive("", "Quantity", pObj.Quantity);
-        spN.addAttribute("unitCode", pObj.QuantityUnitCode );
+        spN.addAttribute("unitCode", pObj.QuantityUnitCode);
         soN3.addProperty("Quantity",spN);
 
         soN2.addSoapObject(soN3);
+
+        if (!pObj.SerialID.isEmpty()){
+
+            SoapObject soN4 = new SoapObject("", "InventoryItemChangeSerialNumber");
+            soN4.addProperty("SerialID", pObj.SerialID);
+            soN2.addSoapObject(soN4);
+        }
 
         soN1.addSoapObject(soN2);
 

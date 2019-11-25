@@ -277,6 +277,10 @@ public class Scanner extends BaseScannerActivity implements MessageDialogFragmen
 
                 oMsg =  new  cActivityMessage(Scanner.ScanType.SCAN_SERIAL_NUMBER, Valor);
             }
+            if (oMsg.getKey01().equals(ScanType.SCAN_BAR_CODE)){
+
+                oMsg =  new  cActivityMessage(Scanner.ScanType.SCAN_BAR_CODE, Valor);
+            }
         }
 
         Intent intent = new Intent(this,this.mClassSource);
@@ -420,6 +424,10 @@ public class Scanner extends BaseScannerActivity implements MessageDialogFragmen
                 this.mClassSource = PickSourceBD.class;
                 break;
 
+            case "MappingProducts" :
+                this.mClassSource = MappingProducts.class;
+                break;
+
         }
     }
 
@@ -433,6 +441,7 @@ public class Scanner extends BaseScannerActivity implements MessageDialogFragmen
         public static final String  SCAN_QTY = "SCAN_QTY";
         public static final String  SCAN_PRODUCT_QTY = "SCAN_PRODUCT_QTY";
         public static final String  SCAN_SERIAL_NUMBER = "SCAN_SERIAL_NUMBER";
+        public static final String  SCAN_BAR_CODE = "SCAN_BAR_CODE";
 
     }
 }
