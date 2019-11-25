@@ -57,8 +57,29 @@ public class MappingProducts extends AppCompatActivity {
 
     public void onSave(View view) {
         getViewInfo(oCurrectProductViewInfo);
-        AsyncTaskExample asyncTask=new AsyncTaskExample();
-        asyncTask.execute("params");
+
+        if (oCurrectProductViewInfo.ProductoSAPId.trim().isEmpty()){
+
+            Toast.makeText(getApplicationContext(),"ID de Producto es requerido" , Toast.LENGTH_SHORT).show();
+
+        } else  if (oCurrectProductViewInfo.CodigoBarra.trim().isEmpty()) {
+
+            Toast.makeText(getApplicationContext(), "Código de Barras es requerido", Toast.LENGTH_SHORT).show();
+
+        } else  if (oCurrectProductViewInfo.Nombre.trim().isEmpty()) {
+
+            Toast.makeText(getApplicationContext(), "Nombre del Producto es requerido", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            AsyncTaskRegisterProduct asyncTask=new AsyncTaskRegisterProduct();
+            asyncTask.execute("params");
+        }
+
+
+/*        AsyncTaskValidateProduct asyncTask=new AsyncTaskValidateProduct();
+        asyncTask.execute("params");*/
+
     }
 
     public void onScan(View view) {
@@ -133,7 +154,7 @@ public class MappingProducts extends AppCompatActivity {
 
 
 
-    private class AsyncTaskExample extends AsyncTask<String, String,cProductResponse> {
+    private class AsyncTaskRegisterProduct extends AsyncTask<String, String,cProductResponse> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -188,7 +209,81 @@ public class MappingProducts extends AppCompatActivity {
                     setViewInfo(oCurrectProductViewInfo);
 
                 } else {
+
+                    Toast.makeText(getApplicationContext(),"Error al intentar registrar el producto " , Toast.LENGTH_LONG).show();
                    // setViewInfo(oCurrectProductViewInfo);
+                }
+            }
+
+            vProgressDialog.hide();
+        }
+    }
+
+
+
+
+    private class AsyncTaskValidateProduct extends AsyncTask<String, String,cProductResponse> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(MappingProducts.this);
+            vProgressDialog.setMessage("Please wait...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected cProductResponse doInBackground(String... strings) {
+            cProductResponse oResp = new  cProductResponse();
+
+            try {
+
+                cServices ocServices = new cServices();
+
+               oCurrectProductViewInfo.ProductoSAPId = "1";
+            //    oCurrectProductViewInfo.Nombre = "productoPrueba3";
+             //   oCurrectProductViewInfo.Descripcion = "productoPruebaDescripcion3";
+                oCurrectProductViewInfo.CodigoBarra = "12312312312";
+          //      oCurrectProductViewInfo.Estado = "Activo";
+
+                //oCurrectProductViewInfo.Usuario = "tcabrera";
+
+                oResp = ocServices.PostProductAssignedDataService(oCurrectProductViewInfo);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return oResp;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values){
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(cProductResponse lsData) {
+            super.onPostExecute(lsData);
+
+            if  (lsData != null){
+
+                if(!lsData.ResponseId.equals("-1")){
+
+                    if (lsData.Assigned){
+
+                        Toast.makeText(getApplicationContext(),"Producto ASIGNADO" , Toast.LENGTH_LONG).show();
+
+                    } else {
+
+                        Toast.makeText(getApplicationContext(),"Producto NO ASIGNADO" , Toast.LENGTH_LONG).show();
+                    }
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(),"Error al intentar registrar el producto " , Toast.LENGTH_LONG).show();
                 }
             }
 

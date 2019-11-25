@@ -192,7 +192,7 @@
     <string name="lblNombreGlb">Nombre</string>
     <string name="lblDescripcionGlb">Descripción</string>
     <string name="lblCodigoBarrasGlb">Código de Barras</string>
-    <string name="lblEstadoGlb">Código de Barras</string>
+    <string name="lblEstadoGlb">Activo</string>
     <string name="lblUsuarioGlb">Usuario</string>
     <string name="btnGuardarGlb">Guardar</string>
 

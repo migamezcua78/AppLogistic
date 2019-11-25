@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="@string/lblDescripcionGlb"
+                android:text="@string/lblEstadoGlb"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblDescripcion" />
