@@ -37,6 +37,7 @@ public class PutAwayTarget extends AppCompatActivity {
    // cActivityMessage   oActivityMessage;
     ArrayList<cInboundViewInfo>  lsInbounItems;
     cInboundViewInfo  oCurrentInboundViewInfo;
+    cProductViewInfo oCurrectProductViewInfo;
     cGlobalData  oGlobalData;
 
     ProgressDialog vProgressDialog;
@@ -77,7 +78,7 @@ public class PutAwayTarget extends AppCompatActivity {
         txtQtyId = findViewById(R.id.txtQtyId);
         txtSerialNumberId = findViewById(R.id.txtSerialNumberId);
         txtLuQtyId = findViewById(R.id.txtLuQtyId);
-        txtBarCodeId = findViewById(R.id.txtStockId);
+        txtBarCodeId = findViewById(R.id.txtBarCodeId);
         cheRestrictedId = findViewById(R.id.cheRestrictedId);
         chkConfirmedId = findViewById(R.id.chkConfirmedId);
 
@@ -124,22 +125,17 @@ public class PutAwayTarget extends AppCompatActivity {
             }
 
 
-        }else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_SERIAL_NUMBER)){
+        }else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_BAR_CODE)){
 
             lsInbounItems = oGlobalData.LsIntboudItems;
-
             oCurrentInboundViewInfo =  oGlobalData.CurrentInboundViewInfo;
 
-           // txtSerialNumberId.setText(sSerialNumber);
-            int inQtyId =  Integer.valueOf(oCurrentInboundViewInfo.Qty);
-            inQtyId = inQtyId + 1;
-            oCurrentInboundViewInfo.Qty = String.valueOf(inQtyId);
-           // txtQtyId.setText(oCurrentInboundViewInfo.Qty);
+//            int inQtyId =  Integer.valueOf(oCurrentInboundViewInfo.Qty);
+//            inQtyId = inQtyId + 1;
+//            oCurrentInboundViewInfo.Qty = String.valueOf(inQtyId);
 
-           // txtSerialNumberId.setText(sSerialNumber + "_" + inQtyId);
-            txtSerialNumberId.setText(oMsg.getKey01());
-            oCurrentInboundViewInfo.SerialNumber = txtSerialNumberId.getText().toString();
-
+            txtBarCodeId.setText(oMsg.getKey01());
+            oCurrentInboundViewInfo.BarCode = txtBarCodeId.getText().toString();
 
             for(int i = 0; i <  lsInbounItems.size(); i++ ){
 
@@ -151,6 +147,12 @@ public class PutAwayTarget extends AppCompatActivity {
                 }
             }
 
+            oCurrectProductViewInfo = new cProductViewInfo();
+            oCurrectProductViewInfo.ProductoSAPId = oCurrentInboundViewInfo.ProductId;
+            oCurrectProductViewInfo.CodigoBarra = oCurrentInboundViewInfo.BarCode;
+
+            AsyncTaskValidateProduct asyncTask=new AsyncTaskValidateProduct();
+            asyncTask.execute("params");
 
            // setViewInfo(oCurrentInboundViewInfo);
         }
@@ -227,7 +229,7 @@ public class PutAwayTarget extends AppCompatActivity {
         oGlobalData.CurrentInboundViewInfo = oCurrentInboundViewInfo;
 
         Intent oIntent = new Intent(this, Scanner.class);
-        oIntent.putExtra("oMsg", new cActivityMessage("PutAwayTarget",Scanner.ScanType.SCAN_SERIAL_NUMBER));
+        oIntent.putExtra("oMsg", new cActivityMessage("PutAwayTarget",Scanner.ScanType.SCAN_BAR_CODE));
         startActivity(oIntent);
 
 
@@ -399,6 +401,76 @@ public class PutAwayTarget extends AppCompatActivity {
             cActivityMessage   oMssg = new  cActivityMessage();
             oIntent.putExtra("oMssg",oMssg );
             startActivity(oIntent);
+        }
+    }
+
+
+    private class AsyncTaskValidateProduct extends AsyncTask<String, String,cProductResponse> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(PutAwayTarget.this);
+            vProgressDialog.setMessage("Validando Producto...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected cProductResponse doInBackground(String... strings) {
+            cProductResponse oResp = new  cProductResponse();
+
+            try {
+
+                cServices ocServices = new cServices();
+
+                oCurrectProductViewInfo.ProductoSAPId = "1";
+                //    oCurrectProductViewInfo.Nombre = "productoPrueba3";
+                //   oCurrectProductViewInfo.Descripcion = "productoPruebaDescripcion3";
+                oCurrectProductViewInfo.CodigoBarra = "12312312312";
+                //      oCurrectProductViewInfo.Estado = "Activo";
+
+                //oCurrectProductViewInfo.Usuario = "tcabrera";
+
+                oResp = ocServices.PostProductAssignedDataService(oCurrectProductViewInfo);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return oResp;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values){
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(cProductResponse lsData) {
+            super.onPostExecute(lsData);
+
+            if  (lsData != null){
+
+                if(!lsData.ResponseId.equals("-1")){
+
+                    if (lsData.Assigned){
+
+                        Toast.makeText(getApplicationContext(),"Producto ASIGNADO" , Toast.LENGTH_LONG).show();
+
+                    } else {
+
+                        Toast.makeText(getApplicationContext(),"Producto NO ASIGNADO" , Toast.LENGTH_LONG).show();
+                    }
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(),"Error al intentar registrar el producto " , Toast.LENGTH_LONG).show();
+                }
+            }
+
+            vProgressDialog.hide();
         }
     }
 }

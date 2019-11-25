@@ -106,122 +106,119 @@
             android:id="@+id/lblTargetId"
             android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:text="@string/lblTarget"
             android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <EditText
             android:id="@+id/txtTargetId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="120dp"
             android:ems="10"
             android:hint="@string/txtHintImput"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/chkConfirmedId"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-
+            app:layout_constraintBottom_toBottomOf="@+id/lblTargetId"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/lblTargetId" />
 
         <CheckBox
             android:id="@+id/chkConfirmedId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginStart="28dp"
             android:enabled="false"
-            app:layout_constraintStart_toEndOf="@+id/txtTargetId"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
+            app:layout_constraintStart_toEndOf="@+id/txtTargetId" />
 
         <TextView
             android:id="@+id/lblProductId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="16dp"
             android:text="@string/lblProduct"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtProductId"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblTargetId" />
 
         <EditText
             android:id="@+id/txtProductId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="110dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="120dp"
             android:background="@drawable/shape_txt_fill"
             android:ems="10"
             android:hint="@string/txtHintImput"
             android:importantForAutofill="no"
-            android:textSize="12sp"
             android:inputType="none"
             android:textIsSelectable="true"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtTargetId" />
+            android:textSize="12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/lblProductId"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/lblOpenId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="16dp"
             android:text="@string/lblOpen"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblOpenValueId"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblProductId" />
 
         <TextView
             android:id="@+id/lblOpenValueId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="90dp"
-            android:layout_marginTop="15dp"
             android:text="0   ea"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtProductId" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/lblOpenId"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
         <TextView
             android:id="@+id/lblQty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
             android:text="@string/lblActual"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtQtyId"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblOpenId" />
 
         <EditText
             android:id="@+id/txtQtyId"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="90dp"
-            android:layout_marginTop="5dp"
-            android:ems="2"
+            android:ems="4"
             android:inputType="number"
             android:text="1"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblOpenValueId" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/lblQty"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Spinner
             android:id="@+id/spiUnitId"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/txtQtyId"
             app:layout_constraintStart_toEndOf="@+id/txtQtyId"
-            app:layout_constraintTop_toBottomOf="@+id/lblOpenValueId" />
+            app:layout_constraintTop_toTopOf="@+id/txtQtyId" />
 
         <TextView
             android:id="@+id/iblIdentId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="16dp"
             android:text="@string/lblIdent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblQty" />
@@ -231,20 +228,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="90dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iblIdentId" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/lblRestrictedId"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/lblRestrictedId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
             android:text="@string/lblRestricted"
-            app:layout_constraintBaseline_toBaselineOf="@+id/cheRestrictedId"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iblIdentId" />
 
-        <TextView
+<!--        <TextView
             android:id="@+id/lblLuId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -264,7 +261,8 @@
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cheRestrictedId" />
-
+-->
+<!--
         <TextView
             android:id="@+id/lblLuQtyId"
             android:layout_width="wrap_content"
@@ -274,51 +272,53 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/txtLuQtyId"
             app:layout_constraintStart_toStartOf="parent" />
 
+
         <EditText
             android:id="@+id/txtLuQtyId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
+            android:layout_marginStart="96dp"
             android:layout_marginTop="4dp"
             android:ems="5"
             android:inputType="textPersonName"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtSerialNumberId" />
-
+-->
         <TextView
             android:id="@+id/lblStockId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="32dp"
             android:text="@string/lblBarCode"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtStockId"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblRestrictedId" />
 
         <EditText
-            android:id="@+id/txtStockId"
+            android:id="@+id/txtBarCodeId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="90dp"
-            android:layout_marginTop="4dp"
             android:ems="10"
             android:inputType="textPersonName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtLuQtyId" />
+            android:textSize="12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/lblStockId"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/btnScanId"
-            android:layout_width="75dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:onClick="onScan"
             android:text="@string/btnScan"
             android:textAllCaps="false"
             android:textColor="@color/colorTextTitle"
             android:textSize="9sp"
             app:backgroundTint="@color/colorAccent"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtSerialNumberId"
-            app:layout_constraintStart_toEndOf="@+id/txtSerialNumberId" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/txtBarCodeId"
+            app:layout_constraintStart_toEndOf="@+id/txtBarCodeId" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
