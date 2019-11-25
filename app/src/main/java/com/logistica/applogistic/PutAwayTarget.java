@@ -425,10 +425,10 @@ public class PutAwayTarget extends AppCompatActivity {
 
                 cServices ocServices = new cServices();
 
-                oCurrectProductViewInfo.ProductoSAPId = "1";
+                //oCurrectProductViewInfo.ProductoSAPId = "1";
                 //    oCurrectProductViewInfo.Nombre = "productoPrueba3";
                 //   oCurrectProductViewInfo.Descripcion = "productoPruebaDescripcion3";
-                oCurrectProductViewInfo.CodigoBarra = "12312312312";
+               // oCurrectProductViewInfo.CodigoBarra = "12312312312";
                 //      oCurrectProductViewInfo.Estado = "Activo";
 
                 //oCurrectProductViewInfo.Usuario = "tcabrera";

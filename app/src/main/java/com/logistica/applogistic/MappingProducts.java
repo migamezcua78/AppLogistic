@@ -102,6 +102,8 @@ public class MappingProducts extends AppCompatActivity {
         chkActivoId =  findViewById(R.id.chkActivoId);
         txtBarCodeId =  findViewById(R.id.txtBarCodeId);
 
+        chkActivoId.setChecked(true);
+
         oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
         oCurrectProductViewInfo = ((cGlobalData)getApplication()).CurrentProductViewInfo;
     }
