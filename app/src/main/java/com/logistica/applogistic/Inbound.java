@@ -27,7 +27,7 @@ public class Inbound extends AppCompatActivity {
     // VIEWS
     private Spinner     spinner;
     private TableLayout tableLayout;
-    private  cDataGrid  oDataGrid;
+    private cDataGrid  oDataGrid;
     private EditText    txtImputFilterId;
     private TextView    lblTaskValueId;
     private TextView    lbOrderValueId;
@@ -39,10 +39,10 @@ public class Inbound extends AppCompatActivity {
     private List<cSpinnerItem>  InfoFilter;
     ArrayList<cInboundViewInfo>  lsInbounItems;
 
-    DatabaseHelper BD;
+/*    DatabaseHelper BD;
     InputStream is = null;
     ImageView imageView= null;
-    AlertDialog alert11;
+    AlertDialog alert11;*/
 
     // Process
     ProgressDialog vProgressDialog;
@@ -58,6 +58,7 @@ public class Inbound extends AppCompatActivity {
 
         cGlobalData  oGlobalData=  (cGlobalData)getApplication();
         oGlobalData.setGlobalVarValue("Hola");
+
         init();
         StartActivity();
     }
@@ -155,7 +156,6 @@ public class Inbound extends AppCompatActivity {
 
     public void   onClickStartTask(View spinner) {
 
-
         if ( txtImputFilterId.getText().toString().trim().isEmpty() ){
 
             Toast.makeText(getApplicationContext(),"TASK field is required", Toast.LENGTH_SHORT).show();
@@ -224,6 +224,7 @@ public class Inbound extends AppCompatActivity {
 
     }
 
+
     public void showMessage(String Title, String Message)
     {
         AlertDialog.Builder build =new AlertDialog.Builder(this);
@@ -231,17 +232,16 @@ public class Inbound extends AppCompatActivity {
         build.setTitle(Title);
         build.setMessage(Message);
         build.show();
-
     }
 
 
     public void   onClickNext(View spinner) {
-        Toast.makeText(getApplicationContext(),"Next", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getApplicationContext(),"Next", Toast.LENGTH_SHORT).show();
     }
 
     public void   onClickPrevious(View spinner) {
         //Toast.makeText(getApplicationContext(),"Previous", Toast.LENGTH_SHORT).show();
-        finish();
+        //finish();
     }
 
     private void  getParamInfo(cInboundViewInfo  pViewInfo) {
@@ -371,10 +371,6 @@ public class Inbound extends AppCompatActivity {
         }
     }
 
-
-
-
-
     private class AsyncTaskConfirm extends AsyncTask<String, String,  ArrayList<cPurchaseItem>> {
 
 
@@ -465,14 +461,12 @@ public class Inbound extends AppCompatActivity {
                 startActivity(oIntent);
 
             }else {
-                  Toast.makeText(getApplicationContext(),"No hay elementos para la Tarea seleccionada", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"No hay elementos para la Tarea seleccionada", Toast.LENGTH_SHORT).show();
             }
 
             vProgressDialog.hide();
         }
-
     }
-
 
 
 

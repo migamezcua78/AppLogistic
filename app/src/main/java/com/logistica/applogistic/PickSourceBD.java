@@ -97,6 +97,10 @@ public class PickSourceBD extends AppCompatActivity {
                     if ( iterater > 0 ){
                         oCurrentItemViewInfo = lsInbounItems.get(iterater-1);
                         setViewInfo(oCurrentItemViewInfo);
+
+                        oCurrentItemViewInfo.QtyDiff = "0";
+                        oCurrentItemViewInfo.TargetId = "";
+
                         // lblCountItemsId.setText(String.valueOf(iterater) + " of " + String.valueOf(lsInbounItems.size()));
                     }
                 }
@@ -116,15 +120,18 @@ public class PickSourceBD extends AppCompatActivity {
                 oCurrentItemViewInfo =  oGlobalData.CurrentInboundViewInfo;
 
                // txtProductId.setText(oCurrentItemViewInfo.ProductId);
-                txtQtyId.setText("2");  //  proviene del scaner
-                txtStockId.setText("43668");  //  proviene del scaner
+               // txtQtyId.setText("2");  //  proviene del scaner
+               // txtStockId.setText("43668");  //  proviene del scaner
                 chkProductId.setChecked(true);
+
+
+
                 //.setText("43668");
 
                 // se asignan
               //  oCurrentItemViewInfo.SourceId = txtSourceId.getText().toString();
-                oCurrentItemViewInfo.Qty = txtQtyId.getText().toString();
-                oCurrentItemViewInfo.IdentStock = txtStockId.getText().toString();
+              //  oCurrentItemViewInfo.Qty = txtQtyId.getText().toString();
+              //  oCurrentItemViewInfo.IdentStock = txtStockId.getText().toString();
 
                 setViewInfo(oCurrentItemViewInfo);
             }
@@ -194,6 +201,8 @@ public class PickSourceBD extends AppCompatActivity {
 
         else {
 
+            oCurrentItemViewInfo.Confirmed = true;
+
             Intent oIntent = new Intent(this, TargetConfirmationBD.class);
             cActivityMessage  cActivityMessage = new cActivityMessage();
             cActivityMessage.setMessage("ItemConfirmed");
@@ -203,6 +212,9 @@ public class PickSourceBD extends AppCompatActivity {
     }
 
     public void   onChangeArea(View view) {
+
+        getViewInfo(oCurrentItemViewInfo);
+        ((cGlobalData)getApplication()).LsIntboudItems = lsInbounItems;
 
         Intent oIntent = new Intent(this, PutAwayTargetBD.class);
         oIntent.putExtra("oMsg", new cActivityMessage("AssignOtherArea", String.valueOf(iterater)));

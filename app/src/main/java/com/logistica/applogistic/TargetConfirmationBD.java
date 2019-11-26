@@ -33,7 +33,9 @@ public class TargetConfirmationBD extends AppCompatActivity {
         cGlobalData  oGlobalData=  (cGlobalData)getApplication();
         for ( cInboundViewInfo e:oGlobalData.LsIntboudItems){
 
-            InfoData.add(new String[]{ e.ProductId, e.Qty + " " + e.OpenUnit });
+            if(e.Confirmed) {
+                InfoData.add(new String[]{ e.ProductId, e.Qty + " " + e.OpenUnit });
+            }
         }
 
         fillDataGrid();

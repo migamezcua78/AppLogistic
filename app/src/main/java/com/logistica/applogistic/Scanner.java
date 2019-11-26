@@ -428,6 +428,11 @@ public class Scanner extends BaseScannerActivity implements MessageDialogFragmen
                 this.mClassSource = MappingProducts.class;
                 break;
 
+            case "PutAwayTargetBD" :
+                this.mClassSource = PutAwayTargetBD.class;
+                break;
+
+
         }
     }
 

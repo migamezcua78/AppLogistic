@@ -29,36 +29,33 @@ public class InboundBD extends AppCompatActivity {
     private Spinner spinner;
     private TableLayout tableLayout;
     private cDataGrid  oDataGrid;
-
     private EditText txtImputFilterId;
     private TextView  lblTaskValueId;
     private TextView  lbOrderValueId;
-
 
     //  DATA
     private ArrayList <String[]> InfoData = new ArrayList <> ();
     private String[] InfoHeader;
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
-    ArrayList<cInboundViewInfo>  LsInboudItems =  new  ArrayList<>();
+    ArrayList<cInboundViewInfo>  lsInbounItems =  new  ArrayList<>();
 
-
+/*
     DatabaseHelper BD;
-
     InputStream is = null;
     ImageView imageView= null;
     ProgressDialog p;
-
     AlertDialog alert11;
+*/
 
     ProgressDialog vProgressDialog;
     cActivityMessage oMsg;
+    Boolean Scanned;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbound_bd);
-
         init();
         StartActivity();
     }
@@ -77,9 +74,14 @@ public class InboundBD extends AppCompatActivity {
         cGlobalData  oGlobalData =  (cGlobalData)getApplication();
         oGlobalData.setGlobalVarValue("Hola");
 
+
+        Scanned = false;
+
         oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
 
         InfoData =  new ArrayList <> ();
+        InfoFilter = new ArrayList<>();
+        lsInbounItems =  new  ArrayList<>();
     }
 
 
@@ -88,12 +90,11 @@ public class InboundBD extends AppCompatActivity {
         if( oMsg != null){
             if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_TASK)){
 
-              //  txtImputFilterId.setText("");
                 lblTaskValueId.setText("");
                 lbOrderValueId.setText("");
-
                 txtImputFilterId.setText(oMsg.getKey01());
 
+                Scanned = true;
                 AsyncTaskExample asyncTask=new AsyncTaskExample();
                 asyncTask.execute("params");
             }
@@ -101,7 +102,6 @@ public class InboundBD extends AppCompatActivity {
 
         fillDataFilter();
         fillDataGrid();
-
     }
 
     @Override
@@ -133,81 +133,86 @@ public class InboundBD extends AppCompatActivity {
 
     public void onScan(View view) {
 
-        txtImputFilterId.setText("");
-        lblTaskValueId.setText("");
-        lbOrderValueId.setText("");
+//        txtImputFilterId.setText("");
+//        lblTaskValueId.setText("");
+//        lbOrderValueId.setText("");
 
         Intent oIntent = new Intent(this, Scanner.class);
         oIntent.putExtra("oMsg", new cActivityMessage("InboundBD",Scanner.ScanType.SCAN_TASK));
         startActivity(oIntent);
+    }
 
+    private cActivityMessage getActivityMsg(){
+        cActivityMessage   oMsg = new  cActivityMessage();
 
+        oMsg.setMessage("StartTask");
+        cSpinnerItem   oSpiItem=  (cSpinnerItem)spinner.getSelectedItem();
+        oMsg.setKey01(oSpiItem.getField());
+        oMsg.setKey02(txtImputFilterId.getText().toString().trim());
 
-/*        txtImputFilterId.setText("");
-        lblTaskValueId.setText("");
-        lbOrderValueId.setText("");
-        AsyncTaskExample asyncTask=new AsyncTaskExample();
-        asyncTask.execute("params");*/
-
-//        txtImputFilterId.setText("");
-//        AsyncTaskScan asyncTask= new AsyncTaskScan();
-//        asyncTask.execute("params");
+        return  oMsg;
     }
 
 
     public void   onClickStartTask(View spinner) {
 
-
         if ( txtImputFilterId.getText().toString().trim().isEmpty() ){
 
             Toast.makeText(getApplicationContext(),"TASK field is required", Toast.LENGTH_SHORT).show();
 
-        } else{
+        } else {
 
-            for ( cInboundViewInfo e:LsInboudItems){
-                getParamInfo(e);
+
+            if( lsInbounItems != null && lsInbounItems.size() > 0  &&  Scanned == true){
+
+                for ( cInboundViewInfo e:lsInbounItems){
+                    getParamInfo(e);
+                }
+
+                Intent oIntent = new Intent(this, PickSourceBD.class);
+                oIntent.putExtra("oMsg", getActivityMsg());
+                startActivity(oIntent);
+
+            }else {
+
+                //  txtImputFilterId.setText("15");
+                AsyncTaskConfirm asyncTaskConfirm=new  AsyncTaskConfirm();
+                asyncTaskConfirm.execute("params");
+
+                //  Toast.makeText(getApplicationContext(),"There are NO items in task selected", Toast.LENGTH_SHORT).show();
             }
 
-            Intent oIntent = new Intent(this, PickSourceBD.class);
-            oIntent.putExtra("oMsg",new cActivityMessage("Start"));
-            startActivity(oIntent);
+
+//            for ( cInboundViewInfo e:lsInbounItems){
+//                getParamInfo(e);
+//            }
+//
+//            Intent oIntent = new Intent(this, PickSourceBD.class);
+//            oIntent.putExtra("oMsg",new cActivityMessage("Start"));
+//            startActivity(oIntent);
         }
+    }
 
-
-
-        // Intent oIntent = new Intent(this, PutAwayTarget.class);
-        //oIntent.setExtrasClassLoader();
-        //    startActivity(oIntent);
-
-
-      /*
-        //obtiene los datos de SQLite
-        Cursor res= BD.getAllData();
-        if (res.getCount()==0){
-
-            showMessage("Datos","La consulta no devolvió información");
-            return;
-
-        }
-
-        StringBuffer Buffer=new StringBuffer();
-        while (res.moveToNext())
-        {
-
-            // Buffer.append("Id :" + getString(0)+"\n");
-            //Buffer.append("Product :"+ getString(1)+"\n");
-            //  Buffer.append("Planned_Quantity :"+ getString(2)+"\n");
-
-            int cid =res.getInt(res.getColumnIndex(BD.Col1));
-            String Product =res.getString(res.getColumnIndex(BD.Col2));
-            String  Planned_Quantity =res.getString(res.getColumnIndex(BD.Col3));
-            Buffer.append(cid+ "   " + Product + "   " + Planned_Quantity +" \n");
-
-        }
-        showMessage("Datos",Buffer.toString());
-        //  Toast.makeText(getApplicationContext(),"Start Task", Toast.LENGTH_SHORT).show();*/
+    public void showMessage(String Title, String Message)
+    {
+        AlertDialog.Builder build =new AlertDialog.Builder(this);
+        build.setCancelable(true);
+        build.setTitle(Title);
+        build.setMessage(Message);
+        build.show();
 
     }
+
+
+    public void   onClickNext(View spinner) {
+        //Toast.makeText(getApplicationContext(),"Next", Toast.LENGTH_SHORT).show();
+    }
+
+    public void   onClickPrevious(View spinner) {
+        //Toast.makeText(getApplicationContext(),"Previous", Toast.LENGTH_SHORT).show();
+        //finish();
+    }
+
 
 
     private void  getParamInfo(cInboundViewInfo  pViewInfo) {
@@ -230,25 +235,6 @@ public class InboundBD extends AppCompatActivity {
         }
     }
 
-    public void showMessage(String Title, String Message)
-    {
-        AlertDialog.Builder build =new AlertDialog.Builder(this);
-        build.setCancelable(true);
-        build.setTitle(Title);
-        build.setMessage(Message);
-        build.show();
-
-    }
-
-
-    public void   onClickNext(View spinner) {
-        Toast.makeText(getApplicationContext(),"Next", Toast.LENGTH_SHORT).show();
-    }
-
-    public void   onClickPrevious(View spinner) {
-        //Toast.makeText(getApplicationContext(),"Previous", Toast.LENGTH_SHORT).show();
-        finish();
-    }
 
 
 
@@ -273,6 +259,277 @@ public class InboundBD extends AppCompatActivity {
     private ArrayList<String[]> getInfoData(){
         return  InfoData;
     }
+
+
+
+    private class AsyncTaskExample extends AsyncTask<String, String,  ArrayList<cPurchaseItem>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(InboundBD.this);
+            vProgressDialog.setMessage("Please wait...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected ArrayList<cPurchaseItem> doInBackground(String... strings) {
+            ArrayList<cPurchaseItem> lsData = new ArrayList<>();
+
+            try {
+
+                cServices ocServices = new cServices();
+                lsData = ocServices.GetPurchaseItemServiceData(cServices.PurchaseItemFilterType.ID, txtImputFilterId.getText().toString(), "");
+
+                //  lsData = ocServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID, "*", "1");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return lsData;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(ArrayList<cPurchaseItem> lsData) {
+
+            super.onPostExecute(lsData);
+            lblTaskValueId.setText( txtImputFilterId.getText().toString().trim() + "  "  +  "Pick");
+            //lbOrderValueId.setText("365");
+
+            lsInbounItems = new  ArrayList<>();
+
+            InfoData = new ArrayList <> ();
+            cInboundViewInfo  oInboundViewInfo = new cInboundViewInfo();
+
+            for (int i = 0; i < lsData.size(); i++) {
+                cPurchaseItem oData = lsData.get(i);
+
+                if( !oData.ID.trim().isEmpty()){
+
+                    oInboundViewInfo = new cInboundViewInfo();
+                    oInboundViewInfo.ProductId = oData.ID;
+                    oInboundViewInfo.Open = oData.Quantity;
+                    oInboundViewInfo.OpenUnit = oData.QuantityUnitCode;
+
+
+                /*    oInboundViewInfo.ProductId = oData.getProductCategoryID() +  "_" + String.valueOf(i);
+                    oInboundViewInfo.Open = String.valueOf(i+2);   // oMaterial.getQuantity();
+                    oInboundViewInfo.OpenUnit =  oData.getQuantityUnitCode();
+                    oInboundViewInfo.TargetId = "MC64920-50-10-10-04_" + String.valueOf(i);
+                    oInboundViewInfo.IdentStock = "43668";*/
+
+                    lsInbounItems.add(oInboundViewInfo);
+                    InfoData.add(new String[]{ oInboundViewInfo.ProductId, oInboundViewInfo.Open + "  " + oInboundViewInfo.OpenUnit });
+                }
+            }
+
+
+            cGlobalData  oGlobalData=  (cGlobalData)getApplication();
+            oGlobalData.LsIntboudItems = lsInbounItems;
+
+            oDataGrid.RemoveAllItems();
+            fillDataGrid();
+
+            Scanned = true;
+
+            vProgressDialog.hide();
+        }
+    }
+
+    private class AsyncTaskConfirm extends AsyncTask<String, String,  ArrayList<cPurchaseItem>> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(InboundBD.this);
+            vProgressDialog.setMessage("Please wait...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected ArrayList<cPurchaseItem> doInBackground(String... strings) {
+            ArrayList<cPurchaseItem> lsData = new ArrayList<>();
+
+            try {
+
+                cServices ocServices = new cServices();
+                lsData = ocServices.GetPurchaseItemServiceData(cServices.PurchaseItemFilterType.ID, txtImputFilterId.getText().toString(), "");
+
+                //  lsData = ocServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID, "*", "1");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return lsData;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(ArrayList<cPurchaseItem> lsData) {
+
+            super.onPostExecute(lsData);
+            lblTaskValueId.setText( txtImputFilterId.getText().toString().trim() + "  "  +  "Pick");
+            //lbOrderValueId.setText("365");
+
+            lsInbounItems = new  ArrayList<>();
+
+            InfoData = new ArrayList <> ();
+            cInboundViewInfo  oInboundViewInfo = new cInboundViewInfo();
+
+            for (int i = 0; i < lsData.size(); i++) {
+                cPurchaseItem oData = lsData.get(i);
+
+                if( !oData.ID.trim().isEmpty()){
+
+                    oInboundViewInfo = new cInboundViewInfo();
+                    oInboundViewInfo.ProductId = oData.ID;
+                    oInboundViewInfo.Open = oData.Quantity;
+                    oInboundViewInfo.OpenUnit = oData.QuantityUnitCode;
+
+
+                /*    oInboundViewInfo.ProductId = oData.getProductCategoryID() +  "_" + String.valueOf(i);
+                    oInboundViewInfo.Open = String.valueOf(i+2);   // oMaterial.getQuantity();
+                    oInboundViewInfo.OpenUnit =  oData.getQuantityUnitCode();
+                    oInboundViewInfo.TargetId = "MC64920-50-10-10-04_" + String.valueOf(i);
+                    oInboundViewInfo.IdentStock = "43668";*/
+
+                    lsInbounItems.add(oInboundViewInfo);
+                    InfoData.add(new String[]{ oInboundViewInfo.ProductId, oInboundViewInfo.Open + "  " + oInboundViewInfo.OpenUnit });
+                }
+            }
+
+
+            cGlobalData  oGlobalData=  (cGlobalData)getApplication();
+            oGlobalData.LsIntboudItems = lsInbounItems;
+
+            oDataGrid.RemoveAllItems();
+            fillDataGrid();
+
+
+            if( lsInbounItems != null && lsInbounItems.size() > 0 ){
+
+                for ( cInboundViewInfo e:lsInbounItems){
+                    getParamInfo(e);
+                }
+
+                Intent oIntent = new Intent(InboundBD.this, PickSourceBD.class);
+                oIntent.putExtra("oMsg", getActivityMsg());
+                startActivity(oIntent);
+
+            }else {
+                Toast.makeText(getApplicationContext(),"No hay elementos para la Tarea seleccionada", Toast.LENGTH_SHORT).show();
+            }
+
+            vProgressDialog.hide();
+        }
+    }
+
+
+
+
+
+/*
+
+    private class AsyncTaskExample extends AsyncTask<String, String,  ArrayList<cMaterial>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(InboundBD.this);
+            vProgressDialog.setMessage("Please wait...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected ArrayList<cMaterial> doInBackground(String... strings) {
+            ArrayList<cMaterial> lsData = new ArrayList<>();
+
+            try {
+
+                cServices ocServices = new cServices();
+                lsData = ocServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID, "*", "1");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return lsData;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(ArrayList<cMaterial> lsData) {
+            super.onPostExecute(lsData);
+
+            lblTaskValueId.setText( txtImputFilterId.getText().toString().trim() + "  "  +  "Pick");
+            lbOrderValueId.setText("365");
+
+            lsInbounItems =  new  ArrayList<>();
+            InfoData = new ArrayList <> ();
+
+
+            cInboundViewInfo  oInboundViewInfo = new cInboundViewInfo();
+
+            for (int i = 0; i < lsData.size(); i++) {
+                cMaterial oMaterial = lsData.get(i);
+
+                if( !oMaterial.getProductCategoryID().trim().isEmpty()){
+
+                    oInboundViewInfo = new cInboundViewInfo();
+                    oInboundViewInfo.ProductId = oMaterial.getProductCategoryID() + "_"  + String.valueOf(i);
+                    oInboundViewInfo.Open = String.valueOf(i+3);  // oMaterial.getQuantity();
+                    oInboundViewInfo.OpenUnit =  oMaterial.getQuantityUnitCode();
+                    oInboundViewInfo.TargetId = "MC64920-50-10-10-04_" +  String.valueOf(i);
+                    oInboundViewInfo.IdentStock = "";
+
+                    lsInbounItems.add(oInboundViewInfo);
+
+                    InfoData.add(new String[]{oInboundViewInfo.ProductId, oInboundViewInfo.Open + " " +  oInboundViewInfo.OpenUnit });
+                }
+            }
+
+            cGlobalData  oGlobalData=  (cGlobalData)getApplication();
+            oGlobalData.LsIntboudItems = lsInbounItems;
+
+            lbOrderValueId.setText("1392");
+            lblTaskValueId.setText(txtImputFilterId.getText().toString());
+
+            oDataGrid.RemoveAllItems();
+            fillDataGrid();
+            vProgressDialog.hide();
+        }
+    }
+
+*/
+
+
+
+
+
+
 
 /*
 
@@ -479,109 +736,6 @@ public class InboundBD extends AppCompatActivity {
     }
 
 */
-
-
-    private void AddData(ArrayList<cMaterial> lsData) {
-          /*  String Product="";
-            String Planned_Quantity="";
-            Product="MCFHITG-001";
-            Planned_Quantity="5 ea";
-*/
-        for ( int i = 0; i <  lsData.size(); i ++  ){
-            cMaterial  oMaterial  =lsData.get(i);
-            //InfoData.add(new String[]{oMaterial.getProductCategoryID(), oMaterial.getQuantity() + " " +  oMaterial.getQuantityUnitCode() });
-
-
-/*            boolean Inserted =BD.insertData(oMaterial.ProductCategoryID, oMaterial.Quantity);
-            if (Inserted==true){
-                Toast.makeText(Inbound.this,"Datos insertados correctamente...",Toast.LENGTH_LONG).show();
-            }
-            else {
-                Toast.makeText(Inbound.this,"Los datos no fueron Insertados...",Toast.LENGTH_LONG).show();
-            }*/
-
-        }
-    }
-
-
-
-
-    private class AsyncTaskExample extends AsyncTask<String, String,  ArrayList<cMaterial>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            p = new ProgressDialog(InboundBD.this);
-            p.setMessage("Please wait...");
-            p.setIndeterminate(false);
-            p.setCancelable(true);
-            p.show();
-        }
-
-
-        @Override
-        protected ArrayList<cMaterial> doInBackground(String... strings) {
-            ArrayList<cMaterial> lsData = new ArrayList<>();
-
-            try {
-
-                cServices ocServices = new cServices();
-                lsData = ocServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID, "*", "1");
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return lsData;
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-            //  Msg.setText(values[0]);
-        }
-
-
-        @Override
-        protected void onPostExecute(ArrayList<cMaterial> lsData) {
-            super.onPostExecute(lsData);
-
-            lblTaskValueId.setText( txtImputFilterId.getText().toString().trim() + "  "  +  "Pick");
-            lbOrderValueId.setText("365");
-
-            LsInboudItems =  new  ArrayList<>();
-            InfoData = new ArrayList <> ();
-
-
-            cInboundViewInfo  oInboundViewInfo = new cInboundViewInfo();
-
-            for (int i = 0; i < lsData.size(); i++) {
-                cMaterial oMaterial = lsData.get(i);
-
-                if( !oMaterial.getProductCategoryID().trim().isEmpty()){
-
-                    oInboundViewInfo = new cInboundViewInfo();
-                    oInboundViewInfo.ProductId = oMaterial.getProductCategoryID() + "_"  + String.valueOf(i);
-                    oInboundViewInfo.Open = String.valueOf(i+3);  // oMaterial.getQuantity();
-                    oInboundViewInfo.OpenUnit =  oMaterial.getQuantityUnitCode();
-                    oInboundViewInfo.TargetId = "MC64920-50-10-10-04_" +  String.valueOf(i);
-                    oInboundViewInfo.IdentStock = "";
-
-                    LsInboudItems.add(oInboundViewInfo);
-
-                    InfoData.add(new String[]{oInboundViewInfo.ProductId, oInboundViewInfo.Open + " " +  oInboundViewInfo.OpenUnit });
-                }
-            }
-
-            cGlobalData  oGlobalData=  (cGlobalData)getApplication();
-            oGlobalData.LsIntboudItems = LsInboudItems;
-
-            lbOrderValueId.setText("1392");
-            lblTaskValueId.setText(txtImputFilterId.getText().toString());
-
-            oDataGrid.RemoveAllItems();
-            fillDataGrid();
-            p.hide();
-        }
-    }
-
 
 /*
     private class AsyncTaskScan extends AsyncTask<String, String,  String> {
