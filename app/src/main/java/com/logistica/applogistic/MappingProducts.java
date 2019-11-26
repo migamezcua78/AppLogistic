@@ -82,6 +82,17 @@ public class MappingProducts extends AppCompatActivity {
 
     }
 
+
+
+    public void onConsultProduct(View view) {
+
+        getViewInfo(oCurrectProductViewInfo);
+
+        AsyncTaskConsultProduct asyncTask=new AsyncTaskConsultProduct();
+        asyncTask.execute("params");
+    }
+
+
     public void onScan(View view) {
 
         getViewInfo(oCurrectProductViewInfo);
@@ -244,10 +255,10 @@ public class MappingProducts extends AppCompatActivity {
 
                 cServices ocServices = new cServices();
 
-               oCurrectProductViewInfo.ProductoSAPId = "1";
+              // oCurrectProductViewInfo.ProductoSAPId = "1";
             //    oCurrectProductViewInfo.Nombre = "productoPrueba3";
              //   oCurrectProductViewInfo.Descripcion = "productoPruebaDescripcion3";
-                oCurrectProductViewInfo.CodigoBarra = "12312312312";
+             //   oCurrectProductViewInfo.CodigoBarra = "12312312312";
           //      oCurrectProductViewInfo.Estado = "Activo";
 
                 //oCurrectProductViewInfo.Usuario = "tcabrera";
@@ -277,6 +288,84 @@ public class MappingProducts extends AppCompatActivity {
                     if (lsData.Assigned){
 
                         Toast.makeText(getApplicationContext(),"Producto ASIGNADO" , Toast.LENGTH_LONG).show();
+
+                    } else {
+
+                        Toast.makeText(getApplicationContext(),"Producto NO ASIGNADO" , Toast.LENGTH_LONG).show();
+                    }
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(),"Error al intentar registrar el producto " , Toast.LENGTH_LONG).show();
+                }
+            }
+
+            vProgressDialog.hide();
+        }
+    }
+
+
+    private class AsyncTaskConsultProduct extends AsyncTask<String, String,cProductResponse> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(MappingProducts.this);
+            vProgressDialog.setMessage("Please wait...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected cProductResponse doInBackground(String... strings) {
+            cProductResponse oResp = new  cProductResponse();
+
+            try {
+
+                cServices ocServices = new cServices();
+
+                //oCurrectProductViewInfo.ProductoSAPId = "1";
+                //    oCurrectProductViewInfo.Nombre = "productoPrueba3";
+                //   oCurrectProductViewInfo.Descripcion = "productoPruebaDescripcion3";
+                //oCurrectProductViewInfo.CodigoBarra = "12312312312";
+                //      oCurrectProductViewInfo.Estado = "Activo";
+
+                //oCurrectProductViewInfo.Usuario = "tcabrera";
+
+                oResp = ocServices.PostConsultProductDataService(oCurrectProductViewInfo);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return oResp;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values){
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(cProductResponse lsData) {
+            super.onPostExecute(lsData);
+
+            if  (lsData != null){
+
+                if(!lsData.ResponseId.equals("-1")){
+
+                    if (lsData.Assigned){
+
+                        Toast.makeText(getApplicationContext(),"Producto ASIGNADO" , Toast.LENGTH_LONG).show();
+                        oCurrectProductViewInfo.ProductoSAPId  = lsData.ResponseId;
+                        oCurrectProductViewInfo.CodigoBarra  = lsData.CodigoBarra;
+                        oCurrectProductViewInfo.Nombre  = lsData.Nombre;
+                        oCurrectProductViewInfo.Descripcion  = lsData.Descripcion;
+                        oCurrectProductViewInfo.Estado  = lsData.Estado;
+                        oCurrectProductViewInfo.Usuario  = lsData.Usuario;
+
+                        setViewInfo(oCurrectProductViewInfo);
 
                     } else {
 

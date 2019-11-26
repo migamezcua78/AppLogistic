@@ -195,5 +195,6 @@
     <string name="lblEstadoGlb">Activo</string>
     <string name="lblUsuarioGlb">Usuario</string>
     <string name="btnGuardarGlb">Guardar</string>
+    <string name="btnConsultarGlb">Consultar</string>
 
 </resources>
