@@ -26,7 +26,7 @@ public class PutAwayTarget extends AppCompatActivity {
     private TextView lblOpenValueId;
     private EditText txtQtyId;
     private EditText txtSerialNumberId;
-    private EditText txtLuQtyId;
+   // private EditText txtLuQtyId;
     private EditText txtBarCodeId;
     private CheckBox cheRestrictedId;
     private CheckBox chkConfirmedId;
@@ -51,6 +51,8 @@ public class PutAwayTarget extends AppCompatActivity {
     int iterater;
 
     String   sSerialNumber;
+
+    boolean isProductAssigned;
 
 
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
@@ -77,7 +79,7 @@ public class PutAwayTarget extends AppCompatActivity {
         lblOpenValueId = findViewById(R.id.lblOpenValueId);
         txtQtyId = findViewById(R.id.txtQtyId);
         txtSerialNumberId = findViewById(R.id.txtSerialNumberId);
-        txtLuQtyId = findViewById(R.id.txtLuQtyId);
+       // txtLuQtyId = findViewById(R.id.txtLuQtyId);
         txtBarCodeId = findViewById(R.id.txtBarCodeId);
         cheRestrictedId = findViewById(R.id.cheRestrictedId);
         chkConfirmedId = findViewById(R.id.chkConfirmedId);
@@ -85,6 +87,8 @@ public class PutAwayTarget extends AppCompatActivity {
         lblCountItemsId = findViewById(R.id.lblCountItemsId);
 
         spinner = findViewById(R.id.spiUnitId);
+
+        isProductAssigned = false;
 
         sSerialNumber = "SNID88046999927";
 
@@ -129,10 +133,6 @@ public class PutAwayTarget extends AppCompatActivity {
 
             lsInbounItems = oGlobalData.LsIntboudItems;
             oCurrentInboundViewInfo =  oGlobalData.CurrentInboundViewInfo;
-
-//            int inQtyId =  Integer.valueOf(oCurrentInboundViewInfo.Qty);
-//            inQtyId = inQtyId + 1;
-//            oCurrentInboundViewInfo.Qty = String.valueOf(inQtyId);
 
             txtBarCodeId.setText(oMsg.getKey01());
             oCurrentInboundViewInfo.BarCode = txtBarCodeId.getText().toString();
@@ -181,7 +181,7 @@ public class PutAwayTarget extends AppCompatActivity {
             txtQtyId.setText(pInboundViewInfo.Qty);
             cheRestrictedId.setChecked(pInboundViewInfo.Restricted);
             chkConfirmedId.setChecked(pInboundViewInfo.Confirmed);
-            txtLuQtyId.setText(pInboundViewInfo.LuQty);
+          //  txtLuQtyId.setText(pInboundViewInfo.LuQty);
             txtBarCodeId.setText(pInboundViewInfo.BarCode);
             lblOpenValueId.setText(pInboundViewInfo.Open + " " +  pInboundViewInfo.OpenUnit);
             txtSerialNumberId.setText(pInboundViewInfo.SerialNumber);
@@ -203,7 +203,7 @@ public class PutAwayTarget extends AppCompatActivity {
             pInboundViewInfo.Qty = txtQtyId.getText().toString();
             pInboundViewInfo.Restricted = cheRestrictedId.isChecked();
             pInboundViewInfo.Confirmed = chkConfirmedId.isChecked();
-            pInboundViewInfo.LuQty = txtLuQtyId.getText().toString();
+         //   pInboundViewInfo.LuQty = txtLuQtyId.getText().toString();
             pInboundViewInfo.BarCode = txtBarCodeId.getText().toString();
             pInboundViewInfo.SerialNumber = txtSerialNumberId.getText().toString();
 
@@ -458,6 +458,14 @@ public class PutAwayTarget extends AppCompatActivity {
                     if (lsData.Assigned){
 
                         Toast.makeText(getApplicationContext(),"Producto ASIGNADO" , Toast.LENGTH_LONG).show();
+                        isProductAssigned = true;
+
+                        if (isProductAssigned){
+                            int inQtyId =  Integer.valueOf(oCurrentInboundViewInfo.Qty);
+                            inQtyId = inQtyId + 1;
+                            oCurrentInboundViewInfo.Qty = String.valueOf(inQtyId);
+                            txtQtyId.setText(oCurrentInboundViewInfo.Qty);
+                        }
 
                     } else {
 
