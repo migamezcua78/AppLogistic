@@ -10,10 +10,12 @@ public class cProductViewInfo {
         CodigoBarra = "";
         Estado = "";
         Usuario = "";
+        NombreShort = "";
     }
 
     public  String ProductoSAPId;
     public  String Nombre;
+    public  String NombreShort;
     public  String Descripcion;
     public  String CodigoBarra;
     public  String Estado;

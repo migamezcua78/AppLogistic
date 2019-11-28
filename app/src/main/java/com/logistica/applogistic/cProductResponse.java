@@ -4,6 +4,7 @@ public class cProductResponse {
 
     public cProductResponse(){
 
+        ProductId = "";
         ResponseId = "";
         CodigoBarra = "";
         Msg = "";
@@ -16,6 +17,7 @@ public class cProductResponse {
     }
 
     public  String ResponseId;
+    public  String ProductId;
     public  String CodigoBarra;
     public  String Msg;
     public  Boolean Assigned;

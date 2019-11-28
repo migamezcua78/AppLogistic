@@ -107,4 +107,15 @@
         app:backgroundTint="@color/colorAccent" />
 
 
+    <Button
+        android:id="@+id/btnRegisterProducts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="goRegisterProducts"
+        android:text="@string/ttlRegistrarProductosGlb"
+        android:textAllCaps="false"
+        android:textColor="@color/colorTextTitle"
+        app:backgroundTint="@color/colorAccent" />
+
+
 </LinearLayout>

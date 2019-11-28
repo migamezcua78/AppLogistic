@@ -197,4 +197,14 @@
     <string name="btnGuardarGlb">Guardar</string>
     <string name="btnConsultarGlb">Consultar</string>
 
+    <string name="ttlRegistrarProductosGlb">Registrar Productos</string>
+
+    <string name="CMATERIAL_UUID">ID Producto</string>
+    <string name="CSITE_UUID">ID Sede</string>
+    <string name="CLOG_AREA_UUID">ID Área Logística</string>
+
+    <string name="ProductId">ID Producto</string>
+    <string name="ProductDesc">Nombre</string>
+
+
 </resources>

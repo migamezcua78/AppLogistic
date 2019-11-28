@@ -63,6 +63,12 @@ public class Inicio extends AppCompatActivity {
         startActivity(oIntent);
     }
 
+    public void goRegisterProducts(View view){
+        Intent oIntent = new Intent(this, RegisterProducts.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("Start"));
+        startActivity(oIntent);
+    }
+
 
 /*    public void goRequestRemoval(View view){
         Intent oIntent = new Intent(this, MainCamara.class);
