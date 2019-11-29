@@ -186,7 +186,7 @@ public class PickSource extends AppCompatActivity {
     private List<cSpinnerItem> getInfoFilter(){
 
         InfoFilter = new ArrayList<>();
-        InfoFilter.add(new cSpinnerItem(1,"6A"));
+        InfoFilter.add(new cSpinnerItem(1,"ZPZ"));
 
         return  InfoFilter;
     }

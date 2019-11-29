@@ -96,7 +96,7 @@
         app:backgroundTint="@color/colorAccent" />
 
 
-<!--    <Button
+    <Button
         android:id="@+id/btnMappingProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
         android:text="@string/ttlMappingProducts"
         android:textAllCaps="false"
         android:textColor="@color/colorTextTitle"
-        app:backgroundTint="@color/colorAccent" />-->
+        app:backgroundTint="@color/colorAccent" />
 
 
     <Button

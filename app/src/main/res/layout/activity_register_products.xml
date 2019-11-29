@@ -91,7 +91,7 @@
         tools:layout_editor_absoluteX="16dp">
 
 
-        <Button
+<!--        <Button
             android:id="@+id/btnConfirmItemId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
             android:textSize="12sp"
             app:backgroundTint="@color/colorAccent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />-->
 
         <Button
             android:id="@+id/btnConsultarNoAsignados"
@@ -122,7 +122,7 @@
             app:layout_constraintStart_toEndOf="@+id/btnConfirmItemId"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+<!--        <Button
             android:id="@+id/btnConsultarProductoId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
             android:textSize="12sp"
             app:backgroundTint="@color/colorAccent"
             app:layout_constraintStart_toEndOf="@+id/btnConfirmItemId2"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

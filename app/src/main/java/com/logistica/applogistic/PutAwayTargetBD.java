@@ -213,8 +213,8 @@ public class PutAwayTargetBD extends AppCompatActivity {
         //  List<cSpinnerItem>  ItemsList = new ArrayList<>();
         InfoFilter = new ArrayList<>();
 
-        InfoFilter.add(new cSpinnerItem(1,"ea"));
-        InfoFilter.add(new cSpinnerItem(1,"pick"));
+        InfoFilter.add(new cSpinnerItem(1,"ZPZ"));
+       // InfoFilter.add(new cSpinnerItem(1,"pick"));
 
         return  InfoFilter;
     }

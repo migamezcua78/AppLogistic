@@ -41,8 +41,6 @@ public class RegisterCodeBarProducts extends AppCompatActivity {
 
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +49,15 @@ public class RegisterCodeBarProducts extends AppCompatActivity {
         StartActivity();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        oGlobalData.lsProductViewInfoFilter = new ArrayList<>();
+        Intent oIntent = new Intent(this, RegisterProducts.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("ReStart"));
+        startActivity(oIntent);
+    }
 
     private void init (){
 
@@ -119,9 +126,6 @@ public class RegisterCodeBarProducts extends AppCompatActivity {
                 }
             }
         }
-
-
-
 
 
 
@@ -202,6 +206,30 @@ public class RegisterCodeBarProducts extends AppCompatActivity {
 
     public void   onClickConfirm(View spinner) {
 
+
+        getViewInfo(oCurrentProductViewInfo);
+
+        if (oCurrentProductViewInfo.ProductoSAPId.trim().isEmpty()){
+
+            Toast.makeText(getApplicationContext(),"ID de Producto es requerido" , Toast.LENGTH_SHORT).show();
+
+        } else  if (oCurrentProductViewInfo.CodigoBarra.trim().isEmpty()) {
+
+            Toast.makeText(getApplicationContext(), "Código de Barras es requerido", Toast.LENGTH_SHORT).show();
+
+        } else  if (oCurrentProductViewInfo.Nombre.trim().isEmpty()) {
+
+            Toast.makeText(getApplicationContext(), "Nombre del Producto es requerido", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            AsyncTaskRegisterProduct asyncTask=new AsyncTaskRegisterProduct();
+            asyncTask.execute("params");
+        }
+
+
+
+
 /*        if (  txtTargetId.getText().toString().isEmpty() ){
             Toast.makeText(getApplicationContext(),"El Área Logística es requerida", Toast.LENGTH_SHORT).show();
         }  else {
@@ -240,6 +268,7 @@ public class RegisterCodeBarProducts extends AppCompatActivity {
             // se obtiene el sigiente
             oCurrentProductViewInfo = lsViewItems.get(iterater - 1);
             setViewInfo(oCurrentProductViewInfo);
+            chkActivoId.setChecked(true);
         }
 
         if ( lsViewItems.size() > 0 && iterater == lsViewItems.size()  ){
@@ -249,6 +278,7 @@ public class RegisterCodeBarProducts extends AppCompatActivity {
 
             oCurrentProductViewInfo = lsViewItems.get(iterater-1);
             setViewInfo(oCurrentProductViewInfo);
+            chkActivoId.setChecked(true);
         }
 
 
@@ -267,6 +297,7 @@ public class RegisterCodeBarProducts extends AppCompatActivity {
 
             oCurrentProductViewInfo = lsViewItems.get(iterater - 1);
             setViewInfo(oCurrentProductViewInfo);
+            chkActivoId.setChecked(true);
         }
 
         if (  lsViewItems.size() == 1 ){
@@ -276,6 +307,7 @@ public class RegisterCodeBarProducts extends AppCompatActivity {
 
             oCurrentProductViewInfo = lsViewItems.get(0);
             setViewInfo(oCurrentProductViewInfo);
+            chkActivoId.setChecked(true);
         }
     }
 
@@ -301,6 +333,7 @@ public class RegisterCodeBarProducts extends AppCompatActivity {
         txtBarCodeId.setText(oCurrectProductViewInfo.CodigoBarra);
         txtNombreId.setText(oCurrectProductViewInfo.Nombre);
         txtDescripcionId.setText(oCurrectProductViewInfo.Descripcion);
+        chkConfirmedId.setChecked(oCurrectProductViewInfo.Confirmed);
 
         if (oCurrectProductViewInfo.Activo.equals("Activo")){
             chkActivoId.setChecked(true);
@@ -359,10 +392,28 @@ public class RegisterCodeBarProducts extends AppCompatActivity {
             if  (lsData != null){
 
                 if(!lsData.ResponseId.isEmpty() &&  !lsData.ResponseId.equals("0") ){
-                    Toast.makeText(getApplicationContext(),"El Producto " + lsData.ResponseId  +  " fue registrado", Toast.LENGTH_LONG).show();
-                    oCurrentProductViewInfo = new cProductViewInfo();
-                    ((cGlobalData)getApplication()).CurrentProductViewInfo =  oCurrentProductViewInfo;
+                    Toast.makeText(getApplicationContext(),"El Producto " + lsData.ResponseId  +  " fué registrado", Toast.LENGTH_LONG).show();
+
+                    oCurrentProductViewInfo.Confirmed = true;
                     setViewInfo(oCurrentProductViewInfo);
+
+
+                    for(int i = 0; i <  lsViewItems.size(); i++ ){
+
+                        cProductViewInfo   e = lsViewItems.get(i);
+                        if (e.ProductoSAPId.equals(oCurrentProductViewInfo.ProductoSAPId)){
+
+                            e.CodigoBarra = oCurrentProductViewInfo.CodigoBarra;
+                            e.Descripcion = oCurrentProductViewInfo.Descripcion;
+                            e.Activo = oCurrentProductViewInfo.Activo;
+                            e.Confirmed = oCurrentProductViewInfo.Confirmed;
+                        }
+                    }
+
+//                    oCurrentProductViewInfo = new cProductViewInfo();
+//                    ((cGlobalData)getApplication()).CurrentProductViewInfo =  oCurrentProductViewInfo;
+//                    setViewInfo(oCurrentProductViewInfo);
+
 
                 } else {
 
@@ -374,5 +425,4 @@ public class RegisterCodeBarProducts extends AppCompatActivity {
             vProgressDialog.hide();
         }
     }
-
 }

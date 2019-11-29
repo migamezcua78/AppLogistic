@@ -109,6 +109,94 @@ public class cServices {
 
 
 
+    public cUserResponse PostLoginDataService(cUserRequest pObj){
+
+        String Resource = "/ws_ApiLogistic/api/LoginAplicacion";
+        cUserResponse oResponse = new  cUserResponse();
+        Response response;
+        String  sResult  = "";
+
+
+        try {
+
+            if (pObj != null){
+
+                // se construye  el httpCliente
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .connectTimeout(CONNECT_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .writeTimeout(WRITE_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .readTimeout(READ_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .build();
+
+
+                // se crea el json de request
+                JSONObject   jRequest = new JSONObject();
+                jRequest.put("Aplicacion",pObj.Aplicacion);
+                jRequest.put("User",pObj.User);
+                jRequest.put("Password",pObj.Pwd);
+
+
+                // Se crea el request
+                HttpUrl route = HttpUrl.parse(END_POINT_REST + Resource);
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                RequestBody body = RequestBody.create(JSON, jRequest.toString());
+                Request request = new Request.Builder()
+                        .url(route)
+                        .post(body)
+                        .build();
+
+
+                // se invoca el servicio
+                response = client.newCall(request).execute();
+
+
+                // se guarda la respuesta
+                if ( response.isSuccessful() ){
+                    sResult =  response.body().string();
+                    JSONObject  jr = new JSONObject(sResult);
+
+                    if (!jr.get("Mensaje").toString().equals("null"))
+                    {
+                        if (jr.get("Mensaje").toString().equals("acceso")){
+
+                            oResponse.login =  jr.get("login").toString();
+                            oResponse.Mensaje =  jr.get("Mensaje").toString();
+                            oResponse.Error =  "";
+                            if( oResponse.login.equals("verdadero")){
+
+                                oResponse.Acceso = true;
+                            }
+
+                        } else {
+
+                            oResponse.login = "falso";
+                            oResponse.Acceso =  false;
+                            oResponse.Error =  "";
+                        }
+
+                    } else {
+
+                        JSONObject  oError =  jr.getJSONObject("Error");
+                        oResponse.Error = oError.get("ErrorCodigo").toString();
+                        oResponse.login = "falso";
+                        oResponse.Acceso =  false;
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+
+            oResponse.Error = e.getMessage();
+            oResponse.login = "falso";
+            oResponse.Acceso =  false;
+
+            return oResponse;
+        }
+
+        return oResponse;
+    }
+
+
     public cProductResponse PostConsultProductDataService(cProductViewInfo  pObj){
 
         String Resource = "/ws_ApiLogistic/api/obtenerproducto";

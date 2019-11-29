@@ -139,6 +139,9 @@ public class RegisterProducts extends AppCompatActivity {
                 Intent oIntent = new Intent(this, RegisterCodeBarProducts.class);
                 oIntent.putExtra("oMsg", new cActivityMessage("Start"));
                 startActivity(oIntent);
+            } else {
+
+                Toast.makeText(getApplicationContext(), "No hay Productos sin asignar", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -276,6 +279,10 @@ public class RegisterProducts extends AppCompatActivity {
                              }
 
                              oObj.ID = IDCount;
+
+                             // solo de prueba
+                            // oObj.CodigoBarra = "";
+
                              lsData.add(oObj);
                              IDCount = IDCount + 1;
                          }

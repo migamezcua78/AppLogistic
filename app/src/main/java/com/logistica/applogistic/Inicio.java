@@ -8,12 +8,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class Inicio extends AppCompatActivity {
     DatabaseHelper BD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent oIntent = new Intent(this, MainActivity.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("ReStart"));
+        startActivity(oIntent);
     }
 
 

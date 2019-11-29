@@ -245,6 +245,7 @@
                 android:layout_marginStart="4dp"
                 android:text="@string/chkConfirmedGlb"
                 android:textSize="10sp"
+                android:enabled="false"
                 app:layout_constraintBaseline_toBaselineOf="@+id/txtProductId"
                 app:layout_constraintStart_toEndOf="@+id/txtProductId" />
         </androidx.constraintlayout.widget.ConstraintLayout>

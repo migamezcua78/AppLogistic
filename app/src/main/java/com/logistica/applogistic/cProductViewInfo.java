@@ -16,6 +16,7 @@ public class cProductViewInfo {
         LogisticAreaId = "";
         SedeId = "";
         Activo = "";
+        Confirmed = false;
     }
 
     public  int ID;
@@ -30,4 +31,5 @@ public class cProductViewInfo {
     public  String LogisticAreaId;
     public  String SedeId;
     public  String Activo;
+    public  Boolean Confirmed;
 }

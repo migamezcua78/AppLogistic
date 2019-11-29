@@ -185,7 +185,7 @@
     <string name="EmpresaId">ID de Empresa</string>
     <string name="ExternalItemID">ID Externo Posición</string>
 
-    <string name="ttlMappingProducts">Asignación de Código de Barras</string>
+    <string name="ttlMappingProducts">Asignar nuevo producto</string>
     <string name="lblBarCodeGlb">Código de Barras</string>
 
 
@@ -201,7 +201,7 @@
 
     <string name="CMATERIAL_UUID">ID Producto</string>
     <string name="CSITE_UUID">ID Sede</string>
-    <string name="CLOG_AREA_UUID">ID Área Logística</string>
+    <string name="CLOG_AREA_UUID">A. Logística</string>
 
     <string name="ProductId">ID Producto</string>
     <string name="ProductDesc">Nombre</string>
