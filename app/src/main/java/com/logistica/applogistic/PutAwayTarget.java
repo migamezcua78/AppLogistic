@@ -65,6 +65,14 @@ public class PutAwayTarget extends AppCompatActivity {
         StartActivity();
     }
 
+    public void onBackPressed() {
+       // super.onBackPressed();
+
+        Intent oIntent = new Intent(this, Inbound.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("ReStart"));
+        startActivity(oIntent);
+    }
+
 
     private void init (){
 
@@ -458,24 +466,24 @@ public class PutAwayTarget extends AppCompatActivity {
 
                     if (lsData.Assigned){
 
-                        Toast.makeText(getApplicationContext(),"Producto ASIGNADO" , Toast.LENGTH_LONG).show();
-                        isProductAssigned = true;
+                        //Toast.makeText(getApplicationContext(),"Producto ASIGNADO" , Toast.LENGTH_LONG).show();
+                       // isProductAssigned = true;
 
-                        if (isProductAssigned){
+                      //  if (isProductAssigned){
                             int inQtyId =  Integer.valueOf(oCurrentInboundViewInfo.Qty);
                             inQtyId = inQtyId + 1;
                             oCurrentInboundViewInfo.Qty = String.valueOf(inQtyId);
                             txtQtyId.setText(oCurrentInboundViewInfo.Qty);
-                        }
+                    //    }
 
                     } else {
 
-                        Toast.makeText(getApplicationContext(),"Producto NO ASIGNADO" , Toast.LENGTH_LONG).show();
+                       // Toast.makeText(getApplicationContext(),"Producto NO ASIGNADO" , Toast.LENGTH_LONG).show();
                     }
 
                 } else {
 
-                    Toast.makeText(getApplicationContext(),"Error al intentar registrar el producto " , Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getApplicationContext(),"Error al intentar registrar el producto " , Toast.LENGTH_LONG).show();
                 }
             }
 

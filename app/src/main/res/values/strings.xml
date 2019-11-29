@@ -179,7 +179,7 @@
     <string name="TaskId">No. Tarea</string>
     <string name="BarCodeId">Código de Barras</string>
     <string name="LabelId">No. Etiqueta</string>
-    <string name="ReferenceId">No. Referencia</string>
+    <string name="ReferenceId">No. Ref</string>
 
     <string name="SiteID">ID de Sede</string>
     <string name="EmpresaId">ID de Empresa</string>
@@ -197,7 +197,7 @@
     <string name="btnGuardarGlb">Guardar</string>
     <string name="btnConsultarGlb">Consultar</string>
 
-    <string name="ttlRegistrarProductosGlb">Registrar productos</string>
+    <string name="ttlRegistrarProductosGlb">Recuento de productos</string>
 
     <string name="CMATERIAL_UUID">ID Producto</string>
     <string name="CSITE_UUID">ID Sede</string>

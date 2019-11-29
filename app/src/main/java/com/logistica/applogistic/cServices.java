@@ -701,7 +701,15 @@ public class cServices {
 
         SoapObject soN2 = new SoapObject("", "item");
         soN2.addProperty("ID", pInboundDelivery.oInboundDeliveryItem.ID);
-        soN2.addProperty("CantidadConfirmada", pInboundDelivery.oInboundDeliveryItem.CantidadConfirmada);
+
+
+        SoapPrimitive  spN = new SoapPrimitive("", "CantidadConfirmada", pInboundDelivery.oInboundDeliveryItem.CantidadConfirmada);
+        spN.addAttribute("unitCode", "ZPZ");
+        soN2.addProperty("CantidadConfirmada",spN);
+
+      //  soN2.addProperty("CantidadConfirmada", pInboundDelivery.oInboundDeliveryItem.CantidadConfirmada);
+
+
         soN2.addProperty("IDAreaLogistica", pInboundDelivery.oInboundDeliveryItem.IDAreaLogistica);
         soN2.addProperty("IDStockIdentificado", pInboundDelivery.oInboundDeliveryItem.IDStockIdentificado);
 

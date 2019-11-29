@@ -270,9 +270,9 @@ public class Inbound extends AppCompatActivity {
 
         InfoFilter = new ArrayList<>();
         InfoFilter.add(new cSpinnerItem(1,getString(R.string.TaskId), "TaskId"));
-        InfoFilter.add(new cSpinnerItem(2,getString(R.string.BarCodeId),"BarCodeId"));
-        InfoFilter.add(new cSpinnerItem(3,getString(R.string.LabelId),"LabelId"));
-        InfoFilter.add(new cSpinnerItem(4,getString(R.string.ReferenceId),"ReferenceId"));
+       // InfoFilter.add(new cSpinnerItem(2,getString(R.string.BarCodeId),"BarCodeId"));
+       // InfoFilter.add(new cSpinnerItem(2,getString(R.string.LabelId),"LabelId"));
+       // InfoFilter.add(new cSpinnerItem(3,getString(R.string.ReferenceId),"ReferenceId"));
 
         return  InfoFilter;
     }
