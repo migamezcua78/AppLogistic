@@ -31,9 +31,10 @@ public class cGlobalData extends Application {
 
     public cInboundViewInfo  CurrentInboundViewInfo;
 
+
     public cProductViewInfo  CurrentProductViewInfo;
-
-
+    public   ArrayList<cProductViewInfo>   lsProductViewInfo;
+    public   ArrayList<cProductViewInfo>    lsProductViewInfoFilter;
 
 
     public  ArrayList<cAreaInfoView> lsAreaInfoService;

@@ -348,6 +348,7 @@ public class cServices {
 
 
 
+
     public ArrayList<cStock> GetStockServiceData(String  pFilterType, String pFilterValue, String pMaximumNumberValue){
         String ErrorMsg = "";
         ArrayList<cStock> lsData = new  ArrayList<>();
@@ -1399,5 +1400,6 @@ public class cServices {
     public  static  class  StockFilterType {
         public static final String CMATERIAL_UUID = "CMATERIAL_UUID";
         public static final String CLOG_AREA_UUID = "CLOG_AREA_UUID";
+        public static final String CSITE_UUID  = "CSITE_UUID";
     }
 }

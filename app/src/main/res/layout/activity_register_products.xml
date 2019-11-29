@@ -38,6 +38,12 @@
         app:layout_constraintTop_toBottomOf="@+id/liTitleId"
         tools:layout_editor_absoluteX="41dp">
 
+        <TextView
+            android:id="@+id/lblSpaceId2"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
         <Spinner
             android:id="@+id/spFilterId"
             android:layout_width="140dp"
@@ -46,7 +52,7 @@
 
         <EditText
             android:id="@+id/txtImputFilterId"
-            android:layout_width="180dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="8"
@@ -55,11 +61,24 @@
             android:inputType="none"
             android:textSize="12sp" />
 
+        <Button
+            android:id="@+id/btnConcular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onConsultProducts"
+            android:text="@string/btnConsultarGlb"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="12sp"
+            app:backgroundTint="@color/colorAccent" />
+
         <TextView
             android:id="@+id/lblSpaceId"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
+
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -82,20 +101,23 @@
             android:text="@string/btn_inbound_back"
             android:textAllCaps="false"
             android:textColor="@color/colorTextTitle"
+            android:textSize="12sp"
             app:backgroundTint="@color/colorAccent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btnConfirmItemId2"
+            android:id="@+id/btnConsultarNoAsignados"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:layout_marginStart="16dp"
             android:layout_weight="1"
-            android:text="@string/btnGuardarGlb"
+            android:onClick="onAsignarNoAsignados"
+            android:text="@string/btnAsignarNoAsignados"
             android:textAllCaps="false"
             android:textColor="@color/colorTextTitle"
+            android:textSize="12sp"
             app:backgroundTint="@color/colorAccent"
             app:layout_constraintStart_toEndOf="@+id/btnConfirmItemId"
             app:layout_constraintTop_toTopOf="parent" />
@@ -107,10 +129,11 @@
 
             android:layout_marginStart="16dp"
             android:layout_weight="1"
-            android:onClick="onConsultProducts"
-            android:text="@string/btnConsultarGlb"
+            android:onClick="onAsignarTodos"
+            android:text="@string/btnAsignarTodos"
             android:textAllCaps="false"
             android:textColor="@color/colorTextTitle"
+            android:textSize="12sp"
             app:backgroundTint="@color/colorAccent"
             app:layout_constraintStart_toEndOf="@+id/btnConfirmItemId2"
             app:layout_constraintTop_toTopOf="parent" />

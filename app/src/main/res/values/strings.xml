@@ -15,19 +15,19 @@
     <string name="login_failed">"Login failed"</string>
 
     <!--    <string name="action_menu1">Select Inbound Task</string>-->
-    <string name="action_menu1">Procesar tarea de entrada mercancia</string>
+    <string name="action_menu1">Procesar tarea de entrada mercancía</string>
     <!--    <string name="action_menu2">Select Internal Task</string>-->
     <string name="action_menu2">Procesar tarea interna</string>
     <!--    <string name="action_menu3">Select Outbound Task</string>-->
-    <string name="action_menu3">Procesar tarea de Salida de mercancia</string>
+    <string name="action_menu3">Procesar tarea de salida de mercancía</string>
     <string name="action_menu4">System Guided By Folder</string>
     <string name="action_menu5">Select Open Task</string>
     <!--    <string name="action_menu6">Goods Movement</string>-->
-    <string name="action_menu6">Movimiento de Mercancías</string>
+    <string name="action_menu6">Movimiento de mercancías</string>
     <string name="action_menu7">Request Replenishment</string>
     <string name="action_menu8">Request Removal</string>
     <!--    <string name="action_menu9">Logistics Area Count</string>-->
-    <string name="action_menu9">Recuento de Area Logistica</string>
+    <string name="action_menu9">Recuento de área logística</string>
 
 
     <string name="app_name">AppLogistica</string>
@@ -197,7 +197,7 @@
     <string name="btnGuardarGlb">Guardar</string>
     <string name="btnConsultarGlb">Consultar</string>
 
-    <string name="ttlRegistrarProductosGlb">Registrar Productos</string>
+    <string name="ttlRegistrarProductosGlb">Registrar productos</string>
 
     <string name="CMATERIAL_UUID">ID Producto</string>
     <string name="CSITE_UUID">ID Sede</string>
@@ -206,5 +206,7 @@
     <string name="ProductId">ID Producto</string>
     <string name="ProductDesc">Nombre</string>
 
+    <string name="btnAsignarTodos">Reg. Todos</string>
+    <string name="btnAsignarNoAsignados">Reg. No Asignados</string>
 
 </resources>

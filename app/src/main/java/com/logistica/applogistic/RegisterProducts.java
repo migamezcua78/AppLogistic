@@ -37,6 +37,13 @@ public class RegisterProducts extends AppCompatActivity {
     cActivityMessage oMsg;
     Boolean Scanned;
 
+    private   ArrayList<cProductViewInfo>   lsProductViewInfo;
+    private   ArrayList<cProductViewInfo>    lsProductViewInfoFilter;
+
+
+    cGlobalData  oGlobalData;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,11 +68,11 @@ public class RegisterProducts extends AppCompatActivity {
         tableLayout =(TableLayout)findViewById(R.id.tgProductos);
         Scanned = false;
 
-        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
-
+        oGlobalData = (cGlobalData)getApplication();
         InfoData = new ArrayList <> ();
         InfoFilter = new ArrayList<>();
-       // lsInbounItems =  new  ArrayList<>();
+
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
     }
 
 
@@ -88,11 +95,43 @@ public class RegisterProducts extends AppCompatActivity {
 
     public void onConsultProducts(View view) {
 
+      if(txtImputFilterId.getText().toString().trim().isEmpty()){
 
-        txtImputFilterId.setText("");
-        AsyncTaskConsultProducts  asyncTask= new AsyncTaskConsultProducts();
-        asyncTask.execute("params");
+          Toast.makeText(getApplicationContext(),"Debe ingresar un valor de búsqueda", Toast.LENGTH_SHORT).show();
+      } else {
 
+          AsyncTaskConsultProducts  asyncTask= new AsyncTaskConsultProducts();
+          asyncTask.execute("params");
+      }
+    }
+
+    public void onAsignarTodos(View view) {
+
+        if (lsProductViewInfo != null ){
+
+            lsProductViewInfoFilter = new ArrayList<>();
+
+            for (cProductViewInfo  item: lsProductViewInfo)
+            {
+                lsProductViewInfoFilter.add(item);
+            }
+        }
+    }
+
+    public void onAsignarNoAsignados(View view) {
+
+        if (lsProductViewInfo != null ){
+
+            lsProductViewInfoFilter = new ArrayList<>();
+
+            for (cProductViewInfo  item: lsProductViewInfo)
+            {
+                if(item.CodigoBarra.trim().isEmpty()){
+
+                    lsProductViewInfoFilter.add(item);
+                }
+            }
+        }
     }
 
 
@@ -109,7 +148,7 @@ public class RegisterProducts extends AppCompatActivity {
     }
 
     private  String[] getInfoHeader(){
-        InfoHeader = new String[]{getString(R.string.ProductId),getString(R.string.ProductDesc),"Estado"};
+        InfoHeader = new String[]{getString(R.string.ProductId)," Cantidad "," Área "," Estado ",getString(R.string.ProductDesc)};
         return InfoHeader;
     }
 
@@ -120,13 +159,28 @@ public class RegisterProducts extends AppCompatActivity {
 
     private  List<cSpinnerItem> getInfoFilter(){
 
-
         InfoFilter = new ArrayList<>();
-        InfoFilter.add(new cSpinnerItem(1,getString(R.string.CSITE_UUID),"CSITE_UUID"));
-        InfoFilter.add(new cSpinnerItem(2,getString(R.string.CMATERIAL_UUID), "CMATERIAL_UUID"));
-        InfoFilter.add(new cSpinnerItem(3,getString(R.string.CLOG_AREA_UUID),"CLOG_AREA_UUID"));
+        InfoFilter.add(new cSpinnerItem(1,getString(R.string.CLOG_AREA_UUID),"CLOG_AREA_UUID"));
+        InfoFilter.add(new cSpinnerItem(2,getString(R.string.CSITE_UUID),"CSITE_UUID"));
+        InfoFilter.add(new cSpinnerItem(3,getString(R.string.CMATERIAL_UUID), "CMATERIAL_UUID"));
 
         return  InfoFilter;
+    }
+
+    private void  getParamInfo(cRegisterProductsInfoView  pViewInfo) {
+
+        cSpinnerItem   oSpiItem=  (cSpinnerItem)spinner.getSelectedItem();
+        switch (oSpiItem.getField()){
+            case "CMATERIAL_UUID":
+                pViewInfo.ProductId = txtImputFilterId.getText().toString().trim();
+                break;
+            case "CSITE_UUID":
+                pViewInfo.SiteId = txtImputFilterId.getText().toString().trim();
+                break;
+            case "CLOG_AREA_UUID":
+                pViewInfo.AreaId = txtImputFilterId.getText().toString().trim();
+                break;
+        }
     }
 
 
@@ -156,29 +210,47 @@ public class RegisterProducts extends AppCompatActivity {
 
             // unicidad
             Set<String>  setKeyProducts = new HashSet<>();
+            cSpinnerItem  oSelectedItem = (cSpinnerItem)spinner.getSelectedItem();
 
 
             try {
 
                 cServices oServices = new cServices();
-                lsStockData = oServices.GetStockServiceData(cServices.StockFilterType.CMATERIAL_UUID,"333","");
-                if(lsStockData != null)
+                lsStockData = oServices.GetStockServiceData(oSelectedItem.getField(), txtImputFilterId.getText().toString().trim(),"");
+                if(lsStockData != null  && lsStockData.size() > 0 )
                 {
-                    for ( cStock e:lsStockData){
-                        setKeyProducts.add(e.CMATERIAL_UUID);
-                    }
 
-                    for ( String e:setKeyProducts){
-                        lsMaterialData = oServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID,"333","");
+                    // mig: Borrar solo es de prueba
+//                    for(int i = 0; i < lsStockData.size();  i++ ){
+//                        if (i == 10){
+//                            break;
+//                        } else {
+//                            setKeyProducts.add(lsStockData.get(i).CMATERIAL_UUID);
+//                        }
+//                    }
+
+                    // mig: Este es el correcto
+//                    for ( cStock e:lsStockData){
+//                        setKeyProducts.add(e.CMATERIAL_UUID);
+//                    }
+
+
+                    for ( cStock  keyProduct:lsStockData){
+                        lsMaterialData = oServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID,keyProduct.CMATERIAL_UUID,"");
 
                          if (lsMaterialData.size() > 0){
 
-                             cProductViewInfo  oObj = new cProductViewInfo();
-                             oObj.ProductoSAPId = e;
-                             oObj.Nombre = lsMaterialData.get(0).Description + "Mis descripciones mayores";
+                             Float QtyD = Float.valueOf(keyProduct.KCON_HAND_STOCK);
+                             int QtyI = (int) Math.round(QtyD);
 
-                             if (oObj.Nombre.length() > 20) {
-                                 oObj.NombreShort = oObj.Nombre.substring(0,20) + " ...";
+                             cProductViewInfo  oObj = new cProductViewInfo();
+                             oObj.ProductoSAPId = keyProduct.CMATERIAL_UUID;
+                             oObj.Qty = String.valueOf(QtyI); // + " " + keyProduct.CON_HAND_STOCK_UOM;
+                             oObj.LogisticAreaId = keyProduct.CLOG_AREA_UUID;
+                             oObj.Nombre = lsMaterialData.get(0).Description;
+
+                             if (oObj.Nombre.length() > 10) {
+                                 oObj.NombreShort = oObj.Nombre.substring(0,10) + " ..";
                              } else {
                                  oObj.NombreShort = oObj.Nombre;
                              }
@@ -194,10 +266,10 @@ public class RegisterProducts extends AppCompatActivity {
                              }
 
                              lsData.add(oObj);
-                             lsData.add(oObj);
                          }
                     }
                 }
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -221,11 +293,29 @@ public class RegisterProducts extends AppCompatActivity {
 
             for ( int i = 0; i <  lsData.size(); i ++  ){
                 cProductViewInfo  oData =lsData.get(i);
-                InfoData.add(new String[]{oData.ProductoSAPId, oData.NombreShort, oData.Estado});
+                InfoData.add(new String[]{oData.ProductoSAPId, oData.Qty, oData.LogisticAreaId, oData.Estado, oData.NombreShort });
             }
 
             fillDataGrid();
             vProgressDialog.hide();
+
+            if(lsData == null  || lsData.size() == 0 ) {
+
+                lsProductViewInfo = new ArrayList<>();
+                Toast.makeText(getApplicationContext(),"No se encontraron Productos con los parámetros de búsqueda", Toast.LENGTH_SHORT).show();
+            } else {
+
+                lsProductViewInfo = lsData;
+
+                if (lsData.size() == 1){
+
+                    Toast.makeText(getApplicationContext(),lsData.size() + " Producto encontrado", Toast.LENGTH_SHORT).show();
+                }
+
+                Toast.makeText(getApplicationContext(),lsData.size() + " Productos encontrados", Toast.LENGTH_SHORT).show();
+            }
+
+            oGlobalData.lsProductViewInfo = lsProductViewInfo;
         }
     }
 }

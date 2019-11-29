@@ -45,8 +45,8 @@ public class cDataGrid {
         txtCell = new TextView(context);
         //txtCell.setGravity(Gravity.CENTER);
         txtCell.setTextColor(Color.BLACK);
-        txtCell.setTextSize(12);
-        txtCell.setPadding(10,0,0,0);
+        txtCell.setTextSize(11);
+        txtCell.setPadding(5,0,0,0);
         txtCell.setBackgroundResource(R.drawable.shape_cell_data);
     }
 
@@ -55,8 +55,8 @@ public class cDataGrid {
         txtCell = new TextView(context);
         //txtCell.setGravity(Gravity.CENTER);
         txtCell.setTextColor(Color.BLACK);
-        txtCell.setTextSize(14);
-        txtCell.setPadding(10,0,0,0);
+        txtCell.setTextSize(12);
+        txtCell.setPadding(15,0,0,0);
         txtCell.setBackgroundResource(R.drawable.shape_cell_header);
     }
 
