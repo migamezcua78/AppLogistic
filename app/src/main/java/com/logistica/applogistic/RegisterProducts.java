@@ -131,6 +131,15 @@ public class RegisterProducts extends AppCompatActivity {
                     lsProductViewInfoFilter.add(item);
                 }
             }
+
+            if (lsProductViewInfoFilter.size() > 0){
+
+                oGlobalData.lsProductViewInfoFilter =  lsProductViewInfoFilter;
+
+                Intent oIntent = new Intent(this, RegisterCodeBarProducts.class);
+                oIntent.putExtra("oMsg", new cActivityMessage("Start"));
+                startActivity(oIntent);
+            }
         }
     }
 
@@ -212,6 +221,7 @@ public class RegisterProducts extends AppCompatActivity {
             Set<String>  setKeyProducts = new HashSet<>();
             cSpinnerItem  oSelectedItem = (cSpinnerItem)spinner.getSelectedItem();
 
+            int IDCount = 1;
 
             try {
 
@@ -265,7 +275,9 @@ public class RegisterProducts extends AppCompatActivity {
                                  oObj.Estado = "Indefinido";
                              }
 
+                             oObj.ID = IDCount;
                              lsData.add(oObj);
+                             IDCount = IDCount + 1;
                          }
                     }
                 }

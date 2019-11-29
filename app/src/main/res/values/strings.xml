@@ -209,4 +209,9 @@
     <string name="btnAsignarTodos">Reg. Todos</string>
     <string name="btnAsignarNoAsignados">Reg. No Asignados</string>
 
+    <string name="ttlAssignBarCode">Asignar código de barras</string>
+
+    <string name="chkConfirmedGlb">Confirmado</string>
+
+
 </resources>

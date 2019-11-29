@@ -65,6 +65,7 @@ public class PutAwayTarget extends AppCompatActivity {
         StartActivity();
     }
 
+
     private void init (){
 
         countItems = 0;

@@ -4,6 +4,7 @@ public class cProductViewInfo {
 
     public   cProductViewInfo (){
 
+        ID = 0;
         ProductoSAPId = "";
         Nombre = "";
         Descripcion = "";
@@ -14,8 +15,10 @@ public class cProductViewInfo {
         Qty = "0";
         LogisticAreaId = "";
         SedeId = "";
+        Activo = "";
     }
 
+    public  int ID;
     public  String ProductoSAPId;
     public  String Nombre;
     public  String NombreShort;
@@ -26,4 +29,5 @@ public class cProductViewInfo {
     public  String Qty;
     public  String LogisticAreaId;
     public  String SedeId;
+    public  String Activo;
 }

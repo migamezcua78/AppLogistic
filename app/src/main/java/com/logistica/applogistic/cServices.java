@@ -617,7 +617,6 @@ public class cServices {
         soN2.addProperty("IDAreaLogistica", pInboundDelivery.oInboundDeliveryItem.IDAreaLogistica);
         soN2.addProperty("IDStockIdentificado", pInboundDelivery.oInboundDeliveryItem.IDStockIdentificado);
 
-
         soN1.addSoapObject(soN2);
 
         oSoapObjectResult.addSoapObject(soN1);
