@@ -709,9 +709,13 @@ public class cServices {
 
       //  soN2.addProperty("CantidadConfirmada", pInboundDelivery.oInboundDeliveryItem.CantidadConfirmada);
 
+        if (!pInboundDelivery.oInboundDeliveryItem.IDAreaLogistica.trim().isEmpty()){
+            soN2.addProperty("IDAreaLogistica", pInboundDelivery.oInboundDeliveryItem.IDAreaLogistica);
+        }
 
-        soN2.addProperty("IDAreaLogistica", pInboundDelivery.oInboundDeliveryItem.IDAreaLogistica);
-        soN2.addProperty("IDStockIdentificado", pInboundDelivery.oInboundDeliveryItem.IDStockIdentificado);
+        if (!pInboundDelivery.oInboundDeliveryItem.IDStockIdentificado.trim().isEmpty()){
+            soN2.addProperty("IDStockIdentificado", pInboundDelivery.oInboundDeliveryItem.IDStockIdentificado);
+        }
 
         soN1.addSoapObject(soN2);
 
@@ -756,6 +760,282 @@ public class cServices {
             default:break;
         }
     }
+
+
+
+
+    //  get Task
+    public ArrayList<cTaskResponse> GetTaskServiceData(String FilterType, String FilterValue, String  MaximumNumberValue){
+
+        // SOAP
+        String Soap_Action = "FindByElements";
+        String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/querysitelogisticstaskin?sap-vhost=my346674.sapbydesign.com";
+        HttpTransportSE transporte;
+        SoapSerializationEnvelope envelope;
+
+        // Data
+        String  ErrorMsg = "";
+        Vector vResponse = new  Vector();
+        ArrayList<cTaskResponse> lsData = new  ArrayList<>();
+
+        try {
+
+            List<HeaderProperty> headerPropertieList = new ArrayList<HeaderProperty>();
+            headerPropertieList.add(new HeaderProperty("Authorization",AUTHORIZATION_SOAP_VALUE));
+
+            envelope = new SAPSerializationEnvelope(110,NAME_SPACE_SOAP);
+            envelope.dotNet = false;
+            envelope.setOutputSoapObject(getBodySoapObjectByFilterType_GetTask(FilterType,FilterValue,MaximumNumberValue));
+
+
+            transporte = new HttpTransportSE(url,CONNECT_TIMEOUT_SOAP);
+            transporte.debug = true;
+
+            transporte.setReadTimeout(READ_TIMEOUT_SOAP);
+
+            transporte.call(Soap_Action, envelope,headerPropertieList);
+
+            vResponse = (Vector)envelope.getResponse();
+
+            lsData = getTaskData(vResponse);
+
+
+        } catch (Exception e) {
+
+            ErrorMsg = e.getMessage();
+        }
+
+        return lsData;
+    }
+
+    private  SoapObject  getBodySoapObjectByFilterType_GetTask(String FilterType, String FilterValue, String  MaximumNumberValue){
+        SoapObject  oSoapObjectResult = new SoapObject(NAME_SPACE_SOAP, "SiteLogisticsTaskByElementsQuery_sync");
+        SoapObject soN1 =  new SoapObject("", "SiteLogisticsTaskSelectionByElements");
+
+        SoapObject soN2 = new SoapObject("", FilterType);
+        soN2.addProperty("InclusionExclusionCode", "I");
+        soN2.addProperty("IntervalBoundaryTypeCode", "1");
+        soN2.addProperty("LowerBoundarySiteLogisticsTaskID", FilterValue);
+
+
+        soN1.addSoapObject(soN2);
+        oSoapObjectResult.addSoapObject(soN1);
+
+        if ( MaximumNumberValue != null  &  MaximumNumberValue.trim() != ""  )
+        {
+            soN1 = new SoapObject("", "ProcessingConditions");
+            soN1.addProperty("QueryHitsMaximumNumberValue", MaximumNumberValue);
+            soN1.addProperty("QueryHitsUnlimitedIndicator", "false");
+
+            oSoapObjectResult.addSoapObject(soN1);
+        }
+
+        return oSoapObjectResult;
+    }
+
+    private ArrayList<cTaskResponse> getTaskData (Vector  pVector){
+
+        cTaskResponse  oTaskResponse = new cTaskResponse();
+        ArrayList<cTaskResponse>  lsData = new  ArrayList<>();
+        SoapObject   oSoap = new  SoapObject();
+        PropertyInfo oPropertyInfo =  new PropertyInfo();
+
+        for (int i = 0; i < pVector.size() ; i++) {
+            oTaskResponse =  new cTaskResponse();
+            oSoap = (SoapObject) pVector.get(i);
+
+            for( int j= 0; j < oSoap.getPropertyCount(); j++ ){
+                oPropertyInfo = oSoap.getPropertyInfo(j);
+                SetTaskDataProperty(oTaskResponse,  oPropertyInfo);
+            }
+
+            lsData.add(oTaskResponse);
+        }
+
+        return lsData;
+    }
+
+    private void SetTaskDataProperty(cTaskResponse oTaskResponse, PropertyInfo oPropertyInfo) {
+        switch (oPropertyInfo.getName()){
+
+            case  "SiteLogisticsTaskID": oTaskResponse.SiteLogisticsTaskID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
+                break;
+
+            case  "SiteLogisticsTaskReferencedObject":
+                SoapObject    soTemp =  (SoapObject)((SoapObject)oPropertyInfo.getValue()).getProperty("SiteLogisticsLotOperationActivity");
+
+              //  SoapObject soTemp = ((SoapObject)oPropertyInfo.getValue());
+                for( int j= 0; j < soTemp.getPropertyCount(); j++ ){
+                    PropertyInfo oPropertyInfoTemp = soTemp.getPropertyInfo(j);
+                    if(oPropertyInfoTemp.getName().equals("MaterialOutput")){
+                        cMaterialSimpleData oData =  new cMaterialSimpleData();
+
+                        oData.ProductID  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("ProductID")).getValue().toString().trim();
+                        oData.PlanQuantity  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("PlanQuantity")).getValue().toString().trim();
+                        oData.PlanQuantityUnitCode = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("PlanQuantity")).getAttribute("unitCode").toString().trim();
+
+                        oData.OpenQuantity  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("OpenQuantity")).getValue().toString().trim();
+                        oData.OpenQuantityUnitCode = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("OpenQuantity")).getAttribute("unitCode").toString().trim();
+
+                        oData.TotalConfirmedQuantity  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("TotalConfirmedQuantity")).getValue().toString().trim();
+                        oData.TotalConfirmedQuantityUnitCode = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("TotalConfirmedQuantity")).getAttribute("unitCode").toString().trim();
+
+                        oTaskResponse.Materials.add(oData);
+                    }
+                }
+
+
+
+
+/*                SoapObject soTemp = ((SoapObject)oPropertyInfo.getValue());
+                for( int j= 0; j < soTemp.getPropertyCount(); j++ ){
+                    cSupplyPlanning oSupplyPlanning =  new cSupplyPlanning();
+                    PropertyInfo oPropertyInfoTemp = soTemp.getPropertyInfo(j);
+
+                    oSupplyPlanning.SupplyPlanningAreaID  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("SupplyPlanningAreaID")).getValue().toString().trim();
+                    oSupplyPlanning.LifeCycleStatusCode  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("LifeCycleStatusCode")).getValue().toString().trim();
+                    oSupplyPlanning.ProcurementTypeCode  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("ProcurementTypeCode")).getValue().toString().trim();
+                    oSupplyPlanning.PlanningProcedureCode  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("PlanningProcedureCode")).getValue().toString().trim();
+                    oSupplyPlanning.LotSizeProcedureCode  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("LotSizeProcedureCode")).getValue().toString().trim();
+                    oSupplyPlanning.GoodsReceiptProcessingDuration  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("GoodsReceiptProcessingDuration")).getValue().toString().trim();
+                    oMaterial.getPlanning().add(oSupplyPlanning);
+                }*/
+
+
+                break;
+
+/*
+            case  "InternalID": oMaterial.InternalID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
+                break;
+            case  "UUID": oMaterial.UUID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
+                break;
+            case  "SystemAdministrativeData":
+                oMaterial.CreationDateTime  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("CreationDateTime")).getValue().toString().trim();
+                oMaterial.CreationIdentityUUID  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("CreationIdentityUUID")).getValue().toString().trim();
+                oMaterial.LastChangeDateTime  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("LastChangeDateTime")).getValue().toString().trim();
+                oMaterial.LastChangeIdentityUUID  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("LastChangeIdentityUUID")).getValue().toString().trim();
+                break;
+
+            case  "ProductCategoryID": oMaterial.ProductCategoryID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
+                break;
+            case  "BaseMeasureUnitCode": oMaterial.BaseMeasureUnitCode = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
+                break;
+            case  "InventoryValuationMeasureUnitCode": oMaterial.InventoryValuationMeasureUnitCode = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
+                break;
+            case  "PlanningMeasureUnitCode": oMaterial.PlanningMeasureUnitCode = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
+                break;
+            case  "Description":
+                oMaterial.Description  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("Description")).getValue().toString().trim();
+                oMaterial.DescriptionlanguageCode =  ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("Description")).getAttribute("languageCode").toString().trim();
+                break;
+            case  "QuantityConversion":
+                oMaterial.Quantity  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("Quantity")).getValue().toString().trim();
+                oMaterial.QuantityUnitCode =  ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("Quantity")).getAttribute("unitCode").toString().trim();
+                oMaterial.CorrespondingQuantity  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("CorrespondingQuantity")).getValue().toString().trim();
+                oMaterial.CorrespondingQuantityUnitCode =  ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("CorrespondingQuantity")).getAttribute("unitCode").toString().trim();
+                break;
+            case  "Purchasing":
+                oMaterial.LifeCycleStatusCode  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("LifeCycleStatusCode")).getValue().toString().trim();
+                oMaterial.PurchasingMeasureUnitCode  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("PurchasingMeasureUnitCode")).getValue().toString().trim();
+                break;
+            case  "Planning":
+                SoapObject soTemp = ((SoapObject)oPropertyInfo.getValue());
+                for( int j= 0; j < soTemp.getPropertyCount(); j++ ){
+                    cSupplyPlanning oSupplyPlanning =  new cSupplyPlanning();
+                    PropertyInfo oPropertyInfoTemp = soTemp.getPropertyInfo(j);
+
+                    oSupplyPlanning.SupplyPlanningAreaID  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("SupplyPlanningAreaID")).getValue().toString().trim();
+                    oSupplyPlanning.LifeCycleStatusCode  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("LifeCycleStatusCode")).getValue().toString().trim();
+                    oSupplyPlanning.ProcurementTypeCode  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("ProcurementTypeCode")).getValue().toString().trim();
+                    oSupplyPlanning.PlanningProcedureCode  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("PlanningProcedureCode")).getValue().toString().trim();
+                    oSupplyPlanning.LotSizeProcedureCode  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("LotSizeProcedureCode")).getValue().toString().trim();
+                    oSupplyPlanning.GoodsReceiptProcessingDuration  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("GoodsReceiptProcessingDuration")).getValue().toString().trim();
+                    oMaterial.getPlanning().add(oSupplyPlanning);
+                }
+                break;
+
+
+            case  "AvailabilityConfirmation":
+
+                cAvailabilityConfirmation oAvailabilityConfirmation = new cAvailabilityConfirmation();
+
+                oAvailabilityConfirmation.PlanningAreaID = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("PlanningAreaID")).getValue().toString().trim();
+                oAvailabilityConfirmation.LifeCycleStatusCode = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("LifeCycleStatusCode")).getValue().toString().trim();
+                oAvailabilityConfirmation.AvailabilityCheckScopeCode = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("AvailabilityCheckScopeCode")).getValue().toString().trim();
+                oAvailabilityConfirmation.GoodsIssueProcessingDuration = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("GoodsIssueProcessingDuration")).getValue().toString().trim();
+
+                oMaterial.AvailabilityConfirmation.add(oAvailabilityConfirmation);
+
+                break;
+
+
+            case  "Sales":
+
+                cSales  oSales = new cSales();
+
+                oSales.SalesOrganisationID = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("SalesOrganisationID")).getValue().toString().trim();
+                oSales.DistributionChannelCode = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("DistributionChannelCode")).getValue().toString().trim();
+                oSales.LifeCycleStatusCode = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("LifeCycleStatusCode")).getValue().toString().trim();
+                oSales.SalesMeasureUnitCode = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("SalesMeasureUnitCode")).getValue().toString().trim();
+                oSales.ItemGroupCode = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("ItemGroupCode")).getValue().toString().trim();
+
+                oMaterial.Sales.add(oSales);
+
+                break;
+
+            case  "Logistics":
+
+                cLogistics oLogistics = new cLogistics();
+
+                oLogistics.SiteID = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("SiteID")).getValue().toString().trim();
+                oLogistics.LifeCycleStatusCode = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("LifeCycleStatusCode")).getValue().toString().trim();
+                oLogistics.CycleCountPlannedDuration = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("CycleCountPlannedDuration")).getValue().toString().trim();
+
+                oMaterial.Logistics.add(oLogistics);
+
+                break;
+
+            case  "DeviantTaxClassification":
+                oMaterial.CountryCode  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("CountryCode")).getValue().toString().trim();
+                oMaterial.RegionCode  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("RegionCode")).getValue().toString().trim();
+                oMaterial.RegionCodelistID =  ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("RegionCode")).getAttribute("listID").toString().trim();
+                oMaterial.TaxTypeCode  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("TaxTypeCode")).getValue().toString().trim();
+                oMaterial.TaxTypeCodelistID =  ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("TaxTypeCode")).getAttribute("listID").toString().trim();
+                oMaterial.TaxRateTypeCode  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("TaxRateTypeCode")).getValue().toString().trim();
+                oMaterial.TaxRateTypeCodelistID =  ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("TaxRateTypeCode")).getAttribute("listID").toString().trim();
+                oMaterial.TaxExemptionReasonCode  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("TaxExemptionReasonCode")).getValue().toString().trim();
+                oMaterial.TaxExemptionReasonCodelistID =  ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("TaxExemptionReasonCode")).getAttribute("listID").toString().trim();
+
+                break;
+
+            case  "Valuation":
+
+                cValuation  oValuation = new cValuation();
+
+                oValuation.LifeCycleStatusCode = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("LifeCycleStatusCode")).getValue().toString().trim();
+                oValuation.CompanyID = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("CompanyID")).getValue().toString().trim();
+                oValuation.BusinessResidenceID = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("BusinessResidenceID")).getValue().toString().trim();
+
+                oMaterial.Valuation.add(oValuation);
+
+                break;
+                */
+            default:break;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1466,7 +1746,6 @@ public class cServices {
     }
 
 
-
     public  static  class  CustomerFilterType {
         public static final String SelectionByInternalID = "SelectionByInternalID";
     }
@@ -1496,5 +1775,10 @@ public class cServices {
         public static final String CMATERIAL_UUID = "CMATERIAL_UUID";
         public static final String CLOG_AREA_UUID = "CLOG_AREA_UUID";
         public static final String CSITE_UUID  = "CSITE_UUID";
+    }
+
+    public  static  class  GetTaskkFilterType {
+        public static final String SelectionBySiteLogisticsTaskID = "SelectionBySiteLogisticsTaskID";
+        public static final String SelectionBySiteID = "SelectionBySiteID";
     }
 }

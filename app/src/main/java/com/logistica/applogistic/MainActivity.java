@@ -106,6 +106,12 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(cUserResponse lsData) {
             super.onPostExecute(lsData);
 
+            // mig:  borra  este bloque solo es de prueba
+//            Intent oIntent2 = new Intent(MainActivity.this,Inicio.class);
+//            startActivity(oIntent2);
+            // mig:   fin bloque
+
+
             if  (lsData != null){
 
                 if(lsData.Error.isEmpty()){

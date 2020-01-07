@@ -21,7 +21,7 @@ public class PutAwayTarget extends AppCompatActivity {
 
     private Spinner spinner;
 
-    private EditText txtTargetId;
+   // private EditText txtTargetId;
     private EditText txtProductId;
     private TextView lblOpenValueId;
     private EditText txtQtyId;
@@ -83,7 +83,7 @@ public class PutAwayTarget extends AppCompatActivity {
         iterater = 1;
 
 
-        txtTargetId = findViewById(R.id.txtTargetId);
+        //txtTargetId = findViewById(R.id.txtTargetId);
         txtProductId = findViewById(R.id.txtProductId);
         lblOpenValueId = findViewById(R.id.lblOpenValueId);
         txtQtyId = findViewById(R.id.txtQtyId);
@@ -185,7 +185,7 @@ public class PutAwayTarget extends AppCompatActivity {
 
         try {
 
-            txtTargetId.setText(pInboundViewInfo.TargetId);
+         //   txtTargetId.setText(pInboundViewInfo.TargetId);
             txtProductId.setText(pInboundViewInfo.ProductId);
             txtQtyId.setText(pInboundViewInfo.Qty);
             cheRestrictedId.setChecked(pInboundViewInfo.Restricted);
@@ -207,7 +207,7 @@ public class PutAwayTarget extends AppCompatActivity {
 
         try {
 
-            pInboundViewInfo.TargetId = txtTargetId.getText().toString();
+          //  pInboundViewInfo.TargetId = txtTargetId.getText().toString();
             pInboundViewInfo.ProductId = txtProductId.getText().toString();
             pInboundViewInfo.Qty = txtQtyId.getText().toString();
             pInboundViewInfo.Restricted = cheRestrictedId.isChecked();
@@ -250,8 +250,8 @@ public class PutAwayTarget extends AppCompatActivity {
 
     public void   onClickConfirm(View spinner) {
 
-        if (  txtTargetId.getText().toString().isEmpty() ){
-            Toast.makeText(getApplicationContext(),"El Área Logística es requerida", Toast.LENGTH_SHORT).show();
+        if (  txtProductId.getText().toString().isEmpty() ){
+            Toast.makeText(getApplicationContext(),"El ID de producto es requerido", Toast.LENGTH_SHORT).show();
         }  else {
 
             getViewInfo(oCurrentInboundViewInfo);

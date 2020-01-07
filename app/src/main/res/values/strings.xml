@@ -197,7 +197,7 @@
     <string name="btnGuardarGlb">Guardar</string>
     <string name="btnConsultarGlb">Consultar</string>
 
-    <string name="ttlRegistrarProductosGlb">Recuento de productos</string>
+    <string name="ttlRegistrarProductosGlb">Resumen de Stock</string>
 
     <string name="CMATERIAL_UUID">ID Producto</string>
     <string name="CSITE_UUID">ID Sede</string>
@@ -212,6 +212,8 @@
     <string name="ttlAssignBarCode">Asignar código de barras</string>
 
     <string name="chkConfirmedGlb">Confirmado</string>
+
+    <string name="lblLogisticAreaSource">A. Log. Origen</string>
 
 
 </resources>

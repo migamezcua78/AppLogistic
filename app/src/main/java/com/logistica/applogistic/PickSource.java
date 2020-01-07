@@ -20,7 +20,7 @@ public class PickSource extends AppCompatActivity {
 
     private Spinner spinner;
 
-    private EditText txtSourceId;
+  //  private EditText txtSourceId;
     private EditText txtProductId;
     private TextView lblOpenValueId;
     private EditText txtQtyId;
@@ -57,7 +57,7 @@ public class PickSource extends AppCompatActivity {
     private void init (){
         spinner = findViewById(R.id.spiOptions);
 
-        txtSourceId = findViewById(R.id.txtSourceId);
+       // txtSourceId = findViewById(R.id.txtSourceId);
         txtProductId = findViewById(R.id.txtProductId);
         lblOpenValueId = findViewById(R.id.lblOpenValueId);
         txtQtyId = findViewById(R.id.txtQtyId);
@@ -82,8 +82,8 @@ public class PickSource extends AppCompatActivity {
 
             oCurrentInboundViewInfo =  oGlobalData.CurrentInboundViewInfo;
            // txtSourceId.setText("13-15-6A");
-            txtSourceId.setText(oMsg.getKey01());
-            oCurrentInboundViewInfo.SourceId = txtSourceId.getText().toString();
+            //txtSourceId.setText(oMsg.getKey01());
+           // oCurrentInboundViewInfo.SourceId = txtSourceId.getText().toString();
 
             setViewInfo(oCurrentInboundViewInfo);
 
@@ -118,7 +118,7 @@ public class PickSource extends AppCompatActivity {
 
         try {
 
-            txtSourceId.setText(pInboundViewInfo.SourceId);
+            //txtSourceId.setText(pInboundViewInfo.SourceId);
             txtProductId.setText(pInboundViewInfo.ProductId);
             txtQtyId.setText(pInboundViewInfo.Qty);
             txtStockId.setText(pInboundViewInfo.IdentStock);
@@ -137,7 +137,7 @@ public class PickSource extends AppCompatActivity {
 
         try {
 
-            pInboundViewInfo.SourceId = txtSourceId.getText().toString();
+           // pInboundViewInfo.SourceId = txtSourceId.getText().toString();
             pInboundViewInfo.ProductId = txtProductId.getText().toString();
             pInboundViewInfo.Qty = txtQtyId.getText().toString();
             pInboundViewInfo.IdentStock = txtStockId.getText().toString();
@@ -167,10 +167,10 @@ public class PickSource extends AppCompatActivity {
 
         getViewInfo(oCurrentInboundViewInfo);
 
-        if(oCurrentInboundViewInfo.SourceId.trim().isEmpty()){
-            Toast.makeText(getApplicationContext(),"El Área Logística es requerida ", Toast.LENGTH_SHORT).show();
-
-        }else {
+//        if(oCurrentInboundViewInfo.SourceId.trim().isEmpty()){
+//            Toast.makeText(getApplicationContext(),"El Área Logística es requerida ", Toast.LENGTH_SHORT).show();
+//
+//        }else {
 
             oCurrentInboundViewInfo.Confirmed = true;
             oGlobalData.CurrentInboundViewInfo = oCurrentInboundViewInfo;
@@ -180,7 +180,7 @@ public class PickSource extends AppCompatActivity {
             cActivityMessage.setMessage("ItemConfirmed");
             oIntent.putExtra("oMsg",cActivityMessage);
             startActivity(oIntent);
-        }
+      //  }
     }
 
     private List<cSpinnerItem> getInfoFilter(){
@@ -227,8 +227,8 @@ public class PickSource extends AppCompatActivity {
         protected void onPostExecute(String lsData) {
             super.onPostExecute(lsData);
 
-            txtSourceId.setText("13-15-6A");
-            oCurrentInboundViewInfo.SourceId = txtSourceId.getText().toString();
+            //txtSourceId.setText("13-15-6A");
+          //  oCurrentInboundViewInfo.SourceId = txtSourceId.getText().toString();
 
             vProgressDialog.hide();
         }
