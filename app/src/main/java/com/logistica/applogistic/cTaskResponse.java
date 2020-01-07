@@ -9,6 +9,7 @@ public class cTaskResponse implements Serializable {
 
     public cTaskResponse (){
         SiteLogisticsTaskID = "";
+        SiteLogisticsTaskUUID = "";
         OperationTypeCode = "";
         ReferencedObjectUUID = "";
         SiteLogisticsLotOperationActivityUUID  = "";
@@ -18,6 +19,9 @@ public class cTaskResponse implements Serializable {
     }
 
     public String SiteLogisticsTaskID;
+    public String SiteLogisticsTaskUUID;
+
+
     public String OperationTypeCode;
     public String ReferencedObjectUUID;
     public String SiteLogisticsLotOperationActivityUUID;

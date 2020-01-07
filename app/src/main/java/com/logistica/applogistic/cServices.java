@@ -861,13 +861,38 @@ public class cServices {
             case  "SiteLogisticsTaskID": oTaskResponse.SiteLogisticsTaskID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
                 break;
 
-            case  "SiteLogisticsTaskReferencedObject":
-                SoapObject    soTemp =  (SoapObject)((SoapObject)oPropertyInfo.getValue()).getProperty("SiteLogisticsLotOperationActivity");
+            case  "SiteLogisticsTaskUUID": oTaskResponse.SiteLogisticsTaskUUID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
+                break;
 
-              //  SoapObject soTemp = ((SoapObject)oPropertyInfo.getValue());
+            case  "SiteLogisticsTaskReferencedObject":
+                oTaskResponse.ReferencedObjectUUID =  ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("ReferencedObjectUUID")).getValue().toString().trim();
+
+                SoapObject    soTemp =  (SoapObject)((SoapObject)oPropertyInfo.getValue()).getProperty("SiteLogisticsLotOperationActivity");
                 for( int j= 0; j < soTemp.getPropertyCount(); j++ ){
                     PropertyInfo oPropertyInfoTemp = soTemp.getPropertyInfo(j);
-                    if(oPropertyInfoTemp.getName().equals("MaterialOutput")){
+
+                    if (oPropertyInfoTemp.getName().equals("SiteLogisticsLotOperationActivityUUID")){
+                        oTaskResponse.SiteLogisticsLotOperationActivityUUID =  ((SoapPrimitive)oPropertyInfoTemp.getValue()).getValue().toString().trim();
+
+                    } else if(oPropertyInfoTemp.getName().equals("MaterialInput")){
+                            cMaterialSimpleData oData =  new cMaterialSimpleData();
+
+                            oData.ProductID  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("ProductID")).getValue().toString().trim();
+                            oData.PlanQuantity  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("PlanQuantity")).getValue().toString().trim();
+                            oData.PlanQuantityUnitCode = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("PlanQuantity")).getAttribute("unitCode").toString().trim();
+
+                            oData.OpenQuantity  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("OpenQuantity")).getValue().toString().trim();
+                            oData.OpenQuantityUnitCode = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("OpenQuantity")).getAttribute("unitCode").toString().trim();
+
+                            oData.TotalConfirmedQuantity  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("TotalConfirmedQuantity")).getValue().toString().trim();
+                            oData.TotalConfirmedQuantityUnitCode = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("TotalConfirmedQuantity")).getAttribute("unitCode").toString().trim();
+
+                            oData.SiteLogisticsLotMaterialInputUUID  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("SiteLogisticsLotMaterialInputUUID")).getValue().toString().trim();
+                            oData.SourceLogisticsAreaID  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("SourceLogisticsAreaID")).getValue().toString().trim();
+
+                        oTaskResponse.MaterialsInput.add(oData);
+
+                    } else if(oPropertyInfoTemp.getName().equals("MaterialOutput")){
                         cMaterialSimpleData oData =  new cMaterialSimpleData();
 
                         oData.ProductID  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("ProductID")).getValue().toString().trim();
@@ -880,11 +905,10 @@ public class cServices {
                         oData.TotalConfirmedQuantity  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("TotalConfirmedQuantity")).getValue().toString().trim();
                         oData.TotalConfirmedQuantityUnitCode = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("TotalConfirmedQuantity")).getAttribute("unitCode").toString().trim();
 
-                        oTaskResponse.Materials.add(oData);
+                        oData.SiteLogisticsLotMaterialOutputUUID  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("SiteLogisticsLotMaterialOutputUUID")).getValue().toString().trim();
+                        oTaskResponse.MaterialsOutput.add(oData);
                     }
                 }
-
-
 
 
 /*                SoapObject soTemp = ((SoapObject)oPropertyInfo.getValue());
@@ -1023,17 +1047,6 @@ public class cServices {
             default:break;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

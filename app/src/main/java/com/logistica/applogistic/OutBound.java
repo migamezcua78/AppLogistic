@@ -562,8 +562,8 @@ public class OutBound extends AppCompatActivity {
             if(  lsData.size() > 0) {
                 oTaskResponse =  lsData.get(0);
 
-                for (int i = 0; i < oTaskResponse.Materials.size(); i++) {
-                    cMaterialSimpleData oData = oTaskResponse.Materials.get(i);
+                for (int i = 0; i < oTaskResponse.MaterialsOutput.size(); i++) {
+                    cMaterialSimpleData oData = oTaskResponse.MaterialsOutput.get(i);
 
                     if( !oData.ProductID.trim().isEmpty()){
 
