@@ -520,6 +520,122 @@ public class cServices {
 
 
 
+    // Confirm task
+    public  cConfirmTaskResponse PutConfirmTaskServiceData(cTaskResponse pObj){
+
+        // SOAP
+        String Soap_Action = "MaintainBundle_V1";
+        String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/managesitelogisticstaskin?sap-vhost=my346674.sapbydesign.com";
+        HttpTransportSE transporte;
+        SoapSerializationEnvelope envelope;
+
+        // Data
+        String  ErrorMsg = "";
+        Vector vResponse = new  Vector();
+        cConfirmTaskResponse oResponse = new  cConfirmTaskResponse();
+
+        try {
+
+            List<HeaderProperty> headerPropertieList = new ArrayList<HeaderProperty>();
+            headerPropertieList.add(new HeaderProperty("Authorization", AUTHORIZATION_SOAP_VALUE));
+
+            envelope = new SAPSerializationEnvelope(110,NAME_SPACE_SOAP);
+            envelope.dotNet = false;
+            envelope.setOutputSoapObject(getBodySoapObjectByFilterType_ConfirmTask(pObj));
+
+            transporte = new HttpTransportSE(url,CONNECT_TIMEOUT_SOAP);
+            transporte.debug = true;
+
+            transporte.setReadTimeout(READ_TIMEOUT_SOAP);
+
+            transporte.call(Soap_Action, envelope,headerPropertieList);
+
+            if ((envelope.getResponse().getClass()).getName().equals("org.ksoap2.serialization.SoapObject")){
+                SoapObject  so =   (SoapObject)envelope.getResponse();
+                SoapObject    soResp  =  (SoapObject)so.getProperty("SiteLogisticsTaskLog");
+
+                String   sServiceCode =  ((SoapPrimitive)soResp.getProperty("SiteLogisticsTaskSeverityCode")).getValue().toString().trim();
+
+                oResponse.SiteLogisticsTaskSeverityCode = sServiceCode;
+                oResponse.Msg = "";
+
+               // ((SoapPrimitive)((SoapObject)so.getProperty("SiteLogisticsTaskLog")).getProperty("SiteLogisticsTaskSeverityCode")).getValue().toString().trim();
+            }
+
+        } catch (Exception e) {
+
+            ErrorMsg = e.getMessage();
+
+            oResponse.SiteLogisticsTaskSeverityCode = "E" ;
+            oResponse.Msg = ErrorMsg;
+
+            return  oResponse;
+        }
+
+        return oResponse;
+    }
+
+    private  SoapObject  getBodySoapObjectByFilterType_ConfirmTask(cTaskResponse pObj){
+
+        SoapObject soNI =  new SoapObject();
+
+        SoapObject  oSoapObjectResult = new SoapObject(NAME_SPACE_SOAP, "SiteLogisticsTaskBundleMaintainRequest_sync_V1");
+        SoapObject soN1 =  new SoapObject("", "BasicMessageHeader");
+        soN1.addProperty("ID", "123");
+
+        SoapObject soN2 =  new SoapObject("", "SiteLogisticsTask");
+        soN2.addProperty("SiteLogisticTaskID", pObj.SiteLogisticTaskID);
+        soN2.addProperty("SiteLogisticTaskUUID", pObj.SiteLogisticTaskUUID);
+
+        SoapObject soN3 =  new SoapObject("", "ReferenceObject");
+        soN3.addProperty("ReferenceObjectUUID", pObj.ReferenceObjectUUID);
+
+        SoapObject soN4 =  new SoapObject("", "OperationActivity");
+        soN4.addProperty("OperationActivityUUID", pObj.SiteLogisticsLotOperationActivityUUID);
+
+        for ( cMaterialSimpleData item:pObj.MaterialsInput){
+            soNI =  new SoapObject("", "MaterialInput");
+            soNI.addProperty("MaterialInputUUID", item.SiteLogisticsLotMaterialInputUUID);
+            soNI.addProperty("ProductID", item.ProductID);
+            soNI.addProperty("ActualQuantity", item.ActualQuantity);
+            if(!item.SourceLogisticsAreaID.trim().equals("")){
+                soNI.addProperty("SourceLogisticsAreaID", item.SourceLogisticsAreaID);
+            }
+            soN4.addSoapObject(soNI);
+        }
+
+        for ( cMaterialSimpleData item:pObj.MaterialsOutput){
+            soNI =  new SoapObject("", "MaterialOutput");
+            soNI.addProperty("MaterialOutputUUID", item.SiteLogisticsLotMaterialOutputUUID);
+            soNI.addProperty("ProductID", item.ProductID);
+            soNI.addProperty("ActualQuantity", item.ActualQuantity);
+            if(!item.TargetLogisticsAreaID.trim().equals("")){
+                soNI.addProperty("TargetLogisticsAreaID", item.TargetLogisticsAreaID);
+            }
+            soN4.addSoapObject(soNI);
+        }
+
+        soN3.addSoapObject(soN4);
+        soN2.addSoapObject(soN3);
+
+        oSoapObjectResult.addSoapObject(soN1);
+        oSoapObjectResult.addSoapObject(soN2);
+
+
+/*        SoapObject soN3 =  new SoapObject("", "InventoryItemChangeQuantity");
+        SoapPrimitive  spN = new SoapPrimitive("", "Quantity", pObj.Quantity);
+        spN.addAttribute("unitCode", pObj.QuantityUnitCode);
+        soN3.addProperty("Quantity",spN);
+        soN2.addSoapObject(soN3);*/
+
+
+        return oSoapObjectResult;
+    }
+
+
+
+
+
     // Send Movement
 
     public  cMovementResponse PutMovementServiceData(cMovementRequest pObj){
@@ -858,14 +974,14 @@ public class cServices {
     private void SetTaskDataProperty(cTaskResponse oTaskResponse, PropertyInfo oPropertyInfo) {
         switch (oPropertyInfo.getName()){
 
-            case  "SiteLogisticsTaskID": oTaskResponse.SiteLogisticsTaskID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
+            case  "SiteLogisticsTaskID": oTaskResponse.SiteLogisticTaskID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
                 break;
 
-            case  "SiteLogisticsTaskUUID": oTaskResponse.SiteLogisticsTaskUUID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
+            case  "SiteLogisticsTaskUUID": oTaskResponse.SiteLogisticTaskUUID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
                 break;
 
             case  "SiteLogisticsTaskReferencedObject":
-                oTaskResponse.ReferencedObjectUUID =  ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("ReferencedObjectUUID")).getValue().toString().trim();
+                oTaskResponse.ReferenceObjectUUID =  ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("ReferencedObjectUUID")).getValue().toString().trim();
 
                 SoapObject    soTemp =  (SoapObject)((SoapObject)oPropertyInfo.getValue()).getProperty("SiteLogisticsLotOperationActivity");
                 for( int j= 0; j < soTemp.getPropertyCount(); j++ ){

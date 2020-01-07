@@ -17,6 +17,7 @@ public class ConfirmTask extends AppCompatActivity {
 
     private TableLayout tableLayout;
     private  cDataGrid  oDataGrid;
+    private  cConfirmTaskResponse   oConfirmTaskResponse;
 
     //  DATA
     private ArrayList<String[]> InfoData = new ArrayList <> ();
@@ -44,6 +45,7 @@ public class ConfirmTask extends AppCompatActivity {
     private void Init (){
         tableLayout = findViewById(R.id.tgProductos);
 
+        oConfirmTaskResponse = new cConfirmTaskResponse();
 
         oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
         lsOutbounItems = ((cGlobalData)getApplication()).LsOutboudItems;
@@ -70,6 +72,12 @@ public class ConfirmTask extends AppCompatActivity {
             InfoData = new ArrayList <> ();
 
             for ( cOutboundViewInfo e:lsOutbounItems){
+
+                InfoData.add(new String[]{ e.ProductId, e.Qty + " " + e.OpenUnit, e.SourceId });
+            }
+
+
+/*            for ( cOutboundViewInfo e:lsOutbounItems){
                 float  dif = 0;
                 if (Float.parseFloat(e.Open) < Float.parseFloat(e.Qty)){
                     dif = 0;
@@ -79,7 +87,7 @@ public class ConfirmTask extends AppCompatActivity {
                 }
 
                 InfoData.add(new String[]{ e.ProductId, dif + " " + e.OpenUnit, e.SourceId });
-            }
+            }*/
         }
 
         fillDataGrid();
@@ -96,7 +104,7 @@ public class ConfirmTask extends AppCompatActivity {
     }
 
     private  String[] getInfoHeader(){
-        InfoHeader = new String[]{"Product","Open", "Source"};
+        InfoHeader = new String[]{"ID de Producto","Actual", "Área L. Origen"};
         return InfoHeader;
     }
 
@@ -105,14 +113,12 @@ public class ConfirmTask extends AppCompatActivity {
     }
 
 
-
-
     private class AsyncTaskSendingTaskInformation extends AsyncTask<String, String,  String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             vProgressDialog = new ProgressDialog(ConfirmTask.this);
-            vProgressDialog.setMessage("Sending Task Information ...");
+            vProgressDialog.setMessage("Enviando Información de Tarea...");
             vProgressDialog.setIndeterminate(false);
             vProgressDialog.setCancelable(true);
             vProgressDialog.show();
@@ -126,12 +132,38 @@ public class ConfirmTask extends AppCompatActivity {
 
               //  Thread.sleep(1000);
 
-
                 if (lsOutbounItems != null & lsOutbounItems.size() > 0  )
                 {
                    // InfoData = new ArrayList <> ();
                     cServices  oServices = new cServices();
+                    cTaskResponse  oResp = ((cGlobalData)getApplication()).CurrentTaskResponse;
 
+                    if(oResp != null ){
+
+                        for ( cOutboundViewInfo e:lsOutbounItems){
+
+                            for ( cMaterialSimpleData item:oResp.MaterialsInput){
+                                if (e.ProductId.equals(item.ProductID)){
+                                    item.ActualQuantity = e.Qty;
+                                }
+
+                               // item.ActualQuantity = "5";
+                            }
+
+                            for ( cMaterialSimpleData item:oResp.MaterialsOutput){
+
+                                if (e.ProductId.equals(item.ProductID)){
+                                    item.ActualQuantity = e.Qty;
+                                }
+
+                                //item.ActualQuantity = "5";
+                            }
+                        }
+                    }
+
+                    oConfirmTaskResponse =  oServices.PutConfirmTaskServiceData(oResp);
+
+                    /*
                     for ( cOutboundViewInfo e:lsOutbounItems){
                         float  dif = 0;
                         if (Float.parseFloat(e.Open) < Float.parseFloat(e.Qty)){
@@ -151,14 +183,16 @@ public class ConfirmTask extends AppCompatActivity {
 
                         oServices.PutInboundDeliveryServiceData(oInboundDelivery);
 
-                       // InfoData.add(new String[]{ e.ProductId, dif + " " + e.OpenUnit, e.SourceId });
-                    }
+                    }*/
+
+
                 }
 
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
             return "";
         }
 
@@ -173,9 +207,14 @@ public class ConfirmTask extends AppCompatActivity {
             super.onPostExecute(lsData);
             vProgressDialog.hide();
 
-            Toast.makeText(getApplicationContext(),"Sending Successful", Toast.LENGTH_LONG).show();
-            Intent oIntent = new Intent(ConfirmTask.this, OutBound.class);
-            startActivity(oIntent);
+            if (oConfirmTaskResponse.SiteLogisticsTaskSeverityCode.equals("S")){
+                Toast.makeText(getApplicationContext(),"Tarea Confirmada", Toast.LENGTH_LONG).show();
+                Intent oIntent = new Intent(ConfirmTask.this, OutBound.class);
+                startActivity(oIntent);
+
+            } else {
+                Toast.makeText(getApplicationContext(),"No se pudo confirmar la tarea: " +  oConfirmTaskResponse.Msg, Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

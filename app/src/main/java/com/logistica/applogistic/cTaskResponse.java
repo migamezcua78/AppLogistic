@@ -8,22 +8,22 @@ import java.io.Serializable;
 public class cTaskResponse implements Serializable {
 
     public cTaskResponse (){
-        SiteLogisticsTaskID = "";
-        SiteLogisticsTaskUUID = "";
+        SiteLogisticTaskID = "";
+        SiteLogisticTaskUUID = "";
         OperationTypeCode = "";
-        ReferencedObjectUUID = "";
+        ReferenceObjectUUID = "";
         SiteLogisticsLotOperationActivityUUID  = "";
 
         MaterialsOutput = new ArrayList<>();
         MaterialsInput = new ArrayList<>();
     }
 
-    public String SiteLogisticsTaskID;
-    public String SiteLogisticsTaskUUID;
+    public String SiteLogisticTaskID;
+    public String SiteLogisticTaskUUID;
 
 
     public String OperationTypeCode;
-    public String ReferencedObjectUUID;
+    public String ReferenceObjectUUID;
     public String SiteLogisticsLotOperationActivityUUID;
 
 

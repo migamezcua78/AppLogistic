@@ -1,6 +1,7 @@
 package com.logistica.applogistic;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -550,20 +551,21 @@ public class OutBound extends AppCompatActivity {
 
             super.onPostExecute(lsData);
 
-            // lblTaskValueId.setText( txtImputFilterId.getText().toString().trim() + "  "  +  "Pick");
-            //lbOrderValueId.setText("365");
-
             lsOutbounItems = new  ArrayList<>();
 
             InfoData = new ArrayList <> ();
             cOutboundViewInfo  oItemView = new cOutboundViewInfo();
             cTaskResponse   oTaskResponse = new  cTaskResponse();
 
+            ((cGlobalData)getApplication()).CurrentTaskResponse = new cTaskResponse();
+
             if(  lsData.size() > 0) {
                 oTaskResponse =  lsData.get(0);
 
-                for (int i = 0; i < oTaskResponse.MaterialsOutput.size(); i++) {
-                    cMaterialSimpleData oData = oTaskResponse.MaterialsOutput.get(i);
+                ((cGlobalData)getApplication()).CurrentTaskResponse = oTaskResponse;
+
+                for (int i = 0; i < oTaskResponse.MaterialsInput.size(); i++) {
+                    cMaterialSimpleData oData = oTaskResponse.MaterialsInput.get(i);
 
                     if( !oData.ProductID.trim().isEmpty()){
 
@@ -571,6 +573,9 @@ public class OutBound extends AppCompatActivity {
                         oItemView.ProductId = oData.ProductID;
                         oItemView.Open = oData.OpenQuantity;
                         oItemView.OpenUnit = oData.OpenQuantityUnitCode;
+                        oItemView.SourceId = oData.SourceLogisticsAreaID;
+
+                      //  oItemView.SourceId
 
 
                 /*    oInboundViewInfo.ProductId = oData.getProductCategoryID() +  "_" + String.valueOf(i);

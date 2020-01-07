@@ -7,11 +7,14 @@ public class cMaterialSimpleData {
         SiteLogisticsLotMaterialInputUUID = "";
         SiteLogisticsLotMaterialOutputUUID = "";
         SourceLogisticsAreaID = "";
+        TargetLogisticsAreaID = "";
         ProductID = "";
         PlanQuantity = "";
         PlanQuantityUnitCode = "";
         OpenQuantity = "";
         OpenQuantityUnitCode = "";
+        ActualQuantity = "";
+        ActualQuantityUnitCode = "";
         TotalConfirmedQuantity = "";
         TotalConfirmedQuantityUnitCode = "";
         LineItemID = "";
@@ -21,11 +24,16 @@ public class cMaterialSimpleData {
     public String  SiteLogisticsLotMaterialInputUUID;
     public String  SiteLogisticsLotMaterialOutputUUID;
     public String  SourceLogisticsAreaID;
+    public String  TargetLogisticsAreaID;
     public String  ProductID;
     public String  PlanQuantity;
     public String  PlanQuantityUnitCode;
     public String  OpenQuantity;
     public String  OpenQuantityUnitCode;;
+
+    public String  ActualQuantity;
+    public String  ActualQuantityUnitCode;
+
     public String  TotalConfirmedQuantity;
     public String  TotalConfirmedQuantityUnitCode;
     public String  LineItemID;
