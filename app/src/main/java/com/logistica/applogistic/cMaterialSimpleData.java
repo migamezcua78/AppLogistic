@@ -4,6 +4,8 @@ public class cMaterialSimpleData {
 
     public  cMaterialSimpleData (){
 
+        SiteLogisticsLotMaterialInputUUID = "";
+        SiteLogisticsLotMaterialOutputUUID = "";
         SourceLogisticsAreaID = "";
         ProductID = "";
         PlanQuantity = "";
@@ -16,6 +18,8 @@ public class cMaterialSimpleData {
         MaterialDeviationStatusCode = "";
     }
 
+    public String  SiteLogisticsLotMaterialInputUUID;
+    public String  SiteLogisticsLotMaterialOutputUUID;
     public String  SourceLogisticsAreaID;
     public String  ProductID;
     public String  PlanQuantity;

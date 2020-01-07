@@ -47,6 +47,8 @@ public class cGlobalData extends Application {
 
     public cMovementViewInfo  CurrentMovementViewInfo;
 
+    public cTaskResponse CurrentTaskResponse;
+
     public String getGlobalVarValue() {
         return mGlobalVarValue;
     }
