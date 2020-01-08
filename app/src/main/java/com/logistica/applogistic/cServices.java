@@ -436,7 +436,6 @@ public class cServices {
 
 
 
-
     public ArrayList<cStock> GetStockServiceData(String  pFilterType, String pFilterValue, String pMaximumNumberValue){
         String ErrorMsg = "";
         ArrayList<cStock> lsData = new  ArrayList<>();
@@ -578,6 +577,9 @@ public class cServices {
     private  SoapObject  getBodySoapObjectByFilterType_ConfirmTask(cTaskResponse pObj){
 
         SoapObject soNI =  new SoapObject();
+        SoapPrimitive sopNQ =  null;
+
+
 
         SoapObject  oSoapObjectResult = new SoapObject(NAME_SPACE_SOAP, "SiteLogisticsTaskBundleMaintainRequest_sync_V1");
         SoapObject soN1 =  new SoapObject("", "BasicMessageHeader");
@@ -597,7 +599,12 @@ public class cServices {
             soNI =  new SoapObject("", "MaterialInput");
             soNI.addProperty("MaterialInputUUID", item.SiteLogisticsLotMaterialInputUUID);
             soNI.addProperty("ProductID", item.ProductID);
-            soNI.addProperty("ActualQuantity", item.ActualQuantity);
+
+            sopNQ = new SoapPrimitive("", "ActualQuantity", item.ActualQuantity);
+            sopNQ.addAttribute("unitCode", item.PlanQuantityUnitCode);
+            soNI.addProperty("ActualQuantity",sopNQ);
+
+            //soNI.addProperty("ActualQuantity", item.ActualQuantity);
             if(!item.SourceLogisticsAreaID.trim().equals("")){
                 soNI.addProperty("SourceLogisticsAreaID", item.SourceLogisticsAreaID);
             }
@@ -608,7 +615,12 @@ public class cServices {
             soNI =  new SoapObject("", "MaterialOutput");
             soNI.addProperty("MaterialOutputUUID", item.SiteLogisticsLotMaterialOutputUUID);
             soNI.addProperty("ProductID", item.ProductID);
-            soNI.addProperty("ActualQuantity", item.ActualQuantity);
+
+            sopNQ = new SoapPrimitive("", "ActualQuantity", item.ActualQuantity);
+            sopNQ.addAttribute("unitCode", item.PlanQuantityUnitCode);
+            soNI.addProperty("ActualQuantity",sopNQ);
+
+           // soNI.addProperty("ActualQuantity", item.ActualQuantity);
             if(!item.TargetLogisticsAreaID.trim().equals("")){
                 soNI.addProperty("TargetLogisticsAreaID", item.TargetLogisticsAreaID);
             }
