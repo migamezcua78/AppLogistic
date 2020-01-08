@@ -29,15 +29,21 @@ public class Goods_Movement_Source extends AppCompatActivity {
     EditText txIdentStockId;
     CheckBox chkRestrictedId;
     EditText txtLuId;
-    EditText txtLuQtyId;
+   // EditText txtLuQtyId;
     EditText txtFieldNameId;
     EditText txtBarCodeId;
     Spinner spinner;
+    Spinner spinnerCompany;
 
     // Data
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
+    private List<cSpinnerItem>  InfoFilterCompany = new ArrayList<>();
+
+
     private  cMovementViewInfo  oCurrentItemViewInfo;
     cProductViewInfo oCurrectProductViewInfo;
+
+
 
     // Process
     ProgressDialog vProgressDialog;
@@ -62,14 +68,18 @@ public class Goods_Movement_Source extends AppCompatActivity {
         txtQtyId = findViewById(R.id.txtQtyId);
         txIdentStockId = findViewById(R.id.txtStockId);
         chkRestrictedId = findViewById(R.id.chkRestrictedId);
-        txtLuId = findViewById(R.id.txtSerialNumberId);
-        txtLuQtyId = findViewById(R.id.txtLuQtyId);
-        txtFieldNameId = findViewById(R.id.txtFieldName);
+        txtLuId = findViewById(R.id.txtSerialNumberId);  // Sede
+       // txtLuQtyId = findViewById(R.id.txtLuQtyId);   // Empresa
+        txtFieldNameId = findViewById(R.id.txtFieldName);  //  ID External Posicion
         txtBarCodeId = findViewById(R.id.txtBarCode);
         spinner = findViewById(R.id.spiUnitId);
+        spinnerCompany = findViewById(R.id.spiCompany);
 
         oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
         oCurrentItemViewInfo = ((cGlobalData)getApplication()).CurrentMovementViewInfo;
+
+        fillDataFilter();
+        fillDataFilterCompany();
     }
 
     private  void StartActivity(){
@@ -131,11 +141,9 @@ public class Goods_Movement_Source extends AppCompatActivity {
 
 
         } else {
-
+            fillDataFilterCompany();
             setViewInfo();
         }
-
-        fillDataFilter();
     }
 
     private void  getParamInfo() {
@@ -164,7 +172,7 @@ public class Goods_Movement_Source extends AppCompatActivity {
         oCurrentItemViewInfo.IdentStock =txIdentStockId.getText().toString();
         oCurrentItemViewInfo.Restricted =chkRestrictedId.isChecked();
         oCurrentItemViewInfo.Lu =txtLuId.getText().toString();
-        oCurrentItemViewInfo.LuQty =txtLuQtyId.getText().toString();
+        oCurrentItemViewInfo.LuQty =  ((cSpinnerItem)spinnerCompany.getSelectedItem()).getField(); //txtLuQtyId.getText().toString();  //  Empresa
         oCurrentItemViewInfo.FieldName =txtFieldNameId.getText().toString();
         oCurrentItemViewInfo.BarCode =txtBarCodeId.getText().toString();
         oCurrentItemViewInfo.msg = "";
@@ -179,9 +187,23 @@ public class Goods_Movement_Source extends AppCompatActivity {
         txIdentStockId.setText(oCurrentItemViewInfo.IdentStock);
         chkRestrictedId.setChecked(oCurrentItemViewInfo.Restricted);
         txtLuId.setText(oCurrentItemViewInfo.Lu);
-        txtLuQtyId.setText(oCurrentItemViewInfo.LuQty);
+        //txtLuQtyId.setText(oCurrentItemViewInfo.LuQty);
+       // spinnerCompany.setSelection(1);     // .setText(oCurrentItemViewInfo.LuQty);
+
+        selectSpinnerItemByValue(spinnerCompany, oCurrentItemViewInfo.LuQty);
+
         txtFieldNameId.setText(oCurrentItemViewInfo.FieldName);
         txtBarCodeId.setText(oCurrentItemViewInfo.BarCode);
+    }
+
+    public static void selectSpinnerItemByValue(Spinner spnr, String value) {
+        ArrayAdapter<cSpinnerItem> adapter = (ArrayAdapter<cSpinnerItem>) spnr.getAdapter();
+        for (int position = 0; position < adapter.getCount(); position++) {
+            if(((cSpinnerItem)adapter.getItem(position)).getField().equals(value)) {
+                spnr.setSelection(position);
+                return;
+            }
+        }
     }
 
 
@@ -210,11 +232,24 @@ public class Goods_Movement_Source extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
+    private void fillDataFilterCompany (){
+        ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilterCompany());
+        spinnerCompany.setAdapter(adapter);
+    }
+
 
     private List<cSpinnerItem> getInfoFilter(){
         InfoFilter = new ArrayList<>();
         InfoFilter.add(new cSpinnerItem(1,"ZPZ"));
         return  InfoFilter;
+    }
+
+    private List<cSpinnerItem> getInfoFilterCompany(){
+        InfoFilterCompany = new ArrayList<>();
+        InfoFilterCompany.add(new cSpinnerItem(1,"Goodwill","E01"));
+        InfoFilterCompany.add(new cSpinnerItem(2,"Importadora Regat","E02"));
+        InfoFilterCompany.add(new cSpinnerItem(3,"Bausse Cosméticos","E03"));
+        return  InfoFilterCompany;
     }
 
 
@@ -277,11 +312,13 @@ public class Goods_Movement_Source extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(),"ID de Sede es requerida", Toast.LENGTH_SHORT).show();
 
-        } else if (txtLuQtyId.getText().toString().trim().isEmpty() )
+        }
+
+/*        else if (txtLuQtyId.getText().toString().trim().isEmpty() )
         {
             Toast.makeText(getApplicationContext(),"ID de Empresa es requerida", Toast.LENGTH_SHORT).show();
 
-        }
+        }*/
         else{
 
             getViewInfo();

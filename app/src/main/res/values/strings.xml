@@ -53,7 +53,8 @@
     <string name="btnConfirmTask">Confirmar</string>
 
     <!--    <string name="lblTarget">Target</string>-->
-    <string name="lblTarget">Área logistica destino</string>
+    <!--  <string name="lblTarget">Área logistica destino</string>  -->
+    <string name="lblTarget">A. Destino</string>
     <!--    <string name="lblProduct">Product ID</string>-->
     <string name="lblProduct">ID de Producto</string>
     <string name="lblOpen">Open</string>
@@ -131,7 +132,8 @@
     <string name="lblTitleGoodsMovementSource">Confirmar Área logistica origen</string>
 
     <!--    <string name="lblSource">Source</string>-->
-    <string name="lblSource">Área logistica origen</string>
+    <!--  <string name="lblSource">Área logistica origen</string>  -->
+      <string name="lblSource">A. Origen</string>
     <!--    <string name="lblProductSimple">Product</string>-->
     <string name="lblProductSimple">Producto</string>
     <string name="lblQty">Qty</string>
@@ -183,7 +185,7 @@
 
     <string name="SiteID">ID de Sede</string>
     <string name="EmpresaId">ID de Empresa</string>
-    <string name="ExternalItemID">ID Externo Posición</string>
+    <string name="ExternalItemID">ID Ext. Posición</string>
 
     <string name="ttlMappingProducts">Asignar nuevo producto</string>
     <string name="lblBarCodeGlb">Código de Barras</string>
