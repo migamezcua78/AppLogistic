@@ -18,12 +18,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Goods_Movement_Source extends AppCompatActivity {
 
     //  Views
-    EditText txtSourceId;
+   // EditText txtSourceId;
     EditText txtProductId;
     EditText txtQtyId;
     EditText txIdentStockId;
@@ -34,14 +37,17 @@ public class Goods_Movement_Source extends AppCompatActivity {
     EditText txtBarCodeId;
     Spinner spinner;
     Spinner spinnerCompany;
+    Spinner spinnerLogisticAreas;
 
     // Data
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
     private List<cSpinnerItem>  InfoFilterCompany = new ArrayList<>();
+    private List<cSpinnerItem>  InfoFilterLogisticAreas = new ArrayList<>();
 
 
     private  cMovementViewInfo  oCurrentItemViewInfo;
     cProductViewInfo oCurrectProductViewInfo;
+    private ArrayList<String>  LsCatalogLogisticAreas;
 
 
 
@@ -63,7 +69,7 @@ public class Goods_Movement_Source extends AppCompatActivity {
 
     private void init() {
 
-        txtSourceId = findViewById(R.id.txtTargetId);
+       // txtSourceId = findViewById(R.id.txtTargetId);
         txtProductId = findViewById(R.id.txtProductId);
         txtQtyId = findViewById(R.id.txtQtyId);
         txIdentStockId = findViewById(R.id.txtStockId);
@@ -74,12 +80,21 @@ public class Goods_Movement_Source extends AppCompatActivity {
         txtBarCodeId = findViewById(R.id.txtBarCode);
         spinner = findViewById(R.id.spiUnitId);
         spinnerCompany = findViewById(R.id.spiCompany);
+        spinnerLogisticAreas = findViewById(R.id.spiLogisticAreas);
 
         oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
         oCurrentItemViewInfo = ((cGlobalData)getApplication()).CurrentMovementViewInfo;
+        LsCatalogLogisticAreas = ((cGlobalData)getApplication()).LsCatalogLogisticAreas;
 
         fillDataFilter();
         fillDataFilterCompany();
+
+        if (LsCatalogLogisticAreas == null  || LsCatalogLogisticAreas.size() == 0 ){
+            AsyncTaskGetLogisticAreas asyncTask=new AsyncTaskGetLogisticAreas();
+            asyncTask.execute("params");
+        }else {
+            fillDataFilterLogisticAreas();
+        }
     }
 
     private  void StartActivity(){
@@ -166,7 +181,9 @@ public class Goods_Movement_Source extends AppCompatActivity {
 
     private void getViewInfo(){
 
-        oCurrentItemViewInfo.SourceId =txtSourceId.getText().toString();
+       // oCurrentItemViewInfo.SourceId =txtSourceId.getText().toString();
+        oCurrentItemViewInfo.SourceId = ((cSpinnerItem)spinnerLogisticAreas.getSelectedItem()).getField();
+
         oCurrentItemViewInfo.ProductId =txtProductId.getText().toString();
         oCurrentItemViewInfo.Qty =txtQtyId.getText().toString();
         oCurrentItemViewInfo.IdentStock =txIdentStockId.getText().toString();
@@ -181,7 +198,9 @@ public class Goods_Movement_Source extends AppCompatActivity {
 
     private void setViewInfo(){
 
-        txtSourceId.setText(oCurrentItemViewInfo.SourceId);
+       // txtSourceId.setText(oCurrentItemViewInfo.SourceId);
+        selectSpinnerItemByValue(spinnerLogisticAreas, oCurrentItemViewInfo.SourceId);
+
         txtProductId.setText(oCurrentItemViewInfo.ProductId);
         txtQtyId.setText(oCurrentItemViewInfo.Qty);
         txIdentStockId.setText(oCurrentItemViewInfo.IdentStock);
@@ -237,6 +256,11 @@ public class Goods_Movement_Source extends AppCompatActivity {
         spinnerCompany.setAdapter(adapter);
     }
 
+    private void fillDataFilterLogisticAreas (){
+        ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilterLogisticAreas());
+        spinnerLogisticAreas.setAdapter(adapter);
+    }
+
 
     private List<cSpinnerItem> getInfoFilter(){
         InfoFilter = new ArrayList<>();
@@ -250,6 +274,17 @@ public class Goods_Movement_Source extends AppCompatActivity {
         InfoFilterCompany.add(new cSpinnerItem(2,"E02-Importadora Regat","E02"));
         InfoFilterCompany.add(new cSpinnerItem(3,"E03-Bausse Cosméticos","E03"));
         return  InfoFilterCompany;
+    }
+
+    private List<cSpinnerItem> getInfoFilterLogisticAreas(){
+        InfoFilterLogisticAreas = new ArrayList<>();
+        if (LsCatalogLogisticAreas != null ){
+
+            for ( int i =0; i < LsCatalogLogisticAreas.size(); i++ ){
+                InfoFilterLogisticAreas.add(new cSpinnerItem(i,LsCatalogLogisticAreas.get(i),LsCatalogLogisticAreas.get(i)));
+            }
+        }
+        return  InfoFilterLogisticAreas;
     }
 
 
@@ -291,11 +326,14 @@ public class Goods_Movement_Source extends AppCompatActivity {
 
     public void onClickConfirm(View view){
 
-        if ( txtSourceId.getText().toString().trim().isEmpty()){
+        getViewInfo();
 
+       // if ( txtSourceId.getText().toString().trim().isEmpty())
+        if ( oCurrentItemViewInfo.SourceId.trim().isEmpty())
+        {
             Toast.makeText(getApplicationContext(),"Área Logística Origen es requerida", Toast.LENGTH_SHORT).show();
 
-        }else if ( txtProductId.getText().toString().trim().isEmpty())
+        } else if ( txtProductId.getText().toString().trim().isEmpty())
         {
             Toast.makeText(getApplicationContext(),"PRODUCTO  es requerido", Toast.LENGTH_SHORT).show();
         }
@@ -361,7 +399,7 @@ public class Goods_Movement_Source extends AppCompatActivity {
         @Override
         protected void onPostExecute(String lsData) {
             super.onPostExecute(lsData);
-            txtSourceId.setText("13-153-4");
+          //  txtSourceId.setText("13-153-4");
             vProgressDialog.hide();
         }
     }
@@ -474,6 +512,68 @@ public class Goods_Movement_Source extends AppCompatActivity {
                 }
             }
 
+            vProgressDialog.hide();
+        }
+    }
+
+
+    private class AsyncTaskGetLogisticAreas extends AsyncTask<String, String,  ArrayList<cLogisticsArea>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(Goods_Movement_Source.this);
+            vProgressDialog.setMessage("Please wait...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected ArrayList<cLogisticsArea> doInBackground(String... strings) {
+            ArrayList<cLogisticsArea>  lsData = new  ArrayList<>();
+
+            try {
+
+                cServices ocServices = new cServices();
+                lsData = ocServices.GetLogisticAreaServiceData(cServices.LogisticAreaFilterType.SelectionByID,"*","");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return lsData;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values){
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(ArrayList<cLogisticsArea> lsData) {
+            super.onPostExecute(lsData);
+            Set<String>  oSet =  new HashSet<>();
+            LsCatalogLogisticAreas = new ArrayList<>();
+
+           // ArrayList<String>  lsAreas = new  ArrayList<>();
+
+            for ( int i = 0; i <  lsData.size(); i ++  ){
+                cLogisticsArea  oData  = lsData.get(i);
+
+                if (!oData.ID.equals("")){
+                    oSet.add(oData.ID);
+                }
+            }
+
+            if ( oSet.size() > 0){
+
+                LsCatalogLogisticAreas.addAll(oSet);
+                Collections.sort(LsCatalogLogisticAreas);
+                ((cGlobalData)getApplication()).LsCatalogLogisticAreas = LsCatalogLogisticAreas;
+            }
+
+            fillDataFilterLogisticAreas();
             vProgressDialog.hide();
         }
     }

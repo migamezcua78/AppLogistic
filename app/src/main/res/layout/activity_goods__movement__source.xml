@@ -59,187 +59,187 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/liItems">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/liItems"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="-57dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent">
 
 
-
-<!--    <androidx.constraintlayout.widget.ConstraintLayout
+            <!--    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="550dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/liItems">-->
 
 
+            <TextView
+                android:id="@+id/lblAsteriscoId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" *"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="18sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblTargetId"
+                app:layout_constraintStart_toEndOf="@+id/lblTargetId" />
 
-        <TextView
-            android:id="@+id/lblAsteriscoId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" *"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblTargetId"
-            app:layout_constraintStart_toEndOf="@+id/lblTargetId" />
+          <!--  <EditText
+                android:id="@+id/txtTargetId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-        <EditText
-            android:id="@+id/txtTargetId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="130dp"
-            android:ems="8"
+                android:ems="8"
+                android:hint="@string/txtHintImput"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="12sp"
+                tools:layout_editor_absoluteX="90dp"
+                tools:layout_editor_absoluteY="137dp" />-->
 
-            android:hint="@string/txtHintImput"
-            android:importantForAutofill="no"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblTargetId"
-            app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/lblTargetId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="28dp"
+                android:text="@string/lblSource"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblFieldName" />
 
-        <TextView
-            android:id="@+id/lblTargetId"
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:text="@string/lblSource"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblFieldName" />
+            <Button
+                android:id="@+id/btnScanSourceId"
+                android:layout_width="75dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:onClick="onScanSource"
+                android:text="@string/btnScan"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="9sp"
+                app:backgroundTint="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="@+id/spiLogisticAreas"
+                app:layout_constraintStart_toEndOf="@+id/spiLogisticAreas"
+                app:layout_constraintTop_toTopOf="@+id/spiLogisticAreas" />
 
-        <Button
-            android:id="@+id/btnScanSourceId"
-            android:layout_width="75dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:onClick="onScanSource"
-            android:text="@string/btnScan"
-            android:textColor="@color/colorTextTitle"
-            android:textSize="9sp"
-            app:backgroundTint="@color/colorAccent"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
-            app:layout_constraintStart_toEndOf="@+id/txtTargetId" />
+            <TextView
+                android:id="@+id/lblQty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="25dp"
+                android:text="@string/lblQty"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblProductId" />
 
-        <TextView
-            android:id="@+id/lblQty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="25dp"
-            android:text="@string/lblQty"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblProductId" />
+            <EditText
+                android:id="@+id/txtQtyId"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:ems="2"
+                android:inputType="number"
+                android:text="0"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblQty"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
-            android:id="@+id/txtQtyId"
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:ems="2"
-            android:inputType="number"
-            android:text="0"
-            android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblQty"
-            app:layout_constraintStart_toStartOf="parent" />
+            <Spinner
+                android:id="@+id/spiUnitId"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/txtQtyId"
+                app:layout_constraintStart_toEndOf="@+id/txtQtyId"
+                app:layout_constraintTop_toTopOf="@+id/txtQtyId" />
 
-        <Spinner
-            android:id="@+id/spiUnitId"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/txtQtyId"
-            app:layout_constraintStart_toEndOf="@+id/txtQtyId"
-            app:layout_constraintTop_toTopOf="@+id/txtQtyId" />
+            <TextView
+                android:id="@+id/lblIdentStockId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/lblIdent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblQty" />
 
-        <TextView
-            android:id="@+id/lblIdentStockId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:text="@string/lblIdent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblQty" />
+            <EditText
+                android:id="@+id/txtStockId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblIdentStockId"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
-            android:id="@+id/txtStockId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblIdentStockId"
-            app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/lblPrsId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/lblPrs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblIdentStockId" />
 
-        <TextView
-            android:id="@+id/lblPrsId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/lblPrs"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblIdentStockId" />
+            <TextView
+                android:id="@+id/lblRestrictedId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/lblRestricted"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblPrsId" />
 
-        <TextView
-            android:id="@+id/lblRestrictedId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/lblRestricted"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblPrsId" />
+            <CheckBox
+                android:id="@+id/chkRestrictedId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblRestrictedId"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <CheckBox
-            android:id="@+id/chkRestrictedId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblRestrictedId"
-            app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/lblLu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/SiteID"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblLuQty" />
 
-        <TextView
-            android:id="@+id/lblLu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:text="@string/SiteID"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblLuQty" />
+            <EditText
+                android:id="@+id/txtSerialNumberId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="120dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblLu"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
-            android:id="@+id/txtSerialNumberId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="120dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblLu"
-            app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/lblLuQty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/EmpresaId"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/lblLuQty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/EmpresaId"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-              <!--  <EditText
+            <!--  <EditText
                     android:id="@+id/txtLuQtyId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -249,157 +249,166 @@
                     tools:layout_editor_absoluteX="120dp"
                     tools:layout_editor_absoluteY="8dp" />-->
 
-        <TextView
-            android:id="@+id/lblFieldName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:text="@string/ExternalItemID"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblLu" />
+            <TextView
+                android:id="@+id/lblFieldName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/ExternalItemID"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblLu" />
 
-        <EditText
-            android:id="@+id/txtFieldName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="140dp"
-            android:ems="8"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblFieldName"
-            app:layout_constraintStart_toStartOf="parent" />
+            <EditText
+                android:id="@+id/txtFieldName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="140dp"
+                android:ems="8"
+                android:inputType="textPersonName"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblFieldName"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
-            android:id="@+id/txtProductId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblProductId"
-            app:layout_constraintStart_toStartOf="parent" />
+            <EditText
+                android:id="@+id/txtProductId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblProductId"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/lblProductId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:text="@string/lblProductSimple"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblTargetId" />
+            <TextView
+                android:id="@+id/lblProductId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="28dp"
+                android:text="@string/lblProductSimple"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblTargetId" />
 
-        <TextView
-            android:id="@+id/lblAsteriscoId2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" *"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblProductId"
-            app:layout_constraintStart_toEndOf="@+id/lblProductId" />
+            <TextView
+                android:id="@+id/lblAsteriscoId2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" *"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="18sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblProductId"
+                app:layout_constraintStart_toEndOf="@+id/lblProductId" />
 
-        <Button
-            android:id="@+id/btnScanProdId"
-            android:layout_width="75dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="4dp"
-            android:onClick="onScanProduct"
-            android:text="@string/btnScan"
-            android:textColor="@color/colorTextTitle"
-            android:textSize="9sp"
-            app:backgroundTint="@color/colorAccent"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtProductId"
-            app:layout_constraintStart_toEndOf="@+id/txtProductId" />
+            <Button
+                android:id="@+id/btnScanProdId"
+                android:layout_width="75dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:onClick="onScanProduct"
+                android:text="@string/btnScan"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="9sp"
+                app:backgroundTint="@color/colorAccent"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtProductId"
+                app:layout_constraintStart_toEndOf="@+id/txtProductId" />
 
-        <TextView
-            android:id="@+id/lblBarCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/lblBarCode"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblRestrictedId" />
+            <TextView
+                android:id="@+id/lblBarCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/lblBarCode"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblRestrictedId" />
 
-        <EditText
-            android:id="@+id/txtBarCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblBarCode"
-            app:layout_constraintStart_toStartOf="parent" />
+            <EditText
+                android:id="@+id/txtBarCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblBarCode"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/lblAsteriscoId3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" *"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblQty"
-            app:layout_constraintStart_toEndOf="@+id/lblQty" />
+            <TextView
+                android:id="@+id/lblAsteriscoId3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" *"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="18sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblQty"
+                app:layout_constraintStart_toEndOf="@+id/lblQty" />
 
-        <TextView
-            android:id="@+id/lblAsteriscoId4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" *"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblFieldName"
-            app:layout_constraintStart_toEndOf="@+id/lblFieldName" />
+            <TextView
+                android:id="@+id/lblAsteriscoId4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" *"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="18sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblFieldName"
+                app:layout_constraintStart_toEndOf="@+id/lblFieldName" />
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="*"
-            android:textColor="@color/viewfinder_laser"
-            android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblLuQty"
-            app:layout_constraintStart_toEndOf="@+id/lblLuQty" />
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="*"
+                android:textColor="@color/viewfinder_laser"
+                android:textSize="18sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblLuQty"
+                app:layout_constraintStart_toEndOf="@+id/lblLuQty" />
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="*"
-            android:textColor="@color/viewfinder_laser"
-            android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblLu"
-            app:layout_constraintStart_toEndOf="@+id/lblLu" />
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="*"
+                android:textColor="@color/viewfinder_laser"
+                android:textSize="18sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblLu"
+                app:layout_constraintStart_toEndOf="@+id/lblLu" />
 
-        <Button
-            android:id="@+id/btnBarCode"
-            android:layout_width="75dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:onClick="onScanBarCode"
-            android:text="@string/btnScan"
-            android:textColor="@color/colorTextTitle"
-            android:textSize="9sp"
-            app:backgroundTint="@color/colorAccent"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtBarCode"
-            app:layout_constraintStart_toEndOf="@+id/txtBarCode" />
+            <Button
+                android:id="@+id/btnBarCode"
+                android:layout_width="75dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:onClick="onScanBarCode"
+                android:text="@string/btnScan"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="9sp"
+                app:backgroundTint="@color/colorAccent"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtBarCode"
+                app:layout_constraintStart_toEndOf="@+id/txtBarCode" />
 
-                <Spinner
-                    android:id="@+id/spiCompany"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/lblLuQty"
-                    app:layout_constraintStart_toStartOf="@+id/textView8"
-                    app:layout_constraintTop_toTopOf="@+id/lblLuQty" />
+            <Spinner
+                android:id="@+id/spiCompany"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/lblLuQty"
+                app:layout_constraintStart_toStartOf="@+id/textView8"
+                app:layout_constraintTop_toTopOf="@+id/lblLuQty" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <Spinner
+                android:id="@+id/spiLogisticAreas"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/lblTargetId"
+                app:layout_constraintStart_toEndOf="@+id/lblTargetId"
+                app:layout_constraintTop_toTopOf="@+id/lblTargetId" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-      </ScrollView>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,6 +49,9 @@ public class cGlobalData extends Application {
 
     public cTaskResponse CurrentTaskResponse;
 
+    public ArrayList<String> LsCatalogLogisticAreas;
+
+
     public String getGlobalVarValue() {
         return mGlobalVarValue;
     }
