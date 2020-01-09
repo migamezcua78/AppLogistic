@@ -246,9 +246,9 @@ public class Goods_Movement_Source extends AppCompatActivity {
 
     private List<cSpinnerItem> getInfoFilterCompany(){
         InfoFilterCompany = new ArrayList<>();
-        InfoFilterCompany.add(new cSpinnerItem(1,"Goodwill","E01"));
-        InfoFilterCompany.add(new cSpinnerItem(2,"Importadora Regat","E02"));
-        InfoFilterCompany.add(new cSpinnerItem(3,"Bausse Cosméticos","E03"));
+        InfoFilterCompany.add(new cSpinnerItem(1,"E01-Goodwill","E01"));
+        InfoFilterCompany.add(new cSpinnerItem(2,"E02-Importadora Regat","E02"));
+        InfoFilterCompany.add(new cSpinnerItem(3,"E03-Bausse Cosméticos","E03"));
         return  InfoFilterCompany;
     }
 
