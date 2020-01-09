@@ -118,7 +118,7 @@
                 android:id="@+id/btnScanSourceId"
                 android:layout_width="75dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:onClick="onScanSource"
                 android:text="@string/btnScan"
                 android:textColor="@color/colorTextTitle"
@@ -399,9 +399,9 @@
 
             <Spinner
                 android:id="@+id/spiLogisticAreas"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/lblTargetId"
                 app:layout_constraintStart_toEndOf="@+id/lblTargetId"
                 app:layout_constraintTop_toTopOf="@+id/lblTargetId" />

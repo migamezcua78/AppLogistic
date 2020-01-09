@@ -14,12 +14,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GoodsMovementTarget extends AppCompatActivity {
 
     //  Views
-    EditText txtTargetId;
+   // EditText txtTargetId;
     EditText txtProductId;
     EditText txtQtyId;
     EditText txIdentStockId;
@@ -29,14 +32,18 @@ public class GoodsMovementTarget extends AppCompatActivity {
     EditText txtFieldNameId;
     EditText txtBarCodeId;
     Spinner spinner;
+    Spinner spinnerLogisticAreas;
 
     // Data
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
+    private List<cSpinnerItem>  InfoFilterLogisticAreas = new ArrayList<>();
+    private ArrayList<String>  LsCatalogLogisticAreas;
     private  cMovementViewInfo  oCurrentItemViewInfo;
 
     // Process
     ProgressDialog vProgressDialog;
     cActivityMessage oMsg;
+
 
 
     @Override
@@ -57,7 +64,7 @@ public class GoodsMovementTarget extends AppCompatActivity {
 
     private void init() {
 
-        txtTargetId = findViewById(R.id.txtTargetId);
+        //txtTargetId = findViewById(R.id.txtTargetId);
         txtProductId = findViewById(R.id.txtProductId);
         txtQtyId = findViewById(R.id.txtQtyId);
         txIdentStockId = findViewById(R.id.txtStockId);
@@ -67,9 +74,21 @@ public class GoodsMovementTarget extends AppCompatActivity {
         txtFieldNameId = findViewById(R.id.txtFieldName);
         txtBarCodeId = findViewById(R.id.txtBarCode);
         spinner = findViewById(R.id.spiUnitId);
+        spinnerLogisticAreas = findViewById(R.id.spiLogisticAreas);
 
         oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
         oCurrentItemViewInfo = ((cGlobalData)getApplication()).CurrentMovementViewInfo;
+        LsCatalogLogisticAreas = ((cGlobalData)getApplication()).LsCatalogLogisticAreas;
+
+        fillDataFilter();
+
+        if (LsCatalogLogisticAreas == null  || LsCatalogLogisticAreas.size() == 0 ){
+            AsyncTaskGetLogisticAreas asyncTask=new AsyncTaskGetLogisticAreas();
+            asyncTask.execute("params");
+        }else {
+            fillDataFilterLogisticAreas();
+        }
+
     }
 
 
@@ -87,7 +106,7 @@ public class GoodsMovementTarget extends AppCompatActivity {
             setViewInfo();
         }
 
-        fillDataFilter();
+      //  fillDataFilter();
     }
 
     private void  getParamInfo() {
@@ -110,7 +129,8 @@ public class GoodsMovementTarget extends AppCompatActivity {
 
     private void getViewInfo(){
 
-        oCurrentItemViewInfo.TargetId = txtTargetId.getText().toString();
+        //oCurrentItemViewInfo.TargetId = txtTargetId.getText().toString();
+        oCurrentItemViewInfo.TargetId = ((cSpinnerItem)spinnerLogisticAreas.getSelectedItem()).getField();
         oCurrentItemViewInfo.ProductId =txtProductId.getText().toString();
         oCurrentItemViewInfo.Qty =txtQtyId.getText().toString();
         oCurrentItemViewInfo.IdentStock =txIdentStockId.getText().toString();
@@ -124,7 +144,8 @@ public class GoodsMovementTarget extends AppCompatActivity {
 
     private void setViewInfo(){
 
-        txtTargetId.setText(oCurrentItemViewInfo.TargetId);
+      //  txtTargetId.setText(oCurrentItemViewInfo.TargetId);
+        Inicio.selectSpinnerItemByValue(spinnerLogisticAreas, oCurrentItemViewInfo.TargetId);
         txtProductId.setText(oCurrentItemViewInfo.ProductId);
         txtQtyId.setText(oCurrentItemViewInfo.Qty);
         txIdentStockId.setText(oCurrentItemViewInfo.IdentStock);
@@ -153,12 +174,28 @@ public class GoodsMovementTarget extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
+    private void fillDataFilterLogisticAreas (){
+        ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilterLogisticAreas());
+        spinnerLogisticAreas.setAdapter(adapter);
+    }
+
 
     private List<cSpinnerItem> getInfoFilter(){
         InfoFilter = new ArrayList<>();
 
-        InfoFilter.add(new cSpinnerItem(1,"ea"));
+        InfoFilter.add(new cSpinnerItem(1,"ZPZ"));
         return  InfoFilter;
+    }
+
+    private List<cSpinnerItem> getInfoFilterLogisticAreas(){
+        InfoFilterLogisticAreas = new ArrayList<>();
+        if (LsCatalogLogisticAreas != null ){
+
+            for ( int i =0; i < LsCatalogLogisticAreas.size(); i++ ){
+                InfoFilterLogisticAreas.add(new cSpinnerItem(i,LsCatalogLogisticAreas.get(i),LsCatalogLogisticAreas.get(i)));
+            }
+        }
+        return  InfoFilterLogisticAreas;
     }
 
 
@@ -176,7 +213,9 @@ public class GoodsMovementTarget extends AppCompatActivity {
 
     public void onClickConfirm(View view){
 
-        if ( txtTargetId.getText().toString().trim().isEmpty()){
+        getViewInfo();
+
+        if ( oCurrentItemViewInfo.TargetId.trim().isEmpty()){
 
             Toast.makeText(getApplicationContext(),"TARGET field is required", Toast.LENGTH_SHORT).show();
 
@@ -238,7 +277,7 @@ public class GoodsMovementTarget extends AppCompatActivity {
         @Override
         protected void onPostExecute(String lsData) {
             super.onPostExecute(lsData);
-            txtTargetId.setText("13-154-A");
+            //txtTargetId.setText("13-154-A");
             vProgressDialog.hide();
         }
     }
@@ -363,6 +402,65 @@ public class GoodsMovementTarget extends AppCompatActivity {
             } else {
                 Toast.makeText(getApplicationContext(), lsData.MSG, Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    private class AsyncTaskGetLogisticAreas extends AsyncTask<String, String,  ArrayList<cLogisticsArea>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(GoodsMovementTarget.this);
+            vProgressDialog.setMessage("Please wait...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected ArrayList<cLogisticsArea> doInBackground(String... strings) {
+            ArrayList<cLogisticsArea>  lsData = new  ArrayList<>();
+
+            try {
+
+                cServices ocServices = new cServices();
+                lsData = ocServices.GetLogisticAreaServiceData(cServices.LogisticAreaFilterType.SelectionByID,"*","");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return lsData;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values){
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(ArrayList<cLogisticsArea> lsData) {
+            super.onPostExecute(lsData);
+            Set<String> oSet =  new HashSet<>();
+            LsCatalogLogisticAreas = new ArrayList<>();
+
+            for ( int i = 0; i <  lsData.size(); i ++  ){
+                cLogisticsArea  oData  = lsData.get(i);
+
+                if (!oData.ID.equals("")){
+                    oSet.add(oData.ID);
+                }
+            }
+
+            if ( oSet.size() > 0){
+
+                LsCatalogLogisticAreas.addAll(oSet);
+                Collections.sort(LsCatalogLogisticAreas);
+                ((cGlobalData)getApplication()).LsCatalogLogisticAreas = LsCatalogLogisticAreas;
+            }
+
+            fillDataFilterLogisticAreas();
+            vProgressDialog.hide();
         }
     }
 }

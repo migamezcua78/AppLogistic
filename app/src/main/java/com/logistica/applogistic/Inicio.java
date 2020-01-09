@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Camera;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -79,6 +81,16 @@ public class Inicio extends AppCompatActivity {
         startActivity(oIntent);
     }
 
+
+    public static void selectSpinnerItemByValue(Spinner spnr, String value) {
+        ArrayAdapter<cSpinnerItem> adapter = (ArrayAdapter<cSpinnerItem>) spnr.getAdapter();
+        for (int position = 0; position < adapter.getCount(); position++) {
+            if(((cSpinnerItem)adapter.getItem(position)).getField().equals(value)) {
+                spnr.setSelection(position);
+                return;
+            }
+        }
+    }
 
 /*    public void goRequestRemoval(View view){
         Intent oIntent = new Intent(this, MainCamara.class);
