@@ -162,13 +162,24 @@ public class PickSourceEmb extends AppCompatActivity {
             lblCountItemsId.setText(((cGlobalData)getApplication()).lblCountItemsId);
 
            // txtQtyId.setText("2");   // esta dato debe venir del Sscaneo del producto
-            txtQtyId.setText(oMsg.getKey01());
+           // txtQtyId.setText(oMsg.getKey01());
 
+            String sBCode = oMsg.getKey01();
+            String  sQty =  oCurrentItemViewInfo.Qty;  // txtQtyId.getText().toString();
+            if(sQty.isEmpty()){
+                sQty = "1";
+            } else{
+                int iQty = Integer.parseInt(sQty);
+                iQty = iQty+1;
+                sQty =  String.valueOf(iQty);
+            }
+            oCurrentItemViewInfo.Qty = sQty;
 
            // txtIdentStockId.setText("30541");
-            oCurrentItemViewInfo.Qty = txtQtyId.getText().toString();
+           // oCurrentItemViewInfo.Qty = txtQtyId.getText().toString();
 
             setViewInfo(oCurrentItemViewInfo);
+
         } else if ( oMsg.getMessage().equals(Scanner.ScanType.SCAN_BAR_CODE)){
 
 

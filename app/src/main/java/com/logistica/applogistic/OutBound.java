@@ -526,6 +526,7 @@ public class OutBound extends AppCompatActivity {
             ArrayList<cTaskResponse> lsData2 = new ArrayList<>();
             ArrayList<cMaterial>  lsMaterialData = new  ArrayList<>();
             cTaskResponse   oTaskResponse = new  cTaskResponse();
+            cProductResponse oResp = new  cProductResponse();
 
             try {
 
@@ -552,6 +553,18 @@ public class OutBound extends AppCompatActivity {
                                     item.MaterialShortName = sMaterialShortName.substring(0,30) + " ..";
                                 } else {
                                     item.MaterialShortName = sMaterialShortName;
+                                }
+                            }
+                        }
+
+                        cProductViewInfo oCurrectProductViewInfo = new cProductViewInfo();
+                        oCurrectProductViewInfo.ProductoSAPId =  item.ProductID;
+                        oResp = ocServices.PostConsultProductDataService(oCurrectProductViewInfo);
+
+                        if  (oResp != null){
+                            if(!oResp.ResponseId.equals("-1")){
+                                if (oResp.Assigned){
+                                    item.MaterialBarCode = oResp.CodigoBarra;
                                 }
                             }
                         }
@@ -599,6 +612,8 @@ public class OutBound extends AppCompatActivity {
                         oItemView.OpenUnit = oData.OpenQuantityUnitCode;
                         oItemView.SourceId = oData.SourceLogisticsAreaID;
                         oItemView.ProductName = oData.MaterialShortName;
+                        oItemView.BarCode = oData.MaterialBarCode;
+
 
                       //  oItemView.SourceId
 

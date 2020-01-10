@@ -20,6 +20,7 @@ public class cMaterialSimpleData {
         LineItemID = "";
         MaterialDeviationStatusCode = "";
         MaterialShortName = "";
+        MaterialBarCode = "";
     }
 
     public String  SiteLogisticsLotMaterialInputUUID;
@@ -40,4 +41,6 @@ public class cMaterialSimpleData {
     public String  LineItemID;
     public String  MaterialDeviationStatusCode;
     public String  MaterialShortName;
+    public String  MaterialBarCode;
+
 }
