@@ -19,6 +19,7 @@ public class cMaterialSimpleData {
         TotalConfirmedQuantityUnitCode = "";
         LineItemID = "";
         MaterialDeviationStatusCode = "";
+        MaterialShortName = "";
     }
 
     public String  SiteLogisticsLotMaterialInputUUID;
@@ -38,4 +39,5 @@ public class cMaterialSimpleData {
     public String  TotalConfirmedQuantityUnitCode;
     public String  LineItemID;
     public String  MaterialDeviationStatusCode;
+    public String  MaterialShortName;
 }

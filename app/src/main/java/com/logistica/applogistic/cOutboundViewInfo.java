@@ -24,6 +24,7 @@ public class cOutboundViewInfo {
         LuQty = "";
         BarCode = "";
         msg = "";
+        ProductName = "";
     }
 
 
@@ -47,5 +48,6 @@ public class cOutboundViewInfo {
     public  String  BarCode;
     public  String  DesviationReason;
     public  String  msg;
+    public  String  ProductName;
 
 }

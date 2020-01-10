@@ -109,7 +109,7 @@
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="@string/lblService"
+                android:text="@string/lblAreaLogisticaShorDesc"
                 app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -128,6 +128,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+            <EditText
+                android:id="@+id/txtProductName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ems="10"
+                android:hint="@string/txtHintImput"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblProductName"
+                app:layout_constraintStart_toEndOf="@+id/lblProductName" />
 
             <CheckBox
                 android:id="@+id/chkConfirmedId"
@@ -168,11 +181,11 @@
                 android:id="@+id/lblOpenId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/lblOpen"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblProductId" />
+                app:layout_constraintTop_toBottomOf="@+id/lblProductName" />
 
             <TextView
                 android:id="@+id/lblOpenValueId"
@@ -371,6 +384,16 @@
                 app:backgroundTint="@color/colorAccent"
                 app:layout_constraintBaseline_toBaselineOf="@+id/txtBarCodeIdId"
                 app:layout_constraintStart_toEndOf="@+id/txtBarCodeIdId" />
+
+            <TextView
+                android:id="@+id/lblProductName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/lblNameProduct"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblProductId" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

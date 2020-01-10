@@ -523,8 +523,9 @@ public class OutBound extends AppCompatActivity {
         @Override
         protected ArrayList<cTaskResponse> doInBackground(String... strings) {
             ArrayList<cPurchaseItem> lsData = new ArrayList<>();
-
             ArrayList<cTaskResponse> lsData2 = new ArrayList<>();
+            ArrayList<cMaterial>  lsMaterialData = new  ArrayList<>();
+            cTaskResponse   oTaskResponse = new  cTaskResponse();
 
             try {
 
@@ -533,6 +534,29 @@ public class OutBound extends AppCompatActivity {
 
                 lsData2 = ocServices.GetTaskServiceData(cServices.GetTaskkFilterType.SelectionBySiteLogisticsTaskID, txtImputFilterId.getText().toString(), "");
 
+                if (lsData2  != null   && lsData2.size() >  0 ){
+                    oTaskResponse =  lsData2.get(0);
+
+                    for(cMaterialSimpleData  item: oTaskResponse.MaterialsInput){
+                       // lsMaterialData = ocServices.GetMaterialsServiceData(item.ProductID, txtImputFilterId.getText().toString().trim(),"1");
+
+                        lsMaterialData = ocServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID,item.ProductID,"1");
+
+                        if(lsMaterialData != null  && lsMaterialData.size() > 0 ){
+
+                            if(!lsMaterialData.get(0).InternalID.trim().equals("")){
+                                String  sInternalID = lsMaterialData.get(0).InternalID.trim();
+                                String  sMaterialShortName = lsMaterialData.get(0).Description.replace(sInternalID,"").trim();
+
+                                if( sMaterialShortName.length() > 30) {
+                                    item.MaterialShortName = sMaterialShortName.substring(0,30) + " ..";
+                                } else {
+                                    item.MaterialShortName = sMaterialShortName;
+                                }
+                            }
+                        }
+                    }
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -574,6 +598,7 @@ public class OutBound extends AppCompatActivity {
                         oItemView.Open = oData.OpenQuantity;
                         oItemView.OpenUnit = oData.OpenQuantityUnitCode;
                         oItemView.SourceId = oData.SourceLogisticsAreaID;
+                        oItemView.ProductName = oData.MaterialShortName;
 
                       //  oItemView.SourceId
 

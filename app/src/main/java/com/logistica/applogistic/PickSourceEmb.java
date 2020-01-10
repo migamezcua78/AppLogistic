@@ -21,6 +21,7 @@ public class PickSourceEmb extends AppCompatActivity {
 
     // Views
     EditText txtProductId;
+    EditText txtProductName;
     EditText txtSourceId;
     EditText txtQtyId;
     EditText txtIdentStockId;
@@ -80,6 +81,7 @@ public class PickSourceEmb extends AppCompatActivity {
         txtBarCodeId = findViewById(R.id.txtBarCodeIdId);
         lblOpenValueId = findViewById(R.id.lblOpenValueId);
         lblCountItemsId = findViewById(R.id.lblCountItemsId);
+        txtProductName = findViewById(R.id.txtProductName);
 
 
         oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
@@ -378,6 +380,7 @@ public class PickSourceEmb extends AppCompatActivity {
 
         try {
 
+            txtProductName.setText(pOutboundViewInfo.ProductName);
             txtSourceId.setText(pOutboundViewInfo.SourceId);
             txtProductId.setText(pOutboundViewInfo.ProductId);
             txtQtyId.setText(pOutboundViewInfo.Qty);

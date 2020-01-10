@@ -357,7 +357,7 @@ public class MappingProducts extends AppCompatActivity {
 
                     if (lsData.Assigned){
 
-                        Toast.makeText(getApplicationContext(),"Producto ASIGNADO" , Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"Producto Encontrado" , Toast.LENGTH_LONG).show();
                         oCurrectProductViewInfo.ProductoSAPId  = lsData.ResponseId;
                         oCurrectProductViewInfo.CodigoBarra  = lsData.CodigoBarra;
                         oCurrectProductViewInfo.Nombre  = lsData.Nombre;
@@ -369,7 +369,7 @@ public class MappingProducts extends AppCompatActivity {
 
                     } else {
 
-                        Toast.makeText(getApplicationContext(),"Producto NO ASIGNADO" , Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"Producto No Encontrado" , Toast.LENGTH_LONG).show();
                     }
 
                 } else {

@@ -17,14 +17,12 @@ public class MainActivity extends AppCompatActivity {
     EditText password;
 
 
-
     // Proceso
     ProgressDialog vProgressDialog;
     cActivityMessage oMsg;
 
     cUserRequest  oUserReq;
     cUserResponse  oUserResp;
-
 
 
     @Override
@@ -107,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(lsData);
 
             // mig:  borra  este bloque solo es de prueba
-           // Intent oIntent2 = new Intent(MainActivity.this,Inicio.class);
-           // startActivity(oIntent2);
+            Intent oIntent2 = new Intent(MainActivity.this,Inicio.class);
+            startActivity(oIntent2);
             // mig:   fin bloque
 
 

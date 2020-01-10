@@ -43,6 +43,7 @@ public class Goods_Movement_Source extends AppCompatActivity {
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
     private List<cSpinnerItem>  InfoFilterCompany = new ArrayList<>();
     private List<cSpinnerItem>  InfoFilterLogisticAreas = new ArrayList<>();
+    private String  ScannedBCP;
 
 
     private  cMovementViewInfo  oCurrentItemViewInfo;
@@ -81,6 +82,8 @@ public class Goods_Movement_Source extends AppCompatActivity {
         spinner = findViewById(R.id.spiUnitId);
         spinnerCompany = findViewById(R.id.spiCompany);
         spinnerLogisticAreas = findViewById(R.id.spiLogisticAreas);
+
+        ScannedBCP = "";
 
         oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
         oCurrentItemViewInfo = ((cGlobalData)getApplication()).CurrentMovementViewInfo;
@@ -134,13 +137,16 @@ public class Goods_Movement_Source extends AppCompatActivity {
 
         else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_PRODUCT)){
 
-            //oCurrentItemViewInfo.SourceId = oMsg.getKey01();
-          //  oCurrentItemViewInfo.ProductId = "KECM0000608030";
-            oCurrentItemViewInfo.ProductId =  oMsg.getKey01();
-            //oCurrentItemViewInfo.Qty = "5";
-           // oCurrentItemViewInfo.IdentStock = "40567";
-            // oCurrentItemViewInfo.FieldName = "1000020";
-            setViewInfo();
+            ScannedBCP =  oMsg.getKey01();
+
+            AsyncTaskConsultProduct asyncTask=new AsyncTaskConsultProduct();
+            asyncTask.execute("params");
+
+
+
+//            oCurrentItemViewInfo.ProductId =  oMsg.getKey01();
+//            setViewInfo();
+
         }else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_BAR_CODE)){
 
             oCurrentItemViewInfo.BarCode =  oMsg.getKey01();
@@ -404,7 +410,7 @@ public class Goods_Movement_Source extends AppCompatActivity {
         }
     }
 
-
+/*
     private class AsyncTaskScanProduct extends AsyncTask<String, String,  String> {
         @Override
         protected void onPreExecute() {
@@ -442,6 +448,74 @@ public class Goods_Movement_Source extends AppCompatActivity {
             txIdentStockId.setText("40567");
             txtFieldNameId.setText("1000020");
 
+            vProgressDialog.hide();
+        }
+    }*/
+
+
+    private class AsyncTaskConsultProduct extends AsyncTask<String, String,cProductResponse> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(Goods_Movement_Source.this);
+            vProgressDialog.setMessage("Please wait...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected cProductResponse doInBackground(String... strings) {
+            cProductResponse oResp = new  cProductResponse();
+
+            try {
+
+                cServices ocServices = new cServices();
+
+                cProductViewInfo  pvi  =  new cProductViewInfo();
+                pvi.CodigoBarra = ScannedBCP;
+                pvi.ProductoSAPId = "777";
+
+                oResp = ocServices.PostConsultProductDataService(pvi);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return oResp;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values){
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(cProductResponse lsData) {
+            super.onPostExecute(lsData);
+
+            if  (lsData != null){
+
+                if(!lsData.ResponseId.equals("-1")){
+
+                    if (lsData.Assigned){
+
+                        Toast.makeText(getApplicationContext(),"Producto Encontrado" , Toast.LENGTH_SHORT).show();
+                        oCurrentItemViewInfo.ProductId = lsData.ResponseId;
+
+                    } else {
+
+                        Toast.makeText(getApplicationContext(),"Producto no Asignado al Código: " + ScannedBCP, Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(),"No se pudo consultar el Código: " + ScannedBCP , Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            setViewInfo();
             vProgressDialog.hide();
         }
     }

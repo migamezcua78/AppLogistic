@@ -1766,7 +1766,8 @@ public class cServices {
                 oMaterial.LifeCycleStatusCode  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("LifeCycleStatusCode")).getValue().toString().trim();
                 oMaterial.PurchasingMeasureUnitCode  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("PurchasingMeasureUnitCode")).getValue().toString().trim();
                 break;
-            case  "Planning":
+
+/*            case  "Planning":
                 SoapObject soTemp = ((SoapObject)oPropertyInfo.getValue());
                 for( int j= 0; j < soTemp.getPropertyCount(); j++ ){
                     cSupplyPlanning oSupplyPlanning =  new cSupplyPlanning();
@@ -1780,10 +1781,10 @@ public class cServices {
                     oSupplyPlanning.GoodsReceiptProcessingDuration  = ((SoapPrimitive)((SoapObject)oPropertyInfoTemp.getValue()).getProperty("GoodsReceiptProcessingDuration")).getValue().toString().trim();
                     oMaterial.getPlanning().add(oSupplyPlanning);
                 }
-                break;
+                break;*/
 
 
-            case  "AvailabilityConfirmation":
+/*            case  "AvailabilityConfirmation":
 
                 cAvailabilityConfirmation oAvailabilityConfirmation = new cAvailabilityConfirmation();
 
@@ -1794,10 +1795,10 @@ public class cServices {
 
                 oMaterial.AvailabilityConfirmation.add(oAvailabilityConfirmation);
 
-                break;
+                break;*/
 
 
-            case  "Sales":
+/*            case  "Sales":
 
                 cSales  oSales = new cSales();
 
@@ -1809,9 +1810,9 @@ public class cServices {
 
                 oMaterial.Sales.add(oSales);
 
-                break;
+                break;*/
 
-            case  "Logistics":
+/*            case  "Logistics":
 
                 cLogistics oLogistics = new cLogistics();
 
@@ -1821,9 +1822,9 @@ public class cServices {
 
                 oMaterial.Logistics.add(oLogistics);
 
-                break;
+                break;*/
 
-            case  "DeviantTaxClassification":
+/*            case  "DeviantTaxClassification":
                 oMaterial.CountryCode  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("CountryCode")).getValue().toString().trim();
                 oMaterial.RegionCode  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("RegionCode")).getValue().toString().trim();
                 oMaterial.RegionCodelistID =  ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("RegionCode")).getAttribute("listID").toString().trim();
@@ -1834,9 +1835,9 @@ public class cServices {
                 oMaterial.TaxExemptionReasonCode  = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("TaxExemptionReasonCode")).getValue().toString().trim();
                 oMaterial.TaxExemptionReasonCodelistID =  ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("TaxExemptionReasonCode")).getAttribute("listID").toString().trim();
 
-                break;
+                break;*/
 
-            case  "Valuation":
+/*            case  "Valuation":
 
                 cValuation  oValuation = new cValuation();
 
@@ -1846,7 +1847,7 @@ public class cServices {
 
                 oMaterial.Valuation.add(oValuation);
 
-                break;
+                break;*/
 
                 default:break;
         }
