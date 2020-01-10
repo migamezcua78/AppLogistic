@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class GoodsMovementTarget extends AppCompatActivity {
+public class GoodsMovementTarget extends MainBaseActivity {
 
     //  Views
    // EditText txtTargetId;

@@ -13,9 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterCodeBarProducts"
+        <activity android:name=".MainBaseActivity"></activity>
+        <activity
+            android:name=".RegisterCodeBarProducts"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".RegisterProducts"
             android:configChanges="orientation|keyboardHidden|screenSize"

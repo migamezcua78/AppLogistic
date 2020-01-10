@@ -16,7 +16,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class RegisterCodeBarProducts extends AppCompatActivity {
+public class RegisterCodeBarProducts extends MainBaseActivity {
 
 
     // View Info

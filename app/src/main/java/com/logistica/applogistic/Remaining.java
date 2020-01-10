@@ -12,7 +12,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Remaining extends AppCompatActivity {
+public class Remaining extends MainBaseActivity {
 
 
     boolean ConfirmedPartially;

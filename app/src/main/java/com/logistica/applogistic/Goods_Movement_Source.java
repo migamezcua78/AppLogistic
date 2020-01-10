@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Goods_Movement_Source extends AppCompatActivity {
+public class Goods_Movement_Source extends MainBaseActivity {
 
     //  Views
    // EditText txtSourceId;

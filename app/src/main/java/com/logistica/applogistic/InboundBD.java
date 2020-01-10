@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class InboundBD extends AppCompatActivity {
+public class InboundBD extends MainBaseActivity {
 
     // VIEWS
 

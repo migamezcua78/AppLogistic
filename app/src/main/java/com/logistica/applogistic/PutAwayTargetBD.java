@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PutAwayTargetBD extends AppCompatActivity {
+public class PutAwayTargetBD extends MainBaseActivity {
 
     private Spinner spinner;
 

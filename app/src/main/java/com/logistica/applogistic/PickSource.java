@@ -16,7 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PickSource extends AppCompatActivity {
+public class PickSource extends MainBaseActivity {
 
     private Spinner spinner;
 

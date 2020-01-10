@@ -15,7 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class MappingProducts extends AppCompatActivity {
+public class MappingProducts extends MainBaseActivity {
 
     // View Info
     EditText txtProductId;

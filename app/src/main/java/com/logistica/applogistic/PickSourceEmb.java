@@ -17,7 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PickSourceEmb extends AppCompatActivity {
+public class PickSourceEmb extends MainBaseActivity {
 
     // Views
     EditText txtProductId;

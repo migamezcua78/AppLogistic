@@ -135,7 +135,7 @@
 
     <!--    <string name="lblSource">Source</string>-->
     <!--  <string name="lblSource">Área logistica origen</string>  -->
-      <string name="lblSource">A. Origen</string>
+    <string name="lblSource">A. Origen</string>
     <!--    <string name="lblProductSimple">Product</string>-->
     <string name="lblProductSimple">Producto</string>
     <string name="lblQty">Qty</string>

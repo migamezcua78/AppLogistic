@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
 import android.widget.EditText;
@@ -33,6 +35,23 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
 
+  /*  @Override
+    public boolean onCreateOptionsMenu(Menu manu) {
+        getMenuInflater().inflate(R.menu.main,manu);
+        return true;  // super.onCreateOptionsMenu(manu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        String s = "";
+
+        Intent oIntent = new Intent(MainActivity.this,MainActivity.class);
+        startActivity(oIntent);
+
+        return super.onOptionsItemSelected(item);
+    }
+*/
     @Override
     public void onBackPressed() {
         // no hacer nada
@@ -46,6 +65,16 @@ public class MainActivity extends AppCompatActivity {
 
         oUserReq =  new cUserRequest();
         oUserResp =  new cUserResponse();
+    }
+
+
+
+
+    public void  onClickHome(View view){
+
+       // finish();
+      //  Intent oIntent = new Intent(MainActivity.this,MainActivity.class);
+      //  startActivity(oIntent);
     }
 
 
@@ -105,8 +134,8 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(lsData);
 
             // mig:  borra  este bloque solo es de prueba
-            //Intent oIntent2 = new Intent(MainActivity.this,Inicio.class);
-           // startActivity(oIntent2);
+            Intent oIntent2 = new Intent(MainActivity.this,Inicio.class);
+            startActivity(oIntent2);
             // mig:   fin bloque
 
 

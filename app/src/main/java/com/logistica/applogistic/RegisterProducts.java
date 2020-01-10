@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class RegisterProducts extends AppCompatActivity {
+public class RegisterProducts extends MainBaseActivity {
 
     // VIEWS
     private Spinner spinner;

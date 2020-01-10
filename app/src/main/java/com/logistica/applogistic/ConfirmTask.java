@@ -13,7 +13,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfirmTask extends AppCompatActivity {
+public class ConfirmTask extends MainBaseActivity {
 
     private TableLayout tableLayout;
     private  cDataGrid  oDataGrid;

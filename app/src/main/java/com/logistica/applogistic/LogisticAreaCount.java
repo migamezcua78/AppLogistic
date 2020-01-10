@@ -13,7 +13,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class LogisticAreaCount extends AppCompatActivity {
+public class LogisticAreaCount extends MainBaseActivity {
 
     EditText  txtAreaId;
     EditText  txtProductId;

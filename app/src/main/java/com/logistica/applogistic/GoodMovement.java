@@ -16,7 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GoodMovement extends AppCompatActivity {
+public class GoodMovement extends MainBaseActivity {
 
 
     private TextView  txtFilterValue;

@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Inbound extends AppCompatActivity {
+public class Inbound extends MainBaseActivity {
 
     // VIEWS
     private Spinner     spinner;
