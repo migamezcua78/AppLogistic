@@ -475,7 +475,7 @@ public class Goods_Movement_Source extends MainBaseActivity {
 
                 cProductViewInfo  pvi  =  new cProductViewInfo();
                 pvi.CodigoBarra = ScannedBCP;
-                pvi.ProductoSAPId = "777";
+               // pvi.ProductoSAPId = "777";
 
                 oResp = ocServices.PostConsultProductDataService(pvi);
 
