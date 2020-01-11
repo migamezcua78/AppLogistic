@@ -124,8 +124,9 @@ public class PutAwayTarget extends MainBaseActivity {
             }
 
             oCurrentInboundViewInfo.ConfirmedOty =  oCurrentInboundViewInfo.Qty;
-            int  dif = Integer.valueOf(oCurrentInboundViewInfo.PlanedQty) - Integer.valueOf(oCurrentInboundViewInfo.ConfirmedOty);
-            oCurrentInboundViewInfo.QtyDiff = String.valueOf(dif);
+
+          //  int  dif = Integer.valueOf(oCurrentInboundViewInfo.PlanedQty) - Integer.valueOf(oCurrentInboundViewInfo.ConfirmedOty);
+          //  oCurrentInboundViewInfo.QtyDiff = String.valueOf(dif);
 
            // oCurrentInboundViewInfo.QtyDiff =  oCurrentInboundViewInfo.Qty;
 
