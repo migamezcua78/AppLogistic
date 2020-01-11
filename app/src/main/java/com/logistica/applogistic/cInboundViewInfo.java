@@ -24,6 +24,9 @@ public class cInboundViewInfo {
         BarCode = "";
         SerialNumber = "";
         msg = "";
+        ProductName = "";
+        PlanedQty = "0";
+        ConfirmedOty = "0";
     }
 
 
@@ -46,7 +49,9 @@ public class cInboundViewInfo {
     public  String  LuQty;
     public  String  BarCode;
     public  String  SerialNumber;
-
+    public  String  ProductName;
+    public  String  PlanedQty;
+    public  String  ConfirmedOty;
 
     public  String  msg;
 

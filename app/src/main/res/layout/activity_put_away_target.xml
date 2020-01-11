@@ -165,9 +165,19 @@
             android:id="@+id/lblOpenId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
             android:text="@string/lblOpen"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblProductName" />
+
+        <TextView
+            android:id="@+id/lblProductName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/lblNameProduct"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblProductId" />
 
@@ -318,6 +328,18 @@
             app:backgroundTint="@color/colorAccent"
             app:layout_constraintBaseline_toBaselineOf="@+id/txtBarCodeId"
             app:layout_constraintStart_toEndOf="@+id/txtBarCodeId" />
+
+        <EditText
+            android:id="@+id/txtProductName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name"
+            android:textSize="12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/lblProductName"
+            app:layout_constraintStart_toEndOf="@+id/lblProductName" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

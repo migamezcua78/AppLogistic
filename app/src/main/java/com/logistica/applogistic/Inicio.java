@@ -95,6 +95,27 @@ public class Inicio extends MainBaseActivity {
         }
     }
 
+    public  static  String  Dif (String x1, String x2 ){
+
+        int dif = 0;
+        int ix1 = 0;
+        int ix2 = 0;
+
+        if (x1 != null  &&  !x1.trim().isEmpty() ){
+            ix1 = Integer.valueOf(x1);
+        }
+
+        if (x2 != null  &&  !x2.trim().isEmpty() ){
+            ix2 = Integer.valueOf(x2);
+        }
+
+        dif = ix1- ix2;
+
+        return  String.valueOf(dif);
+    }
+
+
+
 /*    public void goRequestRemoval(View view){
         Intent oIntent = new Intent(this, MainCamara.class);
         //oIntent.setExtrasClassLoader();

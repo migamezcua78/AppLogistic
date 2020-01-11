@@ -30,6 +30,9 @@ public class PutAwayTarget extends MainBaseActivity {
     private EditText txtBarCodeId;
     private CheckBox cheRestrictedId;
     private CheckBox chkConfirmedId;
+    private EditText txtProductName;
+
+
 
     private TextView lblCountItemsId;
 
@@ -92,8 +95,9 @@ public class PutAwayTarget extends MainBaseActivity {
         txtBarCodeId = findViewById(R.id.txtBarCodeId);
         cheRestrictedId = findViewById(R.id.cheRestrictedId);
         chkConfirmedId = findViewById(R.id.chkConfirmedId);
-
         lblCountItemsId = findViewById(R.id.lblCountItemsId);
+        txtProductName = findViewById(R.id.txtProductName);
+
 
         spinner = findViewById(R.id.spiUnitId);
 
@@ -118,6 +122,12 @@ public class PutAwayTarget extends MainBaseActivity {
                     break;
                 }
             }
+
+            oCurrentInboundViewInfo.ConfirmedOty =  oCurrentInboundViewInfo.Qty;
+            int  dif = Integer.valueOf(oCurrentInboundViewInfo.PlanedQty) - Integer.valueOf(oCurrentInboundViewInfo.ConfirmedOty);
+            oCurrentInboundViewInfo.QtyDiff = String.valueOf(dif);
+
+           // oCurrentInboundViewInfo.QtyDiff =  oCurrentInboundViewInfo.Qty;
 
             if (finish){
 
@@ -146,6 +156,13 @@ public class PutAwayTarget extends MainBaseActivity {
             txtBarCodeId.setText(oMsg.getKey01());
             oCurrentInboundViewInfo.BarCode = txtBarCodeId.getText().toString();
 
+            int iQty = 0;
+            if(!oCurrentInboundViewInfo.Qty.trim().isEmpty()){
+                iQty = Integer.parseInt(oCurrentInboundViewInfo.Qty);
+            }
+            iQty =  iQty + 1;
+            oCurrentInboundViewInfo.Qty =  String.valueOf(iQty);
+
             for(int i = 0; i <  lsInbounItems.size(); i++ ){
 
                 cInboundViewInfo   e = lsInbounItems.get(i);
@@ -160,8 +177,9 @@ public class PutAwayTarget extends MainBaseActivity {
             oCurrectProductViewInfo.ProductoSAPId = oCurrentInboundViewInfo.ProductId;
             oCurrectProductViewInfo.CodigoBarra = oCurrentInboundViewInfo.BarCode;
 
-            AsyncTaskValidateProduct asyncTask=new AsyncTaskValidateProduct();
-            asyncTask.execute("params");
+            // mig: por ahora no se valida el producto, hsta que se confirme por el usuario
+          //  AsyncTaskValidateProduct asyncTask=new AsyncTaskValidateProduct();
+          //  asyncTask.execute("params");
 
            // setViewInfo(oCurrentInboundViewInfo);
         }
@@ -186,13 +204,46 @@ public class PutAwayTarget extends MainBaseActivity {
         try {
 
          //   txtTargetId.setText(pInboundViewInfo.TargetId);
+            txtProductName.setText(pInboundViewInfo.ProductName);
             txtProductId.setText(pInboundViewInfo.ProductId);
             txtQtyId.setText(pInboundViewInfo.Qty);
             cheRestrictedId.setChecked(pInboundViewInfo.Restricted);
             chkConfirmedId.setChecked(pInboundViewInfo.Confirmed);
           //  txtLuQtyId.setText(pInboundViewInfo.LuQty);
             txtBarCodeId.setText(pInboundViewInfo.BarCode);
-            lblOpenValueId.setText(pInboundViewInfo.Open + " " +  pInboundViewInfo.OpenUnit);
+           // lblOpenValueId.setText(pInboundViewInfo.Open + " " +  pInboundViewInfo.OpenUnit);
+
+/*
+            int  Dif = 0;
+            int  Qty = 0;
+            int  PlanedOty = Integer.valueOf(pInboundViewInfo.PlanedQty);
+
+           if (!pInboundViewInfo.Qty.trim().isEmpty()){
+               Qty = Integer.valueOf(pInboundViewInfo.Qty.trim());
+           }
+
+            Dif = PlanedOty - Qty;
+            lblOpenValueId.setText(Dif + "    " +  pInboundViewInfo.OpenUnit);
+*/
+
+
+/*
+            int  Dif = 0;
+            int  ConfirmedQty = 0;
+            int  PlanedOty = Integer.valueOf(pInboundViewInfo.PlanedQty);
+
+            if (!pInboundViewInfo.ConfirmedOty.isEmpty()){
+                ConfirmedQty = Integer.valueOf(pInboundViewInfo.ConfirmedOty.trim());
+            }
+
+            Dif = PlanedOty - ConfirmedQty;
+*/
+
+            lblOpenValueId.setText(Inicio.Dif(pInboundViewInfo.PlanedQty,pInboundViewInfo.ConfirmedOty) + "      " +  pInboundViewInfo.OpenUnit);
+
+           // lblOpenValueId.setText(Dif + "      " +  pInboundViewInfo.OpenUnit);
+           // lblOpenValueId.setText(pInboundViewInfo.Open + " " +  pInboundViewInfo.OpenUnit);
+
             txtSerialNumberId.setText(pInboundViewInfo.SerialNumber);
 
         } catch (Exception e){
@@ -209,7 +260,13 @@ public class PutAwayTarget extends MainBaseActivity {
 
           //  pInboundViewInfo.TargetId = txtTargetId.getText().toString();
             pInboundViewInfo.ProductId = txtProductId.getText().toString();
-            pInboundViewInfo.Qty = txtQtyId.getText().toString();
+
+            if (txtQtyId.getText().toString().isEmpty()){
+                pInboundViewInfo.Qty = "0";
+            } else    {
+                pInboundViewInfo.Qty = txtQtyId.getText().toString();
+            }
+
             pInboundViewInfo.Restricted = cheRestrictedId.isChecked();
             pInboundViewInfo.Confirmed = chkConfirmedId.isChecked();
          //   pInboundViewInfo.LuQty = txtLuQtyId.getText().toString();

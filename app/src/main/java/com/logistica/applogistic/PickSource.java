@@ -25,6 +25,9 @@ public class PickSource extends MainBaseActivity {
     private TextView lblOpenValueId;
     private EditText txtQtyId;
     private EditText txtStockId;
+    private TextView lblGasId;
+
+
 
 
     // DATA
@@ -62,6 +65,9 @@ public class PickSource extends MainBaseActivity {
         lblOpenValueId = findViewById(R.id.lblOpenValueId);
         txtQtyId = findViewById(R.id.txtQtyId);
         txtStockId = findViewById(R.id.txtStockId);
+        lblGasId = findViewById(R.id.lblGasId);
+
+
 
         countItems = 0;
         TotalItems = 0;
@@ -122,7 +128,8 @@ public class PickSource extends MainBaseActivity {
             txtProductId.setText(pInboundViewInfo.ProductId);
             txtQtyId.setText(pInboundViewInfo.Qty);
             txtStockId.setText(pInboundViewInfo.IdentStock);
-            lblOpenValueId.setText(pInboundViewInfo.Open + " " +  pInboundViewInfo.OpenUnit);
+            lblOpenValueId.setText(Inicio.Dif(pInboundViewInfo.PlanedQty,pInboundViewInfo.ConfirmedOty) + "      " +  pInboundViewInfo.OpenUnit);
+            lblGasId.setText(pInboundViewInfo.ProductName);
 
 
         } catch (Exception e){
@@ -130,7 +137,6 @@ public class PickSource extends MainBaseActivity {
             String s = e.getMessage();
         }
     }
-
 
 
     private void getViewInfo(cInboundViewInfo pInboundViewInfo){

@@ -429,6 +429,17 @@ public class Inbound extends MainBaseActivity {
                     oInboundViewInfo.ProductId = oData.ID;
                     oInboundViewInfo.Open = oData.Quantity;
                     oInboundViewInfo.OpenUnit = oData.QuantityUnitCode;
+                    oInboundViewInfo.PlanedQty =   String.valueOf(Math.round( Float.valueOf(oData.Quantity)));
+
+
+                    String  sDescription= oData.Description.trim();
+
+                    if( sDescription.length() > 30) {
+                        oInboundViewInfo.ProductName = sDescription.substring(0,30) + " ..";
+                    } else {
+                        oInboundViewInfo.ProductName = sDescription;
+                    }
+
 
 
                 /*    oInboundViewInfo.ProductId = oData.getProductCategoryID() +  "_" + String.valueOf(i);
