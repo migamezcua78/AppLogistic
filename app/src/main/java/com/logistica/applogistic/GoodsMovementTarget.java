@@ -349,29 +349,11 @@ public class GoodsMovementTarget extends MainBaseActivity {
                     oRequest.QuantityUnitCode = oCurrentItemViewInfo.QtyUnitCode;
 
                     // opcionales
-                    oRequest.IdentifiedStockID =  oCurrentItemViewInfo.IdentStock;
-                    oRequest.SerialID =  oCurrentItemViewInfo.BarCode;
-
-
-
-                    //oRequest.QuantityUnitCode = "";
+                   // oRequest.IdentifiedStockID =  oCurrentItemViewInfo.IdentStock;
+                   // oRequest.SerialID =  oCurrentItemViewInfo.BarCode;
 
                     oResponse = oServices.PutMovementServiceData(oRequest);
 
-
-
-                //Thread.sleep(1000);
-
-/*                cServices  oServices = new cServices();
-                cInboundDelivery  oInboundDelivery = new cInboundDelivery();
-
-                oInboundDelivery.ID = oCurrentItemViewInfo.TaskId;
-                oInboundDelivery.oInboundDeliveryItem.ID = oCurrentItemViewInfo.ProductId;
-                oInboundDelivery.oInboundDeliveryItem.CantidadConfirmada = oCurrentItemViewInfo.Qty;
-                oInboundDelivery.oInboundDeliveryItem.IDAreaLogistica = oCurrentItemViewInfo.TargetId;
-                oInboundDelivery.oInboundDeliveryItem.IDStockIdentificado = oCurrentItemViewInfo.IdentStock;
-
-                oServices.PutInboundDeliveryServiceData(oInboundDelivery);*/
 
             } catch (Exception e) {
                 e.printStackTrace();

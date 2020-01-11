@@ -139,6 +139,7 @@ public class Goods_Movement_Source extends MainBaseActivity {
 
             ScannedBCP =  oMsg.getKey01();
 
+
             AsyncTaskConsultProduct asyncTask=new AsyncTaskConsultProduct();
             asyncTask.execute("params");
 
@@ -514,6 +515,8 @@ public class Goods_Movement_Source extends MainBaseActivity {
                     Toast.makeText(getApplicationContext(),"No se pudo consultar el Código: " + ScannedBCP , Toast.LENGTH_SHORT).show();
                 }
             }
+
+            oCurrentItemViewInfo.BarCode = ScannedBCP;
 
             setViewInfo();
             vProgressDialog.hide();
