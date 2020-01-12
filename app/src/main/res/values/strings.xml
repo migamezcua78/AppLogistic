@@ -219,5 +219,7 @@
 
     <string name="lblLogisticAreaSource">A. Log. Origen</string>
 
+    <string name="lblScanProd">Esc. Prod.</string>
+
 
 </resources>

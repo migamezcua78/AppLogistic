@@ -122,21 +122,38 @@
             app:layout_constraintStart_toEndOf="@+id/btnConfirmItemId"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <Button
-            android:id="@+id/btnConsultarProductoId"
+        <Button
+            android:id="@+id/btnScanProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:layout_marginStart="16dp"
             android:layout_weight="1"
-            android:onClick="onAsignarTodos"
-            android:text="@string/btnAsignarTodos"
+            android:onClick="onScanProductFilter"
+            android:text="@string/lblScanProd"
             android:textAllCaps="false"
             android:textColor="@color/colorTextTitle"
+
             android:textSize="12sp"
             app:backgroundTint="@color/colorAccent"
-            app:layout_constraintStart_toEndOf="@+id/btnConfirmItemId2"
-            app:layout_constraintTop_toTopOf="parent" />-->
+            app:layout_constraintStart_toEndOf="@+id/btnConsultarNoAsignados"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--        <Button
+                    android:id="@+id/btnConsultarProductoId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:onClick="onAsignarTodos"
+                    android:text="@string/btnAsignarTodos"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorTextTitle"
+                    android:textSize="12sp"
+                    app:backgroundTint="@color/colorAccent"
+                    app:layout_constraintStart_toEndOf="@+id/btnConfirmItemId2"
+                    app:layout_constraintTop_toTopOf="parent" />-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

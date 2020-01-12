@@ -636,7 +636,7 @@ public class LogisticAreaCountDes extends MainBaseActivity {
                         oInboundDelivery.ID = ((cGlobalData)getApplication()).CurrentArea ;
                         oInboundDelivery.oInboundDeliveryItem.ID = e.ProductId;
                         oInboundDelivery.oInboundDeliveryItem.CantidadConfirmada = e.Qty;
-                        oInboundDelivery.oInboundDeliveryItem.IDAreaLogistica = ((cGlobalData)getApplication()).CurrentArea ;
+                        oInboundDelivery.oInboundDeliveryItem.IDAreaLogistica = ((cGlobalData)getApplication()).CurrentArea;
                         oInboundDelivery.oInboundDeliveryItem.IDStockIdentificado = e.IdentStock;
 
                         oServices.PutInboundDeliveryServiceData(oInboundDelivery);

@@ -43,6 +43,8 @@ public class RegisterProducts extends MainBaseActivity {
 
     cGlobalData  oGlobalData;
 
+    String ScanedBC;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class RegisterProducts extends MainBaseActivity {
         spinner = findViewById(R.id.spFilterId);
         tableLayout =(TableLayout)findViewById(R.id.tgProductos);
         Scanned = false;
+        ScanedBC = "";
 
         oGlobalData = (cGlobalData)getApplication();
         InfoData = new ArrayList <> ();
@@ -86,12 +89,31 @@ public class RegisterProducts extends MainBaseActivity {
 //                AsyncTaskExample asyncTask=new  AsyncTaskExample();
 //                asyncTask.execute("params");
             }
+
+            if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_BAR_CODE)){
+                //txtImputFilterId.setText(oMsg.getKey01());
+                Scanned = true;
+                ScanedBC = oMsg.getKey01();
+
+                AsyncTaskConsultProduct  asyncTask= new AsyncTaskConsultProduct();
+                asyncTask.execute("params");
+            }
         }
 
         fillDataFilter();
         fillDataGrid();
     }
 
+
+    public static void selectSpinnerItemByValue(Spinner spnr, String value) {
+        ArrayAdapter<cSpinnerItem> adapter = (ArrayAdapter<cSpinnerItem>) spnr.getAdapter();
+        for (int position = 0; position < adapter.getCount(); position++) {
+            if(((cSpinnerItem)adapter.getItem(position)).getField().equals(value)) {
+                spnr.setSelection(position);
+                return;
+            }
+        }
+    }
 
     public void onConsultProducts(View view) {
 
@@ -117,6 +139,24 @@ public class RegisterProducts extends MainBaseActivity {
             }
         }
     }
+
+    public void onScanProductFilter(View view) {
+
+
+        // getViewInfo(oCurrectProductViewInfo);
+         ((cGlobalData)getApplication()).CurrentSelectedSpinnerItem = (cSpinnerItem)spinner.getSelectedItem();
+
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("RegisterProducts",Scanner.ScanType.SCAN_BAR_CODE));
+        startActivity(oIntent);
+
+    }
+
+
+
+
+
+
 
     public void onAsignarNoAsignados(View view) {
 
@@ -335,6 +375,81 @@ public class RegisterProducts extends MainBaseActivity {
             }
 
             oGlobalData.lsProductViewInfo = lsProductViewInfo;
+        }
+    }
+
+    private class AsyncTaskConsultProduct extends AsyncTask<String, String,cProductResponse> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(RegisterProducts.this);
+            vProgressDialog.setMessage("Please wait...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected cProductResponse doInBackground(String... strings) {
+            cProductResponse oResp = new  cProductResponse();
+            cProductViewInfo  pProductViewInfo = new cProductViewInfo();
+
+            try {
+
+                cServices ocServices = new cServices();
+
+                //oCurrectProductViewInfo.ProductoSAPId = "1";
+                //    oCurrectProductViewInfo.Nombre = "productoPrueba3";
+                //   oCurrectProductViewInfo.Descripcion = "productoPruebaDescripcion3";
+                //oCurrectProductViewInfo.CodigoBarra = "12312312312";
+                //      oCurrectProductViewInfo.Estado = "Activo";
+
+                pProductViewInfo.Usuario = "tcabrera";
+                pProductViewInfo.CodigoBarra = ScanedBC;
+                //pProductViewInfo.CodigoBarra = "9023800691019";
+
+                oResp = ocServices.PostConsultProductDataService(pProductViewInfo);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return oResp;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values){
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(cProductResponse lsData) {
+            super.onPostExecute(lsData);
+
+            if  (lsData != null){
+
+                if(!lsData.ResponseId.equals("-1")){
+
+                    if (lsData.Assigned){
+
+                        txtImputFilterId.setText(lsData.ResponseId);
+                        Toast.makeText(getApplicationContext(),"Producto Encontrado" , Toast.LENGTH_LONG).show();
+
+                    } else {
+                        txtImputFilterId.setText("0");
+                        Toast.makeText(getApplicationContext(),"Producto No Encontrado" , Toast.LENGTH_LONG).show();
+
+                    }
+
+                } else {
+                    txtImputFilterId.setText("0");
+                    Toast.makeText(getApplicationContext(),"Error al intentar registrar el producto " , Toast.LENGTH_LONG).show();
+                }
+            }
+
+            selectSpinnerItemByValue(spinner,"CMATERIAL_UUID");
+            vProgressDialog.hide();
         }
     }
 }
