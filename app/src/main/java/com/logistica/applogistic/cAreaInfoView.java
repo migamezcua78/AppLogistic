@@ -19,6 +19,7 @@ public class cAreaInfoView implements Serializable {
         FieldName = "";
         BarCode = "";
         msg = "";
+        ProductName = "";
     }
 
     public static class ChildClass implements Serializable {
@@ -39,4 +40,5 @@ public class cAreaInfoView implements Serializable {
     public  String  FieldName;
     public  String  BarCode;
     public  String  msg;
+    public  String  ProductName;
 }

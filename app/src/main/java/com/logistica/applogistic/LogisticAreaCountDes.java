@@ -9,12 +9,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LogisticAreaCountDes extends MainBaseActivity {
 
@@ -25,12 +28,16 @@ public class LogisticAreaCountDes extends MainBaseActivity {
     EditText txtBarCodeId;
     CheckBox chkRestrictedId;
     TextView lblCountItemsId;
+    EditText txtNombreProducto;
+    Spinner spinner;
 
     ArrayList<cAreaInfoView> lsAreaInfoService;
     ArrayList<cAreaInfoView> lsAreaInfoView;
+    private List<cSpinnerItem> InfoFilter = new ArrayList<>();
 
     cAreaInfoView oCurrenAreaInfoView;
     cProductViewInfo oCurrectProductViewInfo;
+    private String  ScannedBCP;
 
     // Process
     ProgressDialog vProgressDialog;
@@ -65,6 +72,11 @@ public class LogisticAreaCountDes extends MainBaseActivity {
         txtBarCodeId = findViewById(R.id.txtBarCodeId);
         chkRestrictedId = findViewById(R.id.chkRestrictedId);
         lblCountItemsId = findViewById(R.id.lblCountItemsId);
+        txtNombreProducto =  findViewById(R.id.txtNombreProducto);
+
+        spinner = findViewById(R.id.spinner);
+
+        ScannedBCP = "";
 
         lblCountItemsId.setText("0 of 0");
         countItems = 0;
@@ -80,6 +92,7 @@ public class LogisticAreaCountDes extends MainBaseActivity {
 
 
         BuildDialog ();
+        fillDataFilter();
     }
 
 
@@ -115,9 +128,18 @@ public class LogisticAreaCountDes extends MainBaseActivity {
             String  sProductId = oMsg.getKey01();  // "KECM0000608030_" + String.valueOf(IterScan);
             txtProductId.setText(sProductId);
 
-            oCurrenAreaInfoView.ProductId = sProductId;
+          //  oCurrenAreaInfoView.ProductId = sProductId;
+
+            oCurrenAreaInfoView.BarCode = oMsg.getKey01();
 
             setViewInfo(oCurrenAreaInfoView);
+
+            oCurrectProductViewInfo = new cProductViewInfo();
+            oCurrectProductViewInfo.ProductoSAPId = oCurrenAreaInfoView.ProductId;
+           // oCurrectProductViewInfo.CodigoBarra = oCurrenAreaInfoView.BarCode;
+
+            AsyncTaskConsultProduct asyncTask=new AsyncTaskConsultProduct();
+            asyncTask.execute("params");
 
         }
         else if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_QTY)){
@@ -179,6 +201,19 @@ public class LogisticAreaCountDes extends MainBaseActivity {
         startActivity(oIntent);
     }
 
+
+    private void fillDataFilter (){
+        ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilter());
+        spinner.setAdapter(adapter);
+    }
+
+
+    private List<cSpinnerItem> getInfoFilter(){
+        InfoFilter = new ArrayList<>();
+        InfoFilter.add(new cSpinnerItem(1,"ZPZ"));
+        return  InfoFilter;
+    }
+
     private void setViewInfo(cAreaInfoView pAreaInfoView){
 
         txtProductId.setText(pAreaInfoView.ProductId);
@@ -187,6 +222,8 @@ public class LogisticAreaCountDes extends MainBaseActivity {
         //txtLuQty.setText(pAreaInfoView.LuQty);
         txtBarCodeId.setText(pAreaInfoView.BarCode);
         chkRestrictedId.setChecked(pAreaInfoView.Restricted);
+        txtNombreProducto.setText(pAreaInfoView.ProductName);
+
     }
 
     private void getViewInfo(cAreaInfoView pAreaInfoView){
@@ -197,6 +234,7 @@ public class LogisticAreaCountDes extends MainBaseActivity {
       //  pAreaInfoView.LuQty = txtLuQty.getText().toString().trim();
         pAreaInfoView.BarCode = txtBarCodeId.getText().toString().trim();
         pAreaInfoView.Restricted = chkRestrictedId.isChecked();
+        pAreaInfoView.ProductName = txtNombreProducto.getText().toString().trim();
     }
 
 
@@ -252,7 +290,7 @@ public class LogisticAreaCountDes extends MainBaseActivity {
 
     public void   onConfirmItem(View spinner) {
 
-        if (  txtProductId.getText().toString().trim().isEmpty()   ){
+        if (  txtProductId.getText().toString().trim().isEmpty()  ||  txtProductId.getText().toString().trim().equals("0")  ){
 
             Toast.makeText(getApplicationContext(),"PRODUCT field is required", Toast.LENGTH_SHORT).show();
 
@@ -270,6 +308,7 @@ public class LogisticAreaCountDes extends MainBaseActivity {
            // cAreaInfoView.LuQty = txtLuQty.getText().toString().trim();
             cAreaInfoView.BarCode = txtBarCodeId.getText().toString().trim();
             cAreaInfoView.Restricted = chkRestrictedId.isChecked();
+            cAreaInfoView.ProductName = txtNombreProducto.getText().toString().trim();
 
             // si ya esiste el elemento se debe de eliminar
 
@@ -290,6 +329,7 @@ public class LogisticAreaCountDes extends MainBaseActivity {
             //txtLuId.setText("");
            // txtLuQty.setText("");
             txtBarCodeId.setText("");
+            txtNombreProducto.setText("");
             chkRestrictedId.setChecked(false);
 
             Toast.makeText(getApplicationContext(), "Item Confirmed", Toast.LENGTH_SHORT).show();
@@ -666,6 +706,8 @@ public class LogisticAreaCountDes extends MainBaseActivity {
                 cServices ocServices = new cServices();
                 lsData = ocServices.GetStockServiceData(cServices.StockFilterType.CLOG_AREA_UUID, sAreaId, "");
 
+               // lsData = ocServices.GetStockServiceData(cServices.StockFilterType.CLOG_AREA_UUID, "E01/E01-1", "");
+
 /*                ArrayList<cMaterial>  lsMaterials = new ArrayList<>();
                 for (cStock  e: lsData){
                     lsMaterials = ocServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID, e.CMATERIAL_UUID, "");
@@ -791,5 +833,83 @@ public class LogisticAreaCountDes extends MainBaseActivity {
             vProgressDialog.hide();
         }
     }
+
+
+
+    private class AsyncTaskConsultProduct extends AsyncTask<String, String,cProductResponse> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            vProgressDialog = new ProgressDialog(LogisticAreaCountDes.this);
+            vProgressDialog.setMessage("Please wait...");
+            vProgressDialog.setIndeterminate(false);
+            vProgressDialog.setCancelable(true);
+            vProgressDialog.show();
+        }
+
+
+        @Override
+        protected cProductResponse doInBackground(String... strings) {
+            cProductResponse oResp = new  cProductResponse();
+
+            try {
+
+                cServices ocServices = new cServices();
+
+                cProductViewInfo  pvi  =  new cProductViewInfo();
+                pvi.CodigoBarra = oCurrenAreaInfoView.BarCode;
+                // pvi.ProductoSAPId = "777";
+
+                oResp = ocServices.PostConsultProductDataService(pvi);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return oResp;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values){
+            //  Msg.setText(values[0]);
+        }
+
+
+        @Override
+        protected void onPostExecute(cProductResponse lsData) {
+            super.onPostExecute(lsData);
+
+            if  (lsData != null){
+
+                if(!lsData.ResponseId.equals("-1")){
+
+                    if (lsData.Assigned){
+
+                        Toast.makeText(getApplicationContext(),"Producto Encontrado" , Toast.LENGTH_SHORT).show();
+                        oCurrenAreaInfoView.ProductId = lsData.ResponseId;
+                        if (lsData.Descripcion.trim().length() > 0){
+                            oCurrenAreaInfoView.ProductName = lsData.Nombre.trim().substring(0,30) + " ...";
+                        } else {
+                            oCurrenAreaInfoView.ProductName = lsData.Nombre.trim();
+                        }
+
+                    } else {
+                        oCurrenAreaInfoView.ProductId = "0";
+                        Toast.makeText(getApplicationContext(),"Producto no Asignado al Código: " + ScannedBCP, Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    oCurrenAreaInfoView.ProductId = "0";
+                    Toast.makeText(getApplicationContext(),"No se pudo consultar el Código: " + ScannedBCP , Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            setViewInfo(oCurrenAreaInfoView);
+            vProgressDialog.hide();
+        }
+    }
+
+
+
+
 
 }

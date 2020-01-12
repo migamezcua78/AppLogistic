@@ -76,25 +76,25 @@
                 android:id="@+id/lblProductId"
                 android:layout_width="53dp"
                 android:layout_height="21dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/lblProductServ"
-                app:layout_constraintBaseline_toBaselineOf="@+id/txtProductId"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblReference"
                 tools:visibility="visible" />
 
             <EditText
                 android:id="@+id/txtProductId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="90dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="16dp"
                 android:ems="10"
                 android:hint="@string/txtHintImput"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtSourceId" />
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblProductId"
+                app:layout_constraintStart_toEndOf="@+id/lblProductId" />
 
             <TextView
                 android:id="@+id/lblGasId"
@@ -154,39 +154,40 @@
                 app:layout_constraintTop_toBottomOf="@+id/lblQty"
                 tools:visibility="visible" />
 
+            <!--           <EditText
+                android:id="@+id/txtSourceId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/txtHintImput"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="14sp"
+                tools:layout_editor_absoluteX="92dp"
+                tools:layout_editor_absoluteY="120dp" />-->
+
             <Button
                 android:id="@+id/btnScanProductId"
                 android:layout_width="75dp"
                 android:layout_height="40dp"
+                android:layout_marginStart="16dp"
                 android:backgroundTint="@color/colorAccent"
                 android:onClick="onScan"
                 android:text="@string/btnScan"
                 android:textAllCaps="false"
                 android:textColor="@color/colorTextTitle"
                 android:textSize="9sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/txtSourceId"
-                app:layout_constraintStart_toEndOf="@+id/txtSourceId" />
+                app:layout_constraintBottom_toBottomOf="@+id/spiLogisticAreas"
+                app:layout_constraintStart_toEndOf="@+id/spiLogisticAreas"
+                app:layout_constraintTop_toTopOf="@+id/spiLogisticAreas" />
 
             <TextView
                 android:id="@+id/lblReference"
                 android:layout_width="53dp"
                 android:layout_height="21dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/lblArea"
-                app:layout_constraintBaseline_toBaselineOf="@+id/txtSourceId"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <EditText
-                android:id="@+id/txtSourceId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="90dp"
-                android:layout_marginTop="28dp"
-                android:ems="10"
-                android:hint="@string/txtHintImput"
-                android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -194,12 +195,21 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="25dp"
                 android:text="@string/lblLogisticMain"
                 android:textColor="@color/primary_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <Spinner
+                android:id="@+id/spiLogisticAreas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/lblReference"
+                app:layout_constraintStart_toEndOf="@+id/lblReference"
+                app:layout_constraintTop_toTopOf="@+id/lblReference" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

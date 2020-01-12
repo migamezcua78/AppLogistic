@@ -112,20 +112,20 @@
 
         <Button
             android:id="@+id/btnScanQuantityId"
-            android:layout_width="75dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
             android:backgroundTint="@color/colorAccent"
             android:onClick="onScanQty"
             android:text="@string/btnScan"
             android:textColor="@color/colorTextTitle"
             android:textSize="9sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/btnF9"
-            app:layout_constraintStart_toEndOf="@+id/btnF9" />
+            app:layout_constraintBottom_toBottomOf="@+id/spinner"
+            app:layout_constraintStart_toEndOf="@+id/spinner"
+            app:layout_constraintTop_toTopOf="@+id/spinner" />
 
         <Button
             android:id="@+id/btnScanProductId"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:backgroundTint="@color/colorAccent"
@@ -133,12 +133,13 @@
             android:text="@string/btnScan"
             android:textColor="@color/colorTextTitle"
             android:textSize="9sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtProductId"
-            app:layout_constraintStart_toEndOf="@+id/txtProductId" />
+            app:layout_constraintBottom_toBottomOf="@+id/txtProductId"
+            app:layout_constraintStart_toEndOf="@+id/txtProductId"
+            app:layout_constraintTop_toTopOf="@+id/txtProductId" />
 
         <Button
             android:id="@+id/btnScanBarCodeId"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:backgroundTint="@color/colorAccent"
@@ -175,10 +176,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="24dp"
             android:text="@string/lblQuantity"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toBottomOf="@+id/lblNombre" />
 
         <EditText
             android:id="@+id/txtQtyId"
@@ -187,30 +188,30 @@
             android:layout_marginStart="90dp"
             android:ems="4"
             android:inputType="number"
+            android:text="0"
             android:textSize="12sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/txtQtyId"
             app:layout_constraintStart_toEndOf="@+id/txtQtyId"
             app:layout_constraintTop_toTopOf="@+id/txtQtyId" />
 
-        <Button
+<!--        <Button
             android:id="@+id/btnF9"
             android:layout_width="60dp"
             android:layout_height="40dp"
-            android:layout_marginStart="8dp"
             android:backgroundTint="@color/colorAccent"
             android:text="@string/btnFNueve"
             android:textColor="@color/colorTextTitle"
             android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtQtyId"
-            app:layout_constraintStart_toEndOf="@+id/spinner" />
+            tools:layout_editor_absoluteX="212dp"
+            tools:layout_editor_absoluteY="100dp" />-->
 
         <TextView
             android:id="@+id/textView5"
@@ -316,14 +317,35 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/textView14"
             app:layout_constraintStart_toStartOf="parent" />
 
-<!--        <TextView
-            android:id="@+id/lblInspectionId"
+        <TextView
+            android:id="@+id/lblNombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:text="Inspection ID   46"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblRestricted"
-            app:layout_constraintStart_toEndOf="@+id/chkRestrictedId" />-->
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/lblNombreGlb"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <EditText
+            android:id="@+id/txtNombreProducto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/lblNombre"
+            app:layout_constraintStart_toEndOf="@+id/lblNombre" />
+
+        <!--        <TextView
+                    android:id="@+id/lblInspectionId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="Inspection ID   46"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/lblRestricted"
+                    app:layout_constraintStart_toEndOf="@+id/chkRestrictedId" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
