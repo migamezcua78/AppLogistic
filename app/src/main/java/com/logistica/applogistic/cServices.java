@@ -524,7 +524,8 @@ public class cServices {
 
         // SOAP
         String Soap_Action = "MaintainBundle_V1";
-        String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/managesitelogisticstaskin?sap-vhost=my346674.sapbydesign.com";
+       // String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/managesitelogisticstaskin?sap-vhost=my346674.sapbydesign.com";
+        String url = "https://my343751.sapbydesign.com/sap/bc/srt/scs/sap/managesitelogisticstaskin?sap-vhost=my343751.sapbydesign.com";  // PROD
         HttpTransportSE transporte;
         SoapSerializationEnvelope envelope;
 
@@ -654,7 +655,8 @@ public class cServices {
 
         // SOAP
         String Soap_Action = "DoGoodsMovementGoodsAndActivityConfirmation";
-        String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/inventoryprocessinggoodsandac2?sap-vhost=my346674.sapbydesign.com";
+        //String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/inventoryprocessinggoodsandac2?sap-vhost=my346674.sapbydesign.com";
+        String url = "https://my343751.sapbydesign.com/sap/bc/srt/scs/sap/inventoryprocessinggoodsandac2?sap-vhost=my343751.sapbydesign.com";  // PROD
         HttpTransportSE transporte;
         SoapSerializationEnvelope envelope;
 
@@ -786,7 +788,8 @@ public class cServices {
 
         // SOAP
         String Soap_Action = "Create";
-        String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/yypf5fcnxy_z_inbounddelivery?sap-vhost=my346674.sapbydesign.com";
+       // String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/yypf5fcnxy_z_inbounddelivery?sap-vhost=my346674.sapbydesign.com";
+        String url = "https://my343751.sapbydesign.com/sap/bc/srt/scs/sap/yypf5fcnxy_z_inbounddelivery?sap-vhost=my343751.sapbydesign.com"; // PROD
         HttpTransportSE transporte;
         SoapSerializationEnvelope envelope;
 
@@ -897,7 +900,8 @@ public class cServices {
 
         // SOAP
         String Soap_Action = "FindByElements";
-        String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/querysitelogisticstaskin?sap-vhost=my346674.sapbydesign.com";
+       // String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/querysitelogisticstaskin?sap-vhost=my346674.sapbydesign.com";
+        String url = "https://my343751.sapbydesign.com/sap/bc/srt/scs/sap/querysitelogisticstaskin?sap-vhost=my343751.sapbydesign.com"; // PROD
         HttpTransportSE transporte;
         SoapSerializationEnvelope envelope;
 
@@ -1185,7 +1189,8 @@ public class cServices {
 
         // SOAP
         String Soap_Action = "Read";
-        String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/yypf5fcnxy_purchaseorder?sap-vhost=my346674.sapbydesign.com";
+       // String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/yypf5fcnxy_purchaseorder?sap-vhost=my346674.sapbydesign.com";
+        String url = "https://my343751.sapbydesign.com/sap/bc/srt/scs/sap/yypf5fcnxy_purchaseorder?sap-vhost=my343751.sapbydesign.com";  // PROD
         HttpTransportSE transporte;
         SoapSerializationEnvelope envelope;
 
@@ -1301,7 +1306,8 @@ public class cServices {
 
         // SOAP
         String Soap_Action = "QueryByElements";
-        String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/yypf5fcnxy_purchaseorder?sap-vhost=my346674.sapbydesign.com";
+       // String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/yypf5fcnxy_purchaseorder?sap-vhost=my346674.sapbydesign.com";
+        String url = "https://my343751.sapbydesign.com/sap/bc/srt/scs/sap/yypf5fcnxy_purchaseorder?sap-vhost=my343751.sapbydesign.com";  //  PROD
         HttpTransportSE transporte;
         SoapSerializationEnvelope envelope;
 
@@ -1402,7 +1408,10 @@ public class cServices {
 
         // SOAP
         String Soap_Action = "QueryByElements";
-        String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/yypf5fcnxy_logisticarea?sap-vhost=my346674.sapbydesign.com";
+     //   String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/yypf5fcnxy_logisticarea?sap-vhost=my346674.sapbydesign.com";
+        String url = "https://my343751.sapbydesign.com/sap/bc/srt/scs/sap/yypf5fcnxy_logisticarea?sap-vhost=my343751.sapbydesign.com";   // prod
+
+
         HttpTransportSE transporte;
         SoapSerializationEnvelope envelope;
 
@@ -1531,7 +1540,8 @@ public class cServices {
 
         // SOAP
         String Soap_Action = "FindByElements";
-        String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/querycustomerin1?sap-vhost=my346674.sapbydesign.com";
+        //String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/querycustomerin1?sap-vhost=my346674.sapbydesign.com";
+        String url = "https://my343751.sapbydesign.com/sap/bc/srt/scs/sap/querycustomerin1?sap-vhost=my343751.sapbydesign.com";  // PROD
         HttpTransportSE transporte;
 
         SoapObject soCustomerByElementsQuery_sync;
@@ -1643,7 +1653,11 @@ public class cServices {
 
         // SOAP
         String Soap_Action = "FindByElements";
-        String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/querymaterialin?sap-vhost=my346674.sapbydesign.com";
+       // String url = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/querymaterialin?sap-vhost=my346674.sapbydesign.com";
+        String url = "https://my343751.sapbydesign.com/sap/bc/srt/scs/sap/querymaterialin?sap-vhost=my343751.sapbydesign.com";  // PROD
+
+
+
         HttpTransportSE transporte;
         SoapSerializationEnvelope envelope;
 
