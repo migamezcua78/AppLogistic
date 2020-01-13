@@ -1,8 +1,12 @@
 package com.logistica.applogistic;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,14 +30,41 @@ public class MainActivity extends AppCompatActivity {
     cUserRequest  oUserReq;
     cUserResponse  oUserResp;
 
+    int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+
+    int permissionCheck2 = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         init();
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CAMERA)) {
+
+            } else {
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CAMERA},
+                        MY_PERMISSIONS_REQUEST_CAMERA);
+
+            }
+        }
+
+
     }
+
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1 ;
+
+
+
+    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1 ;
 
   /*  @Override
     public boolean onCreateOptionsMenu(Menu manu) {
@@ -65,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         oUserReq =  new cUserRequest();
         oUserResp =  new cUserResponse();
+
     }
 
 
