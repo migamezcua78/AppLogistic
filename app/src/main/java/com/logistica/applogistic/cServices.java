@@ -89,11 +89,23 @@ public class cServices {
         return sResult;
     }
 
-    private String getNameSpaceRest (){
+    //  DEV
+/*    private String getNameSpaceRest (){
         String  sResult = "";
         sResult = "https://my346674.sapbydesign.com";
         return sResult;
+    }*/
+
+
+    // PROD
+    private String getNameSpaceRest (){
+        String  sResult = "";
+        sResult = "https://my343751.sapbydesign.com";
+        return sResult;
     }
+
+
+
 
     private String getNameResourceRest (){
         String  sResult = "";
