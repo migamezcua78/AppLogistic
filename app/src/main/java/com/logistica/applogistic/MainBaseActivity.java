@@ -13,6 +13,11 @@ public class MainBaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_base);
+        String   sCurrectUser = ((cGlobalData)getApplication()).CurrentUser;
+
+        if (sCurrectUser != null ){
+            getSupportActionBar().setSubtitle(sCurrectUser);
+        }
     }
 
     @Override

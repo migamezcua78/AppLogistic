@@ -30,7 +30,7 @@
     <string name="action_menu9">Recuento de área logística</string>
 
 
-    <string name="app_name">AppLogistica</string>
+    <string name="app_name">Logistica</string>
     <!--    <string name="btn_main_inbound">Select Inbound Task</string>-->
     <string name="btn_main_inbound">Procesar tarea de entrada mercancia</string>
     <string name="btnBack">F8 &lt;</string>

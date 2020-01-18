@@ -57,6 +57,8 @@ public class cGlobalData extends Application {
     public ArrayList<String> LsCatalogLogisticAreasS;  //  tiene el site concatenado con la area logistica
 
 
+    public String  CurrentUser;
+
     public String getGlobalVarValue() {
         return mGlobalVarValue;
     }

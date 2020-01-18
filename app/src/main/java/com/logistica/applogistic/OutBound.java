@@ -76,16 +76,26 @@ public class OutBound extends  MainBaseActivity {
                //  txtImputFilterId.setText("15");
 
 
-                txtImputFilterId.setText(oMsg.getKey01());
+               // txtImputFilterId.setText(oMsg.getKey01());
+                txtImputFilterId.setText("63");
 
                 Scanned = true;
-                AsyncTaskScan asyncTask=new AsyncTaskScan();
-                asyncTask.execute("params");
+
+                AsyncTaskStart asyncTaskConfirm=new AsyncTaskStart();
+                asyncTaskConfirm.execute("params");
+
+
+//                AsyncTaskScan asyncTask=new AsyncTaskScan();
+//                asyncTask.execute("params");
 
             }  else if (!oMsg.getMessage().equals(cMessage.Message.START)){
 
-                AsyncTaskStart asyncTask=new AsyncTaskStart();
-                asyncTask.execute("params");
+
+                AsyncTaskStart asyncTaskConfirm=new AsyncTaskStart();
+                asyncTaskConfirm.execute("params");
+
+//                AsyncTaskStart asyncTask=new AsyncTaskStart();
+//                asyncTask.execute("params");
             }
         }
 
