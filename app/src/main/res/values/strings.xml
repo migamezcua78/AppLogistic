@@ -78,6 +78,7 @@
     <string name="lblProductServ">Producto</string>
     <string name="lblTitleGas">Gas Boiler Combi 75</string>
     <string name="lblStockId">ID STOCK</string>
+    <string name="lblStock">Stock</string>
     <string name="btnReverse">F6 Reverse</string>
     <string name="btnFNueve">F9 = 0</string>
     <string name="btnReportedItems">F7 Reported Items</string>

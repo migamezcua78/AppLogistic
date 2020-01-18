@@ -278,10 +278,11 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(cUserResponse lsData) {
             super.onPostExecute(lsData);
 
-            // mig:  borra  este bloque solo es de prueba
             ((cGlobalData)getApplication()).CurrentUser =  oUserReq.User;
-           Intent oIntent2 = new Intent(MainActivity.this,Inicio.class);
-            startActivity(oIntent2);
+
+            // mig:  borra  este bloque solo es de prueba
+          // Intent oIntent2 = new Intent(MainActivity.this,Inicio.class);
+            //  startActivity(oIntent2);
             // mig:   fin bloque
 
 

@@ -7,12 +7,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MappingProducts extends MainBaseActivity {
@@ -23,6 +26,7 @@ public class MappingProducts extends MainBaseActivity {
     EditText txtNombreId;
     EditText txtDescripcionId;
     CheckBox chkActivoId;
+    Spinner spinnerStock;
 
 
     ProgressDialog vProgressDialog;
@@ -30,6 +34,8 @@ public class MappingProducts extends MainBaseActivity {
 
 //  Data
     public  cProductViewInfo oCurrectProductViewInfo;
+    private List<cSpinnerItem> InfoFilterStock = new ArrayList<>();
+    private ArrayList<String>  LsFilterStock;
 
 
 
@@ -97,6 +103,8 @@ public class MappingProducts extends MainBaseActivity {
 
         getViewInfo(oCurrectProductViewInfo);
         ((cGlobalData)getApplication()).CurrentProductViewInfo = oCurrectProductViewInfo;
+        ((cGlobalData)getApplication()).LsFilterStock = LsFilterStock;
+
 
         Intent oIntent = new Intent(this, Scanner.class);
         oIntent.putExtra("oMsg", new cActivityMessage("MappingProducts",Scanner.ScanType.SCAN_BAR_CODE));
@@ -114,6 +122,8 @@ public class MappingProducts extends MainBaseActivity {
         txtBarCodeId =  findViewById(R.id.txtBarCodeId);
 
         chkActivoId.setChecked(true);
+        spinnerStock = findViewById(R.id.spiStock);
+        LsFilterStock = new ArrayList<>();
 
         oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
         oCurrectProductViewInfo = ((cGlobalData)getApplication()).CurrentProductViewInfo;
@@ -127,6 +137,13 @@ public class MappingProducts extends MainBaseActivity {
 
                 setViewInfo(oCurrectProductViewInfo);
                 txtBarCodeId.setText(oMsg.getKey01());
+
+                LsFilterStock =((cGlobalData)getApplication()).LsFilterStock;
+                if (LsFilterStock == null){
+                    LsFilterStock = new ArrayList<>();
+                }
+
+                fillDataFilterStock();
 
             } else {
 
@@ -162,6 +179,22 @@ public class MappingProducts extends MainBaseActivity {
         } else {
             chkActivoId.setChecked(false);
         }
+    }
+
+    private void fillDataFilterStock (){
+        ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilterStock());
+        spinnerStock.setAdapter(adapter);
+    }
+
+    private List<cSpinnerItem> getInfoFilterStock(){
+        InfoFilterStock = new ArrayList<>();
+        if (LsFilterStock != null ){
+
+            for ( int i =0; i < LsFilterStock.size(); i++ ){
+                InfoFilterStock.add(new cSpinnerItem(i,LsFilterStock.get(i),LsFilterStock.get(i)));
+            }
+        }
+        return  InfoFilterStock;
     }
 
 
@@ -220,6 +253,7 @@ public class MappingProducts extends MainBaseActivity {
                     oCurrectProductViewInfo = new cProductViewInfo();
                     ((cGlobalData)getApplication()).CurrentProductViewInfo =  oCurrectProductViewInfo;
                     setViewInfo(oCurrectProductViewInfo);
+                    LsFilterStock = new ArrayList<>();
 
                 } else {
 
@@ -227,6 +261,9 @@ public class MappingProducts extends MainBaseActivity {
                    // setViewInfo(oCurrectProductViewInfo);
                 }
             }
+
+
+            fillDataFilterStock();
 
             vProgressDialog.hide();
         }
@@ -320,10 +357,12 @@ public class MappingProducts extends MainBaseActivity {
         @Override
         protected cProductResponse doInBackground(String... strings) {
             cProductResponse oResp = new  cProductResponse();
+            ArrayList<cStock>  lsStockData = new  ArrayList<>();
+            LsFilterStock = new ArrayList<>();
 
             try {
 
-                cServices ocServices = new cServices();
+                cServices oServices = new cServices();
 
                 //oCurrectProductViewInfo.ProductoSAPId = "1";
                 //    oCurrectProductViewInfo.Nombre = "productoPrueba3";
@@ -333,7 +372,20 @@ public class MappingProducts extends MainBaseActivity {
 
                 //oCurrectProductViewInfo.Usuario = "tcabrera";
 
-                oResp = ocServices.PostConsultProductDataService(oCurrectProductViewInfo);
+                oResp = oServices.PostConsultProductDataService(oCurrectProductViewInfo);
+
+                if ( oResp != null   &&  !oResp.ResponseId.trim().equals("")  && !oResp.ResponseId.trim().equals("-1")){
+
+                    lsStockData = oServices.GetStockServiceData(cServices.StockFilterType.CMATERIAL_UUID, oResp.ResponseId.trim(),"");
+
+                       for( cStock  item:lsStockData){
+                           if (!item.CMATERIAL_UUID.trim().equals("")){
+                               String sStock =   String.valueOf(Math.round( Float.valueOf(item.KCON_HAND_STOCK)));
+                               LsFilterStock.add(item.CLOG_AREA_UUID + "  " +  sStock + " " + item.CON_HAND_STOCK_UOM);
+                           }
+                       }
+                }
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -377,6 +429,8 @@ public class MappingProducts extends MainBaseActivity {
                     Toast.makeText(getApplicationContext(),"Error al intentar registrar el producto " , Toast.LENGTH_LONG).show();
                 }
             }
+
+            fillDataFilterStock();
 
             vProgressDialog.hide();
         }

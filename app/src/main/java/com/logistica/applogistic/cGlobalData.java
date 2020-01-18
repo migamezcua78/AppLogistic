@@ -59,6 +59,8 @@ public class cGlobalData extends Application {
 
     public String  CurrentUser;
 
+    public ArrayList<String>  LsFilterStock;
+
     public String getGlobalVarValue() {
         return mGlobalVarValue;
     }
