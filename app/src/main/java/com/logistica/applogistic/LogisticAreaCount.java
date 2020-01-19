@@ -25,7 +25,7 @@ public class LogisticAreaCount extends MainBaseActivity {
     EditText  txtProductId;
     EditText  txtOrderId;
     EditText  txtBarCodeId;
-    Spinner spinnerLogisticAreas;
+   // Spinner spinnerLogisticAreas;
 
     private List<cSpinnerItem>  InfoFilterLogisticAreas = new ArrayList<>();
     private ArrayList<String>  LsCatalogLogisticAreas;
@@ -48,16 +48,15 @@ public class LogisticAreaCount extends MainBaseActivity {
                 // oCurrentItemViewInfo.SourceId = oMsg.getKey01();
                // txtAreaId.setText("E01/E01-1");
 
-                    String  sArea =  oMsg.getKey01();
-
+                 /*   String  sArea =  oMsg.getKey01();
                    sArea = "E01-60";
                     if (!selectSpinnerItemByValue(spinnerLogisticAreas, sArea)){
                         LsCatalogLogisticAreas.add(sArea);
                         fillDataFilterLogisticAreas();
                         selectSpinnerItemByValue(spinnerLogisticAreas, sArea);
-                    }
+                    }*/
 
-              //  txtAreaId.setText(oMsg.getKey01());
+                txtAreaId.setText(oMsg.getKey01());
 
             }  else if (!oMsg.getMessage().equals(cMessage.Message.START)){
                 Toast.makeText(getApplicationContext(),oMsg.getMessage(), Toast.LENGTH_SHORT).show();
@@ -72,17 +71,17 @@ public class LogisticAreaCount extends MainBaseActivity {
         txtProductId = findViewById(R.id.txtProductId);
         txtOrderId = findViewById(R.id.txtQtyId);
         txtBarCodeId =findViewById(R.id.txtStockId);
-        spinnerLogisticAreas = findViewById(R.id.spiLogisticAreas);
+       // spinnerLogisticAreas = findViewById(R.id.spiLogisticAreas);
         LsCatalogLogisticAreas = ((cGlobalData)getApplication()).LsCatalogLogisticAreasS;
 
         oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
 
-        if (LsCatalogLogisticAreas == null  || LsCatalogLogisticAreas.size() == 0 ){
+/*        if (LsCatalogLogisticAreas == null  || LsCatalogLogisticAreas.size() == 0 ){
             AsyncTaskGetLogisticAreas asyncTask=new AsyncTaskGetLogisticAreas();
             asyncTask.execute("params");
         }else {
             fillDataFilterLogisticAreas();
-        }
+        }*/
     }
 
 
@@ -98,10 +97,10 @@ public class LogisticAreaCount extends MainBaseActivity {
         startActivity(oIntent);
     }
 
-    private void fillDataFilterLogisticAreas (){
+/*    private void fillDataFilterLogisticAreas (){
         ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilterLogisticAreas());
         spinnerLogisticAreas.setAdapter(adapter);
-    }
+    }*/
 
     private List<cSpinnerItem> getInfoFilterLogisticAreas(){
         InfoFilterLogisticAreas = new ArrayList<>();
@@ -132,7 +131,9 @@ public class LogisticAreaCount extends MainBaseActivity {
     public void onStartTask(View view) {
 
         cAreaInfoView  oViewInfo = new   cAreaInfoView();
-        oViewInfo.AreaId =  ((cSpinnerItem)spinnerLogisticAreas.getSelectedItem()).getField();  //txtAreaId.getText().toString();
+        //oViewInfo.AreaId =  ((cSpinnerItem)spinnerLogisticAreas.getSelectedItem()).getField();  //txtAreaId.getText().toString();
+        oViewInfo.AreaId = txtAreaId.getText().toString();
+
 
         if (  oViewInfo.AreaId.trim().isEmpty() ){
 
@@ -269,7 +270,7 @@ public class LogisticAreaCount extends MainBaseActivity {
                 ((cGlobalData)getApplication()).LsCatalogLogisticAreasS = LsCatalogLogisticAreas;
             }
 
-            fillDataFilterLogisticAreas();
+           // fillDataFilterLogisticAreas();
             vProgressDialog.hide();
         }
     }

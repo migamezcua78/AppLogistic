@@ -154,32 +154,32 @@
                 app:layout_constraintTop_toBottomOf="@+id/lblQty"
                 tools:visibility="visible" />
 
-            <!--           <EditText
+            <EditText
                 android:id="@+id/txtSourceId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:ems="10"
                 android:hint="@string/txtHintImput"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
-                android:textSize="14sp"
-                tools:layout_editor_absoluteX="92dp"
-                tools:layout_editor_absoluteY="120dp" />-->
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblReference"
+                app:layout_constraintStart_toEndOf="@+id/lblReference" />
 
             <Button
                 android:id="@+id/btnScanProductId"
                 android:layout_width="75dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:backgroundTint="@color/colorAccent"
                 android:onClick="onScan"
                 android:text="@string/btnScan"
                 android:textAllCaps="false"
                 android:textColor="@color/colorTextTitle"
                 android:textSize="9sp"
-                app:layout_constraintBottom_toBottomOf="@+id/spiLogisticAreas"
-                app:layout_constraintStart_toEndOf="@+id/spiLogisticAreas"
-                app:layout_constraintTop_toTopOf="@+id/spiLogisticAreas" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtSourceId"
+                app:layout_constraintStart_toEndOf="@+id/txtSourceId" />
 
             <TextView
                 android:id="@+id/lblReference"
@@ -202,14 +202,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Spinner
+<!--            <Spinner
                 android:id="@+id/spiLogisticAreas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/lblReference"
-                app:layout_constraintStart_toEndOf="@+id/lblReference"
-                app:layout_constraintTop_toTopOf="@+id/lblReference" />
+                tools:layout_editor_absoluteX="162dp"
+                tools:layout_editor_absoluteY="65dp" />-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
