@@ -33,7 +33,7 @@ public class Goods_Movement_Source extends MainBaseActivity {
     CheckBox chkRestrictedId;
     EditText txtLuId;
    // EditText txtLuQtyId;
-    EditText txtFieldNameId;
+   // EditText txtFieldNameId;
     EditText txtBarCodeId;
     Spinner spinner;
     Spinner spinnerCompany;
@@ -77,7 +77,7 @@ public class Goods_Movement_Source extends MainBaseActivity {
         chkRestrictedId = findViewById(R.id.chkRestrictedId);
         txtLuId = findViewById(R.id.txtSerialNumberId);  // Sede
        // txtLuQtyId = findViewById(R.id.txtLuQtyId);   // Empresa
-        txtFieldNameId = findViewById(R.id.txtFieldName);  //  ID External Posicion
+       // txtFieldNameId = findViewById(R.id.txtFieldName);  //  ID External Posicion
         txtBarCodeId = findViewById(R.id.txtBarCode);
         spinner = findViewById(R.id.spiUnitId);
         spinnerCompany = findViewById(R.id.spiCompany);
@@ -197,7 +197,8 @@ public class Goods_Movement_Source extends MainBaseActivity {
         oCurrentItemViewInfo.Restricted =chkRestrictedId.isChecked();
         oCurrentItemViewInfo.Lu =txtLuId.getText().toString();
         oCurrentItemViewInfo.LuQty =  ((cSpinnerItem)spinnerCompany.getSelectedItem()).getField(); //txtLuQtyId.getText().toString();  //  Empresa
-        oCurrentItemViewInfo.FieldName =txtFieldNameId.getText().toString();
+       // oCurrentItemViewInfo.FieldName =txtFieldNameId.getText().toString();  // se elimina por usuario
+        oCurrentItemViewInfo.FieldName =  "0";  // se elimina por usuario
         oCurrentItemViewInfo.BarCode =txtBarCodeId.getText().toString();
         oCurrentItemViewInfo.msg = "";
         oCurrentItemViewInfo.QtyUnitCode = ((cSpinnerItem)spinner.getSelectedItem()).getDescription();
@@ -218,7 +219,7 @@ public class Goods_Movement_Source extends MainBaseActivity {
 
         selectSpinnerItemByValue(spinnerCompany, oCurrentItemViewInfo.LuQty);
 
-        txtFieldNameId.setText(oCurrentItemViewInfo.FieldName);
+       // txtFieldNameId.setText(oCurrentItemViewInfo.FieldName);
         txtBarCodeId.setText(oCurrentItemViewInfo.BarCode);
     }
 
@@ -349,11 +350,12 @@ public class Goods_Movement_Source extends MainBaseActivity {
             Toast.makeText(getApplicationContext(),"QTY es requerido", Toast.LENGTH_SHORT).show();
 
         }
-        else if (txtFieldNameId.getText().toString().trim().isEmpty() )
+/*        else if (txtFieldNameId.getText().toString().trim().isEmpty() )
         {
             Toast.makeText(getApplicationContext(),"ID Externo de Posicion es requerido", Toast.LENGTH_SHORT).show();
 
-        } else if (txtLuId.getText().toString().trim().isEmpty() )
+        }*/
+        else if (txtLuId.getText().toString().trim().isEmpty() )
         {
             Toast.makeText(getApplicationContext(),"ID de Sede es requerida", Toast.LENGTH_SHORT).show();
 

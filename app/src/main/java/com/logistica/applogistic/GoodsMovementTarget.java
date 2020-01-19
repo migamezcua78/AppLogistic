@@ -29,7 +29,7 @@ public class GoodsMovementTarget extends MainBaseActivity {
     CheckBox chkRestrictedId;
     EditText txtLuId;
     EditText txtLuQtyId;
-    EditText txtFieldNameId;
+  //  EditText txtFieldNameId;
     EditText txtBarCodeId;
     Spinner spinner;
     Spinner spinnerLogisticAreas;
@@ -71,7 +71,7 @@ public class GoodsMovementTarget extends MainBaseActivity {
         chkRestrictedId = findViewById(R.id.chkRestrictedId);
         txtLuId = findViewById(R.id.txtSerialNumberId);
         txtLuQtyId = findViewById(R.id.txtLuQtyId);
-        txtFieldNameId = findViewById(R.id.txtFieldName);
+        //txtFieldNameId = findViewById(R.id.txtFieldName);
         txtBarCodeId = findViewById(R.id.txtBarCode);
         spinner = findViewById(R.id.spiUnitId);
         spinnerLogisticAreas = findViewById(R.id.spiLogisticAreas);
@@ -137,7 +137,7 @@ public class GoodsMovementTarget extends MainBaseActivity {
         oCurrentItemViewInfo.Restricted =chkRestrictedId.isChecked();
         oCurrentItemViewInfo.Lu =txtLuId.getText().toString();
         oCurrentItemViewInfo.LuQty =txtLuQtyId.getText().toString();
-        oCurrentItemViewInfo.FieldName =txtFieldNameId.getText().toString();
+        oCurrentItemViewInfo.FieldName = "0";  //txtFieldNameId.getText().toString();
         oCurrentItemViewInfo.BarCode =txtBarCodeId.getText().toString();
         oCurrentItemViewInfo.msg = "";
     }
@@ -152,7 +152,7 @@ public class GoodsMovementTarget extends MainBaseActivity {
         chkRestrictedId.setChecked(oCurrentItemViewInfo.Restricted);
         txtLuId.setText(oCurrentItemViewInfo.Lu);
         txtLuQtyId.setText(oCurrentItemViewInfo.LuQty);
-        txtFieldNameId.setText(oCurrentItemViewInfo.FieldName);
+        //txtFieldNameId.setText(oCurrentItemViewInfo.FieldName);
         txtBarCodeId.setText(oCurrentItemViewInfo.BarCode);
     }
 
@@ -165,7 +165,7 @@ public class GoodsMovementTarget extends MainBaseActivity {
         chkRestrictedId.setChecked(pMovement.Restricted);
         txtLuId.setText(pMovement.Lu);
         txtLuQtyId.setText(pMovement.LuQty);
-        txtFieldNameId.setText(pMovement.FieldName);
+        //txtFieldNameId.setText(pMovement.FieldName);
         txtBarCodeId.setText(pMovement.BarCode);
     }
 
@@ -227,10 +227,10 @@ public class GoodsMovementTarget extends MainBaseActivity {
             Toast.makeText(getApplicationContext(), "QTY field is required", Toast.LENGTH_SHORT).show();
 
         }
-        else if (txtFieldNameId.getText().toString().trim().isEmpty() ) {
-            Toast.makeText(getApplicationContext(), "FieldName field is required", Toast.LENGTH_SHORT).show();
-
-        }
+//        else if (txtFieldNameId.getText().toString().trim().isEmpty() ) {
+//            Toast.makeText(getApplicationContext(), "FieldName field is required", Toast.LENGTH_SHORT).show();
+//
+//        }
         else{
 
             getViewInfo();
