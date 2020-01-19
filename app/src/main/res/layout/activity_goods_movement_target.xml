@@ -90,17 +90,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblLu" />
 
-           <!-- <EditText
+            <EditText
                 android:id="@+id/txtTargetId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:layout_marginStart="16dp"
+                android:ems="8"
                 android:hint="@string/txtHintImput"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
                 android:textSize="12sp"
-                tools:layout_editor_absoluteX="150dp"
-                tools:layout_editor_absoluteY="137dp" />-->
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblTargetId"
+                app:layout_constraintStart_toStartOf="@+id/textView10" />
 
             <TextView
             android:id="@+id/lblProductId"
@@ -304,9 +305,8 @@
                 android:textColor="@color/colorTextTitle"
                 android:textSize="9sp"
                 app:backgroundTint="@color/colorAccent"
-                app:layout_constraintBottom_toBottomOf="@+id/spiLogisticAreas"
-                app:layout_constraintStart_toEndOf="@+id/spiLogisticAreas"
-                app:layout_constraintTop_toTopOf="@+id/spiLogisticAreas" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
+                app:layout_constraintStart_toEndOf="@+id/txtTargetId" />
 
             <TextView
                 android:id="@+id/textView10"
@@ -318,14 +318,12 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/lblTargetId"
                 app:layout_constraintStart_toEndOf="@+id/lblTargetId" />
 
-            <Spinner
+<!--            <Spinner
                 android:id="@+id/spiLogisticAreas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/lblTargetId"
-                app:layout_constraintStart_toStartOf="@+id/textView10"
-                app:layout_constraintTop_toTopOf="@+id/lblTargetId" />
+                tools:layout_editor_absoluteX="323dp"
+                tools:layout_editor_absoluteY="97dp" />-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,7 +26,7 @@ import java.util.Set;
 public class Goods_Movement_Source extends MainBaseActivity {
 
     //  Views
-   // EditText txtSourceId;
+    EditText txtSourceId;
     EditText txtProductId;
     EditText txtQtyId;
     EditText txIdentStockId;
@@ -37,7 +37,7 @@ public class Goods_Movement_Source extends MainBaseActivity {
     EditText txtBarCodeId;
     Spinner spinner;
     Spinner spinnerCompany;
-    Spinner spinnerLogisticAreas;
+   // Spinner spinnerLogisticAreas;
 
     // Data
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
@@ -70,7 +70,7 @@ public class Goods_Movement_Source extends MainBaseActivity {
 
     private void init() {
 
-       // txtSourceId = findViewById(R.id.txtTargetId);
+        txtSourceId = findViewById(R.id.txtTargetId);
         txtProductId = findViewById(R.id.txtProductId);
         txtQtyId = findViewById(R.id.txtQtyId);
         txIdentStockId = findViewById(R.id.txtStockId);
@@ -81,7 +81,7 @@ public class Goods_Movement_Source extends MainBaseActivity {
         txtBarCodeId = findViewById(R.id.txtBarCode);
         spinner = findViewById(R.id.spiUnitId);
         spinnerCompany = findViewById(R.id.spiCompany);
-        spinnerLogisticAreas = findViewById(R.id.spiLogisticAreas);
+     //   spinnerLogisticAreas = findViewById(R.id.spiLogisticAreas);
 
         ScannedBCP = "";
 
@@ -92,12 +92,14 @@ public class Goods_Movement_Source extends MainBaseActivity {
         fillDataFilter();
         fillDataFilterCompany();
 
-        if (LsCatalogLogisticAreas == null  || LsCatalogLogisticAreas.size() == 0 ){
+
+/*        if (LsCatalogLogisticAreas == null  || LsCatalogLogisticAreas.size() == 0 ){
             AsyncTaskGetLogisticAreas asyncTask=new AsyncTaskGetLogisticAreas();
             asyncTask.execute("params");
         }else {
             fillDataFilterLogisticAreas();
-        }
+        }*/
+
     }
 
     private  void StartActivity(){
@@ -157,8 +159,9 @@ public class Goods_Movement_Source extends MainBaseActivity {
             oCurrectProductViewInfo.ProductoSAPId = oCurrentItemViewInfo.ProductId;
             oCurrectProductViewInfo.CodigoBarra = oCurrentItemViewInfo.BarCode;
 
-            AsyncTaskValidateProduct asyncTask=new AsyncTaskValidateProduct();
-            asyncTask.execute("params");
+            // por ahora no se valida si el codigo de barras esta asignado
+//            AsyncTaskValidateProduct asyncTask=new AsyncTaskValidateProduct();
+//            asyncTask.execute("params");
 
 
 
@@ -188,8 +191,8 @@ public class Goods_Movement_Source extends MainBaseActivity {
 
     private void getViewInfo(){
 
-       // oCurrentItemViewInfo.SourceId =txtSourceId.getText().toString();
-        oCurrentItemViewInfo.SourceId = ((cSpinnerItem)spinnerLogisticAreas.getSelectedItem()).getField();
+        oCurrentItemViewInfo.SourceId =txtSourceId.getText().toString();
+      //  oCurrentItemViewInfo.SourceId = ((cSpinnerItem)spinnerLogisticAreas.getSelectedItem()).getField();
 
         oCurrentItemViewInfo.ProductId =txtProductId.getText().toString();
         oCurrentItemViewInfo.Qty =txtQtyId.getText().toString();
@@ -206,8 +209,8 @@ public class Goods_Movement_Source extends MainBaseActivity {
 
     private void setViewInfo(){
 
-       // txtSourceId.setText(oCurrentItemViewInfo.SourceId);
-        selectSpinnerItemByValue(spinnerLogisticAreas, oCurrentItemViewInfo.SourceId);
+        txtSourceId.setText(oCurrentItemViewInfo.SourceId);
+      //  selectSpinnerItemByValue(spinnerLogisticAreas, oCurrentItemViewInfo.SourceId);
 
         txtProductId.setText(oCurrentItemViewInfo.ProductId);
         txtQtyId.setText(oCurrentItemViewInfo.Qty);
@@ -264,10 +267,10 @@ public class Goods_Movement_Source extends MainBaseActivity {
         spinnerCompany.setAdapter(adapter);
     }
 
-    private void fillDataFilterLogisticAreas (){
+/*    private void fillDataFilterLogisticAreas (){
         ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilterLogisticAreas());
         spinnerLogisticAreas.setAdapter(adapter);
-    }
+    }*/
 
 
     private List<cSpinnerItem> getInfoFilter(){
@@ -526,6 +529,7 @@ public class Goods_Movement_Source extends MainBaseActivity {
     }
 
 
+
     private class AsyncTaskValidateProduct extends AsyncTask<String, String,cProductResponse> {
         @Override
         protected void onPreExecute() {
@@ -587,7 +591,7 @@ public class Goods_Movement_Source extends MainBaseActivity {
 
                 } else {
 
-                    Toast.makeText(getApplicationContext(),"Error al intentar registrar el producto " , Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Error al intentar validar el producto " , Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -652,7 +656,7 @@ public class Goods_Movement_Source extends MainBaseActivity {
                 ((cGlobalData)getApplication()).LsCatalogLogisticAreas = LsCatalogLogisticAreas;
             }
 
-            fillDataFilterLogisticAreas();
+            //fillDataFilterLogisticAreas();
             vProgressDialog.hide();
         }
     }

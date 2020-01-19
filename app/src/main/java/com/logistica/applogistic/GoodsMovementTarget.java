@@ -22,7 +22,7 @@ import java.util.Set;
 public class GoodsMovementTarget extends MainBaseActivity {
 
     //  Views
-   // EditText txtTargetId;
+    EditText txtTargetId;
     EditText txtProductId;
     EditText txtQtyId;
     EditText txIdentStockId;
@@ -32,7 +32,7 @@ public class GoodsMovementTarget extends MainBaseActivity {
   //  EditText txtFieldNameId;
     EditText txtBarCodeId;
     Spinner spinner;
-    Spinner spinnerLogisticAreas;
+   // Spinner spinnerLogisticAreas;
 
     // Data
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
@@ -64,7 +64,7 @@ public class GoodsMovementTarget extends MainBaseActivity {
 
     private void init() {
 
-        //txtTargetId = findViewById(R.id.txtTargetId);
+        txtTargetId = findViewById(R.id.txtTargetId);
         txtProductId = findViewById(R.id.txtProductId);
         txtQtyId = findViewById(R.id.txtQtyId);
         txIdentStockId = findViewById(R.id.txtStockId);
@@ -74,7 +74,7 @@ public class GoodsMovementTarget extends MainBaseActivity {
         //txtFieldNameId = findViewById(R.id.txtFieldName);
         txtBarCodeId = findViewById(R.id.txtBarCode);
         spinner = findViewById(R.id.spiUnitId);
-        spinnerLogisticAreas = findViewById(R.id.spiLogisticAreas);
+      //  spinnerLogisticAreas = findViewById(R.id.spiLogisticAreas);
 
         oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
         oCurrentItemViewInfo = ((cGlobalData)getApplication()).CurrentMovementViewInfo;
@@ -82,12 +82,12 @@ public class GoodsMovementTarget extends MainBaseActivity {
 
         fillDataFilter();
 
-        if (LsCatalogLogisticAreas == null  || LsCatalogLogisticAreas.size() == 0 ){
+/*        if (LsCatalogLogisticAreas == null  || LsCatalogLogisticAreas.size() == 0 ){
             AsyncTaskGetLogisticAreas asyncTask=new AsyncTaskGetLogisticAreas();
             asyncTask.execute("params");
         }else {
             fillDataFilterLogisticAreas();
-        }
+        }*/
 
     }
 
@@ -129,8 +129,8 @@ public class GoodsMovementTarget extends MainBaseActivity {
 
     private void getViewInfo(){
 
-        //oCurrentItemViewInfo.TargetId = txtTargetId.getText().toString();
-        oCurrentItemViewInfo.TargetId = ((cSpinnerItem)spinnerLogisticAreas.getSelectedItem()).getField();
+        oCurrentItemViewInfo.TargetId = txtTargetId.getText().toString();
+       // oCurrentItemViewInfo.TargetId = ((cSpinnerItem)spinnerLogisticAreas.getSelectedItem()).getField();
         oCurrentItemViewInfo.ProductId =txtProductId.getText().toString();
         oCurrentItemViewInfo.Qty =txtQtyId.getText().toString();
         oCurrentItemViewInfo.IdentStock =txIdentStockId.getText().toString();
@@ -144,8 +144,8 @@ public class GoodsMovementTarget extends MainBaseActivity {
 
     private void setViewInfo(){
 
-      //  txtTargetId.setText(oCurrentItemViewInfo.TargetId);
-        Inicio.selectSpinnerItemByValue(spinnerLogisticAreas, oCurrentItemViewInfo.TargetId);
+        txtTargetId.setText(oCurrentItemViewInfo.TargetId);
+      //  Inicio.selectSpinnerItemByValue(spinnerLogisticAreas, oCurrentItemViewInfo.TargetId);
         txtProductId.setText(oCurrentItemViewInfo.ProductId);
         txtQtyId.setText(oCurrentItemViewInfo.Qty);
         txIdentStockId.setText(oCurrentItemViewInfo.IdentStock);
@@ -174,10 +174,10 @@ public class GoodsMovementTarget extends MainBaseActivity {
         spinner.setAdapter(adapter);
     }
 
-    private void fillDataFilterLogisticAreas (){
+/*    private void fillDataFilterLogisticAreas (){
         ArrayAdapter<cSpinnerItem> adapter = new  ArrayAdapter<>(this,R.layout.spinner_item_filter,getInfoFilterLogisticAreas());
         spinnerLogisticAreas.setAdapter(adapter);
-    }
+    }*/
 
 
     private List<cSpinnerItem> getInfoFilter(){
@@ -441,7 +441,7 @@ public class GoodsMovementTarget extends MainBaseActivity {
                 ((cGlobalData)getApplication()).LsCatalogLogisticAreas = LsCatalogLogisticAreas;
             }
 
-            fillDataFilterLogisticAreas();
+           // fillDataFilterLogisticAreas();
             vProgressDialog.hide();
         }
     }

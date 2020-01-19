@@ -91,18 +91,19 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/lblTargetId"
                 app:layout_constraintStart_toEndOf="@+id/lblTargetId" />
 
-          <!--  <EditText
+            <EditText
                 android:id="@+id/txtTargetId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
+                android:layout_marginStart="8dp"
                 android:ems="8"
                 android:hint="@string/txtHintImput"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
                 android:textSize="12sp"
-                tools:layout_editor_absoluteX="90dp"
-                tools:layout_editor_absoluteY="137dp" />-->
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblTargetId"
+                app:layout_constraintStart_toEndOf="@+id/lblAsteriscoId" />
 
             <TextView
                 android:id="@+id/lblTargetId"
@@ -124,9 +125,8 @@
                 android:textColor="@color/colorTextTitle"
                 android:textSize="9sp"
                 app:backgroundTint="@color/colorAccent"
-                app:layout_constraintBottom_toBottomOf="@+id/spiLogisticAreas"
-                app:layout_constraintStart_toEndOf="@+id/spiLogisticAreas"
-                app:layout_constraintTop_toTopOf="@+id/spiLogisticAreas" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtTargetId"
+                app:layout_constraintStart_toEndOf="@+id/txtTargetId" />
 
             <TextView
                 android:id="@+id/lblQty"
@@ -394,14 +394,12 @@
                 app:layout_constraintStart_toStartOf="@+id/textView8"
                 app:layout_constraintTop_toTopOf="@+id/lblLuQty" />
 
-            <Spinner
+<!--            <Spinner
                 android:id="@+id/spiLogisticAreas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                app:layout_constraintBottom_toBottomOf="@+id/lblTargetId"
-                app:layout_constraintStart_toEndOf="@+id/lblTargetId"
-                app:layout_constraintTop_toTopOf="@+id/lblTargetId" />
+                tools:layout_editor_absoluteX="324dp"
+                tools:layout_editor_absoluteY="98dp" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
