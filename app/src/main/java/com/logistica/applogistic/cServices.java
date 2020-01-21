@@ -1294,9 +1294,6 @@ public class cServices {
     private void SetPurchaseItemProperty(cPurchaseItem oObj, PropertyInfo oPropertyInfo) {
         switch (oPropertyInfo.getName()){
 
-//            case  "ID": oObj.ID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
-//                break;
-
             case  "Item":
 
                 oObj.ID = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("ID")).getValue().toString().trim();
@@ -1405,6 +1402,11 @@ public class cServices {
         switch (oPropertyInfo.getName()){
 
             case  "ID": oObj.ID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
+                break;
+
+            case  "Status":
+                oObj.TaskStatusId = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("PurchaseOrderLifeCycleStatusCode")).getValue().toString().trim();
+                oObj.TaskStatusName = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("PurchaseOrderLifeCycleStatusName")).getValue().toString().trim();
                 break;
 
             default:break;
