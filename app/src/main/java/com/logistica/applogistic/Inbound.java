@@ -39,6 +39,8 @@ public class Inbound extends MainBaseActivity {
     private List<cSpinnerItem>  InfoFilter;
     ArrayList<cInboundViewInfo>  lsInbounItems;
 
+    public  String  OrderStatus;
+
 /*    DatabaseHelper BD;
     InputStream is = null;
     ImageView imageView= null;
@@ -71,6 +73,7 @@ public class Inbound extends MainBaseActivity {
 
         spinner = findViewById(R.id.spFilterId);
         tableLayout =(TableLayout)findViewById(R.id.tgProductos);
+        OrderStatus = "";
 
         Scanned = false;
 
@@ -92,11 +95,17 @@ public class Inbound extends MainBaseActivity {
                 lbOrderValueId.setText("");
 
                 txtImputFilterId.setText(oMsg.getKey01());
-              //   txtImputFilterId.setText("15");
+
 
                 Scanned = true;
-                AsyncTaskExample asyncTask=new AsyncTaskExample();
+
+                // mig: se agrega con la validacion del estatus de la tarea
+                AsyncTaskConfirm asyncTask=new AsyncTaskConfirm();
                 asyncTask.execute("params");
+
+                // mig: original sin la validacion del estatus de la tarea.
+//                AsyncTaskExample asyncTask=new AsyncTaskExample();
+//                asyncTask.execute("params");
             }
         }
 
@@ -288,8 +297,8 @@ public class Inbound extends MainBaseActivity {
 
 
 
-
-    private class AsyncTaskExample extends AsyncTask<String, String,  ArrayList<cPurchaseItem>> {
+// mig: este es el original antes de agregar la validacion del estatus de la tarea
+ /*   private class AsyncTaskExample extends AsyncTask<String, String,  ArrayList<cPurchaseItem>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -304,13 +313,24 @@ public class Inbound extends MainBaseActivity {
         @Override
         protected ArrayList<cPurchaseItem> doInBackground(String... strings) {
             ArrayList<cPurchaseItem> lsData = new ArrayList<>();
+            ArrayList<cPurchaseOrder> lsDataOrder = new ArrayList<>();
 
             try {
 
                 cServices ocServices = new cServices();
+
+*//*                lsDataOrder =  ocServices.GetPurchaseOrderServiceData(cServices.PurchaseOrderFilterType.SelectionByID,  txtImputFilterId.getText().toString(), "1");
+
+                for ( cPurchaseOrder  itemOrder :lsDataOrder) {
+                    if (!itemOrder.ID.equals("")){
+                        OrderStatus = itemOrder.TaskStatusId;
+                        break;
+                    }
+                }*//*
+
+
                 lsData = ocServices.GetPurchaseItemServiceData(cServices.PurchaseItemFilterType.ID, txtImputFilterId.getText().toString(), "");
 
-              //  lsData = ocServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID, "*", "1");
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -347,11 +367,11 @@ public class Inbound extends MainBaseActivity {
                     oInboundViewInfo.OpenUnit = oData.QuantityUnitCode;
 
 
-                /*    oInboundViewInfo.ProductId = oData.getProductCategoryID() +  "_" + String.valueOf(i);
+                *//*    oInboundViewInfo.ProductId = oData.getProductCategoryID() +  "_" + String.valueOf(i);
                     oInboundViewInfo.Open = String.valueOf(i+2);   // oMaterial.getQuantity();
                     oInboundViewInfo.OpenUnit =  oData.getQuantityUnitCode();
                     oInboundViewInfo.TargetId = "MC64920-50-10-10-04_" + String.valueOf(i);
-                    oInboundViewInfo.IdentStock = "43668";*/
+                    oInboundViewInfo.IdentStock = "43668";*//*
 
                     lsInbounItems.add(oInboundViewInfo);
                     InfoData.add(new String[]{ oInboundViewInfo.ProductId, oInboundViewInfo.Open + "  " + oInboundViewInfo.OpenUnit });
@@ -370,6 +390,9 @@ public class Inbound extends MainBaseActivity {
             vProgressDialog.hide();
         }
     }
+*/
+
+
 
     private class AsyncTaskConfirm extends AsyncTask<String, String,  ArrayList<cPurchaseItem>> {
 
@@ -388,13 +411,23 @@ public class Inbound extends MainBaseActivity {
         @Override
         protected ArrayList<cPurchaseItem> doInBackground(String... strings) {
             ArrayList<cPurchaseItem> lsData = new ArrayList<>();
-
+            ArrayList<cPurchaseOrder> lsDataOrder = new ArrayList<>();
+            OrderStatus = "";
             try {
 
                 cServices ocServices = new cServices();
-                lsData = ocServices.GetPurchaseItemServiceData(cServices.PurchaseItemFilterType.ID, txtImputFilterId.getText().toString(), "");
 
-                //  lsData = ocServices.GetMaterialsServiceData(cServices.MaterialFilterType.SelectionByInternalID, "*", "1");
+               /* lsDataOrder =  ocServices.GetPurchaseOrderServiceData(cServices.PurchaseOrderFilterType.SelectionByID,  txtImputFilterId.getText().toString(), "1");
+
+                for ( cPurchaseOrder  itemOrder :lsDataOrder) {
+                     if (!itemOrder.ID.equals("")){
+                       OrderStatus = itemOrder.TaskStatusId;
+                       break;
+                     }
+                }
+*/
+
+                lsData = ocServices.GetPurchaseItemServiceData(cServices.PurchaseItemFilterType.ID, txtImputFilterId.getText().toString(), "");
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -440,14 +473,6 @@ public class Inbound extends MainBaseActivity {
                         oInboundViewInfo.ProductName = sDescription;
                     }
 
-
-
-                /*    oInboundViewInfo.ProductId = oData.getProductCategoryID() +  "_" + String.valueOf(i);
-                    oInboundViewInfo.Open = String.valueOf(i+2);   // oMaterial.getQuantity();
-                    oInboundViewInfo.OpenUnit =  oData.getQuantityUnitCode();
-                    oInboundViewInfo.TargetId = "MC64920-50-10-10-04_" + String.valueOf(i);
-                    oInboundViewInfo.IdentStock = "43668";*/
-
                     lsInbounItems.add(oInboundViewInfo);
                     InfoData.add(new String[]{ oInboundViewInfo.ProductId, oInboundViewInfo.Open + "  " + oInboundViewInfo.OpenUnit });
                 }
@@ -460,12 +485,21 @@ public class Inbound extends MainBaseActivity {
             oDataGrid.RemoveAllItems();
             fillDataGrid();
 
-
-            if( lsInbounItems != null && lsInbounItems.size() > 0 ){
+            if( lsInbounItems != null && lsInbounItems.size() > 0  ){
 
                 for ( cInboundViewInfo e:lsInbounItems){
                     getParamInfo(e);
                 }
+
+/*                if (OrderStatus.equals("10")){
+
+                    Toast.makeText(getApplicationContext(),"La orden ya ha sido confirmada", Toast.LENGTH_LONG).show();
+                }else {
+
+                    Intent oIntent = new Intent(Inbound.this, PutAwayTarget.class);
+                    oIntent.putExtra("oMsg", getActivityMsg());
+                    startActivity(oIntent);
+                }*/
 
                 Intent oIntent = new Intent(Inbound.this, PutAwayTarget.class);
                 oIntent.putExtra("oMsg", getActivityMsg());

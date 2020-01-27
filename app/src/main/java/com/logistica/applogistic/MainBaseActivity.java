@@ -16,6 +16,11 @@ public class MainBaseActivity extends AppCompatActivity {
         String   sCurrectUser = ((cGlobalData)getApplication()).CurrentUser;
 
         if (sCurrectUser != null ){
+
+            if ( ((cGlobalData)getApplication()).AppMod != null   &&  ((cGlobalData)getApplication()).AppMod.equals("DEV")   ){
+                sCurrectUser =  sCurrectUser + " - " + "MODO DESARROLLO";
+            }
+
             getSupportActionBar().setSubtitle(sCurrectUser);
         }
     }

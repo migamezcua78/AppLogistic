@@ -214,6 +214,7 @@ public class LogisticAreaCount extends MainBaseActivity {
         }
     }
 
+
     private class AsyncTaskGetLogisticAreas extends AsyncTask<String, String,  ArrayList<cLogisticsArea>> {
         @Override
         protected void onPreExecute() {

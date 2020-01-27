@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.content.Intent;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import android.app.AlertDialog;
@@ -37,6 +38,14 @@ public class MainActivity extends AppCompatActivity {
 
     cUserRequest  oUserReq;
     cUserResponse  oUserResp;
+
+    public int CurrentCountClick;
+    AlertDialog  Dialog;
+
+    TextView  lblAppMode;
+
+
+
 
     public static final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
     public static final String ALLOW_KEY = "ALLOWED";
@@ -206,10 +215,73 @@ public class MainActivity extends AppCompatActivity {
 
         username =  findViewById(R.id.username);
         password =  findViewById(R.id.password);
+        lblAppMode =  findViewById(R.id.lblAppMode);
 
         oUserReq =  new cUserRequest();
         oUserResp =  new cUserResponse();
 
+         CurrentCountClick = 1;
+         if (((cGlobalData)getApplication()).AppMod != null ){
+
+             if (((cGlobalData)getApplication()).AppMod.equals("DEV")){
+                 lblAppMode.setVisibility(View.VISIBLE);
+                 SetAppMode("DEV");
+
+             } else {
+                 SetAppMode("PROD");
+                 lblAppMode.setVisibility(View.INVISIBLE);
+             }
+         }else {
+             ((cGlobalData)getApplication()).AppMod = "";
+             lblAppMode.setVisibility(View.INVISIBLE);
+             SetAppMode("PROD");
+         }
+
+         BuildDialog ();
+    }
+
+
+    public void SetAppMode(String pAppMode){
+
+        if (pAppMode.equals("DEV")){
+
+            cGlobalData.AUTHORIZATION_REST  =  cGlobalData.AUTHORIZATION_REST_DEV;
+            cGlobalData.AUTHORIZATION_SOAP  =  cGlobalData.AUTHORIZATION_SOAP_DEV;
+            cGlobalData.NAME_SPACE_SOAP  =  cGlobalData.NAME_SPACE_SOAP_DEV;
+            cGlobalData.NAME_SPACE_REST  =  cGlobalData.NAME_SPACE_REST_DEV;
+            cGlobalData.NAME_RESOURCE_REST  =  cGlobalData.NAME_RESOURCE_REST_DEV;
+            cGlobalData.END_POINT_PRODUCT_REST  =  cGlobalData.END_POINT_PRODUCT_REST_DEV;
+
+            cGlobalData.PUT_CONFIRM_TASK  =  cGlobalData.PUT_CONFIRM_TASK_DEV;
+            cGlobalData.PUT_MOVEMENT  =  cGlobalData.PUT_MOVEMENT_DEV;
+            cGlobalData.PUT_INBOUND_DELIVERY  =  cGlobalData.PUT_INBOUND_DELIVERY_DEV;
+            cGlobalData.GET_TASK  =  cGlobalData.GET_TASK_DEV;
+            cGlobalData.GET_PURCHASE_ITEM  =  cGlobalData.GET_PURCHASE_ITEM_DEV;
+            cGlobalData.GET_PURCHASE_ORDER  =  cGlobalData.GET_PURCHASE_ORDER_DEV;
+            cGlobalData.GET_LOGISTIC_AREA  =  cGlobalData.GET_LOGISTIC_AREA_DEV;
+            cGlobalData.GET_CUSTOMERS  =  cGlobalData.GET_CUSTOMERS_DEV;
+            cGlobalData.GET_MATERIALS  =  cGlobalData.GET_MATERIALS_DEV;
+
+        } else  if (pAppMode.equals("PROD")){
+
+            cGlobalData.AUTHORIZATION_REST  =  cGlobalData.AUTHORIZATION_REST_PROD;
+            cGlobalData.AUTHORIZATION_SOAP  =  cGlobalData.AUTHORIZATION_SOAP_PROD;
+            cGlobalData.NAME_SPACE_SOAP  =  cGlobalData.NAME_SPACE_SOAP_PROD;
+            cGlobalData.NAME_SPACE_REST  =  cGlobalData.NAME_SPACE_REST_PROD;
+            cGlobalData.NAME_RESOURCE_REST  =  cGlobalData.NAME_RESOURCE_REST_PROD;
+            cGlobalData.END_POINT_PRODUCT_REST  =  cGlobalData.END_POINT_PRODUCT_REST_PROD;
+
+            cGlobalData.PUT_CONFIRM_TASK  =  cGlobalData.PUT_CONFIRM_TASK_PROD;
+            cGlobalData.PUT_MOVEMENT  =  cGlobalData.PUT_MOVEMENT_PROD;
+            cGlobalData.PUT_INBOUND_DELIVERY  =  cGlobalData.PUT_INBOUND_DELIVERY_PROD;
+            cGlobalData.GET_TASK  =  cGlobalData.GET_TASK_PROD;
+            cGlobalData.GET_PURCHASE_ITEM  =  cGlobalData.GET_PURCHASE_ITEM_PROD;
+            cGlobalData.GET_PURCHASE_ORDER  =  cGlobalData.GET_PURCHASE_ORDER_PROD;
+            cGlobalData.GET_LOGISTIC_AREA  =  cGlobalData.GET_LOGISTIC_AREA_PROD;
+            cGlobalData.GET_CUSTOMERS  =  cGlobalData.GET_CUSTOMERS_PROD;
+            cGlobalData.GET_MATERIALS  =  cGlobalData.GET_MATERIALS_PROD;
+
+        }
     }
 
 
@@ -220,6 +292,71 @@ public class MainActivity extends AppCompatActivity {
        // finish();
       //  Intent oIntent = new Intent(MainActivity.this,MainActivity.class);
       //  startActivity(oIntent);
+    }
+
+
+    private void BuildDialog (){
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+        builder1.setMessage("");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        if (((cGlobalData)getApplication()).AppMod.equals("DEV")){
+                            ((cGlobalData)getApplication()).AppMod = "";
+                            lblAppMode.setVisibility(View.INVISIBLE);
+                            SetAppMode("PROD");
+                        } else {
+
+                            ((cGlobalData)getApplication()).AppMod = "DEV";
+                            lblAppMode.setVisibility(View.VISIBLE);
+                            SetAppMode("DEV");
+                        }
+
+//                        AsyncTaskFinishTask AsyncTask = new AsyncTaskFinishTask();
+//                        AsyncTask.execute("params");
+                    }
+                });
+
+        builder1.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        return;
+                    }
+                });
+
+        Dialog = builder1.create();
+
+    }
+
+
+    public void  onClickImageView(View view){
+
+        CurrentCountClick ++;
+        String s = "";
+
+        if (CurrentCountClick % 5 == 0){
+
+            if (((cGlobalData)getApplication()).AppMod.equals("DEV")){
+                Dialog.setMessage("¿Desea Salir del MODO DESARROLLO?.");
+            } else {
+
+                Dialog.setMessage("¿Dese usar la aplicación en MODO DESARROLLO?.");
+            }
+
+            Dialog.show();
+        }
+
+
+        // finish();
+        //  Intent oIntent = new Intent(MainActivity.this,MainActivity.class);
+        //  startActivity(oIntent);
     }
 
 
@@ -281,7 +418,7 @@ public class MainActivity extends AppCompatActivity {
             ((cGlobalData)getApplication()).CurrentUser =  oUserReq.User;
 
             // mig:  borra  este bloque solo es de prueba
-         //  Intent oIntent2 = new Intent(MainActivity.this,Inicio.class);
+          // Intent oIntent2 = new Intent(MainActivity.this,Inicio.class);
          //  startActivity(oIntent2);
             // mig:   fin bloque
 
