@@ -117,5 +117,15 @@
         android:textColor="@color/colorTextTitle"
         app:backgroundTint="@color/colorAccent" />
 
+    <Button
+        android:id="@+id/btnConfirmacionEmbarque"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="goShipmentConfirmation"
+        android:text="@string/btnMenuConfirmacionEmbarques"
+        android:textAllCaps="false"
+        android:textColor="@color/colorTextTitle"
+        app:backgroundTint="@color/colorAccent" />
+
 
 </LinearLayout>

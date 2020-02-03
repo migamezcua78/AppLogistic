@@ -441,8 +441,13 @@ public class Scanner extends BaseScannerActivity implements MessageDialogFragmen
                 this.mClassSource = RegisterProducts.class;
                 break;
 
+            case "ShipmentConfirmation" :
+                this.mClassSource = ShipmentConfirmation.class;
+                break;
 
-
+            case "ShipmentConfirmationDes" :
+                this.mClassSource = ShipmentConfirmationDes.class;
+                break;
         }
     }
 

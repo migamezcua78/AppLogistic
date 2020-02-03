@@ -13,7 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainBaseActivity"></activity>
+        <activity android:name=".ShipmentConfirmationConf"></activity>
+        <activity android:name=".ShipmentConfirmationDes" />
+        <activity
+            android:name=".ShipmentConfirmation"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".MainBaseActivity" />
         <activity
             android:name=".RegisterCodeBarProducts"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -111,10 +117,10 @@
             android:name=".InboundBD"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -30,6 +30,7 @@ public class cGlobalData extends Application {
     public cOutboundViewInfo  CurrentOutboundViewInfo;
 
     public cInboundViewInfo  CurrentInboundViewInfo;
+    public cInboundViewInfo  CurrentInboundShipmentViewInfo;
 
 
     public cProductViewInfo  CurrentProductViewInfo;
@@ -44,6 +45,8 @@ public class cGlobalData extends Application {
     public ArrayList<cOutboundViewInfo> LsOutboudItems;
 
     public ArrayList<cInboundViewInfo> LsIntboudItems;
+
+    public ArrayList<cInboundViewInfo> LsIntboudIShipmentItems;
 
     public cMovementViewInfo  CurrentMovementViewInfo;
 

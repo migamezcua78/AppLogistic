@@ -222,5 +222,13 @@
 
     <string name="lblScanProd">Esc. Prod.</string>
 
+    <string name="btnMenuConfirmacionEmbarques">Confirmación de Embarques</string>
+
+    <string name="btn_main_ShipmentConfirm">Confirmación de Embarques</string>
+
+    <string name="ttlConfirmacionEmbarques">Confirmación de Embarque</string>
+
+    <string name="lblItemsTaskConfirmation">Confirmación de Tarea</string>
+
 
 </resources>

@@ -84,6 +84,15 @@ public class Inicio extends MainBaseActivity {
         startActivity(oIntent);
     }
 
+    public void goShipmentConfirmation(View view){
+        Intent oIntent = new Intent(this, ShipmentConfirmation.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("Start"));
+        startActivity(oIntent);
+    }
+
+
+
+
 
     public static void selectSpinnerItemByValue(Spinner spnr, String value) {
         ArrayAdapter<cSpinnerItem> adapter = (ArrayAdapter<cSpinnerItem>) spnr.getAdapter();
