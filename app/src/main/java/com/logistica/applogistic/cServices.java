@@ -1367,6 +1367,113 @@ public class cServices {
 
 
 
+//  mig: new
+    public ArrayList<cPurchaseOrder> GetOutboundOrderServiceData(String  pFilterType, String pFilterValue, String pMaximumNumberValue){
+
+        // SOAP
+        String Soap_Action = "QueryByElements";
+        String url = cGlobalData.GET_OUTBOUND_DELIVERY;
+
+        HttpTransportSE transporte;
+        SoapSerializationEnvelope envelope;
+
+        // Data
+        String  ErrorMsg = "";
+        Vector vResponse = new  Vector();
+        ArrayList<cPurchaseOrder> lsData = new  ArrayList<>();
+
+        try {
+
+            List<HeaderProperty> headerPropertieList = new ArrayList<HeaderProperty>();
+            headerPropertieList.add(new HeaderProperty("Authorization", AUTHORIZATION_SOAP_VALUE));
+
+            envelope = new SAPSerializationEnvelope(110,NAME_SPACE_SOAP);
+            envelope.dotNet = false;
+            envelope.setOutputSoapObject(getBodySoapObjectByFilterType_OutboundOrder(pFilterType,pFilterValue,pMaximumNumberValue));
+
+            transporte = new HttpTransportSE(url,CONNECT_TIMEOUT_SOAP);
+            transporte.debug = true;
+
+            transporte.setReadTimeout(READ_TIMEOUT_SOAP);
+
+            transporte.call(Soap_Action, envelope,headerPropertieList);
+            vResponse = (Vector)envelope.getResponse();
+            lsData = getOutboundOrderData(vResponse);
+
+        } catch (Exception e) {
+
+            ErrorMsg = e.getMessage();
+        }
+
+        return lsData;
+    }
+
+    private  SoapObject  getBodySoapObjectByFilterType_OutboundOrder(String FilterType, String FilterValue, String  MaximumNumberValue){
+
+        SoapObject  oSoapObjectResult = new SoapObject(NAME_SPACE_SOAP, "OutboundDeliveryQueryByElementsSimpleByRequest_sync");
+        SoapObject soN1 =  new SoapObject("", "OutboundDeliverySimpleSelectionBy");
+
+        SoapObject soN2 = new SoapObject("", FilterType);
+        soN2.addProperty("InclusionExclusionCode", "I");
+        soN2.addProperty("IntervalBoundaryTypeCode", "1");
+        soN2.addProperty("LowerBoundaryID", FilterValue);
+
+        soN1.addSoapObject(soN2);
+        oSoapObjectResult.addSoapObject(soN1);
+
+        if ( MaximumNumberValue != null  &  MaximumNumberValue.trim() != ""  )
+        {
+            soN1 = new SoapObject("", "ProcessingConditions");
+            soN1.addProperty("QueryHitsMaximumNumberValue", MaximumNumberValue);
+            soN1.addProperty("QueryHitsUnlimitedIndicator", "false");
+
+            oSoapObjectResult.addSoapObject(soN1);
+        }
+
+        return oSoapObjectResult;
+    }
+
+    private ArrayList<cPurchaseOrder> getOutboundOrderData (Vector  pVector){
+
+        cPurchaseOrder  cPurchaseOrder = new cPurchaseOrder();
+        ArrayList<cPurchaseOrder>  lsData = new  ArrayList<>();
+        SoapObject   oSoap = new  SoapObject();
+        PropertyInfo oPropertyInfo =  new PropertyInfo();
+
+        for (int i = 0; i < pVector.size() ; i++) {
+            cPurchaseOrder =  new cPurchaseOrder();
+            oSoap = (SoapObject) pVector.get(i);
+
+            for( int j= 0; j < oSoap.getPropertyCount(); j++ ){
+                oPropertyInfo = oSoap.getPropertyInfo(j);
+                SetPurchaseOrderProperty(cPurchaseOrder,  oPropertyInfo);
+            }
+
+            lsData.add(cPurchaseOrder);
+        }
+
+        return lsData;
+    }
+
+    private void SetOutboundOrderProperty(cPurchaseOrder oObj, PropertyInfo oPropertyInfo) {
+        switch (oPropertyInfo.getName()){
+
+            case  "ID": oObj.ID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
+                break;
+
+            case  "Status":
+                oObj.TaskStatusId = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("PurchaseOrderLifeCycleStatusCode")).getValue().toString().trim();
+                oObj.TaskStatusName = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("PurchaseOrderLifeCycleStatusName")).getValue().toString().trim();
+                break;
+
+            default:break;
+        }
+    }
+
+
+
+
+
     public ArrayList<cPurchaseOrder> GetPurchaseOrderServiceData(String  pFilterType, String pFilterValue, String pMaximumNumberValue){
 
         // SOAP
@@ -1996,6 +2103,9 @@ public class cServices {
 
     }
 
+    public  static  class  OutBoundDeliveryFilterType {
+        public static final String SelectionByID = "SelectionByID";
+    }
 
 
 

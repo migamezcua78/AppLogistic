@@ -261,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
             cGlobalData.GET_LOGISTIC_AREA  =  cGlobalData.GET_LOGISTIC_AREA_DEV;
             cGlobalData.GET_CUSTOMERS  =  cGlobalData.GET_CUSTOMERS_DEV;
             cGlobalData.GET_MATERIALS  =  cGlobalData.GET_MATERIALS_DEV;
+            cGlobalData.GET_OUTBOUND_DELIVERY  =  cGlobalData.GET_OUTBOUND_DELIVERY_DEV;
 
         } else  if (pAppMode.equals("PROD")){
 
@@ -280,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
             cGlobalData.GET_LOGISTIC_AREA  =  cGlobalData.GET_LOGISTIC_AREA_PROD;
             cGlobalData.GET_CUSTOMERS  =  cGlobalData.GET_CUSTOMERS_PROD;
             cGlobalData.GET_MATERIALS  =  cGlobalData.GET_MATERIALS_PROD;
+            cGlobalData.GET_OUTBOUND_DELIVERY  =  cGlobalData.GET_OUTBOUND_DELIVERY_RPOD;
 
         }
     }
@@ -418,8 +420,8 @@ public class MainActivity extends AppCompatActivity {
             ((cGlobalData)getApplication()).CurrentUser =  oUserReq.User;
 
             // mig:  borra  este bloque solo es de prueba
-         //  Intent oIntent2 = new Intent(MainActivity.this,Inicio.class);
-         //  startActivity(oIntent2);
+           Intent oIntent2 = new Intent(MainActivity.this,Inicio.class);
+           startActivity(oIntent2);
             // mig:   fin bloque
 
 
