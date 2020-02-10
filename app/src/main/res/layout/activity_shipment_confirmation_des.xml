@@ -164,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/lblOpen"
+                android:text="@string/lblCantidad"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblProductName" />
 
@@ -219,33 +219,28 @@
                 app:layout_constraintStart_toEndOf="@+id/txtQtyId"
                 app:layout_constraintTop_toTopOf="@+id/txtQtyId" />
 
-            <TextView
+<!--            <TextView
                 android:id="@+id/iblIdentId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="16dp"
                 android:text="@string/lblIdent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblQty" />
+                tools:layout_editor_absoluteX="4dp"
+                tools:layout_editor_absoluteY="156dp" />-->
 
-            <CheckBox
+ <!--           <CheckBox
                 android:id="@+id/cheRestrictedId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="90dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/lblRestrictedId"
-                app:layout_constraintStart_toStartOf="parent" />
+                tools:layout_editor_absoluteX="90dp"
+                tools:layout_editor_absoluteY="184dp" />-->
 
-            <TextView
+<!--            <TextView
                 android:id="@+id/lblRestrictedId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="16dp"
                 android:text="@string/lblRestricted"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iblIdentId" />
+                tools:layout_editor_absoluteX="4dp"
+                tools:layout_editor_absoluteY="191dp" />-->
 
             <!--        <TextView
                         android:id="@+id/lblLuId"
@@ -291,40 +286,36 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txtSerialNumberId" />
             -->
-            <TextView
+       <!--     <TextView
                 android:id="@+id/lblStockId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="32dp"
                 android:text="@string/lblBarCode"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblRestrictedId" />
+                tools:layout_editor_absoluteX="4dp"
+                tools:layout_editor_absoluteY="242dp" />-->
 
-            <EditText
+<!--            <EditText
                 android:id="@+id/txtBarCodeId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="90dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:textSize="12sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/lblStockId"
-                app:layout_constraintStart_toStartOf="parent" />
+                tools:layout_editor_absoluteX="90dp"
+                tools:layout_editor_absoluteY="234dp" />-->
 
-            <Button
+<!--            <Button
                 android:id="@+id/btnScanId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:onClick="onScan"
                 android:text="@string/btnScan"
                 android:textAllCaps="false"
                 android:textColor="@color/colorTextTitle"
                 android:textSize="9sp"
                 app:backgroundTint="@color/colorAccent"
-                app:layout_constraintBaseline_toBaselineOf="@+id/txtBarCodeId"
-                app:layout_constraintStart_toEndOf="@+id/txtBarCodeId" />
+                tools:layout_editor_absoluteX="243dp"
+                tools:layout_editor_absoluteY="229dp" />-->
 
             <EditText
                 android:id="@+id/txtProductName"

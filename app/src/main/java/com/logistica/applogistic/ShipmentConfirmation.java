@@ -2,10 +2,12 @@ package com.logistica.applogistic;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.view.View;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -24,8 +26,10 @@ public class ShipmentConfirmation extends MainBaseActivity {
     private cDataGrid   oDataGrid;
     private EditText    txtImputFilterId;
     private TextView    lblTaskValueId;
-    private TextView    lbOrderValueId;
+ //   private TextView    lbOrderValueId;
+    private Button      btnEstatus;
 
+            //Button11.setBackgroundColor(Color.RED);
 
     //  DATA
     private ArrayList <String[]> InfoData;
@@ -58,7 +62,10 @@ public class ShipmentConfirmation extends MainBaseActivity {
 
         txtImputFilterId = findViewById(R.id.txtImputFilterId);
         lblTaskValueId = findViewById(R.id.lblTaskValueId);
-        lbOrderValueId = findViewById(R.id.lbOrderValueId);
+      //  lbOrderValueId = findViewById(R.id.lbOrderValueId);
+        btnEstatus = findViewById(R.id.btnEstatus);
+
+
 
         spinner = findViewById(R.id.spFilterId);
         tableLayout =(TableLayout)findViewById(R.id.tgProductos);
@@ -81,7 +88,7 @@ public class ShipmentConfirmation extends MainBaseActivity {
 
                 // txtImputFilterId.setText("");
                 lblTaskValueId.setText("");
-                lbOrderValueId.setText("");
+              //  lbOrderValueId.setText("");
 
                 txtImputFilterId.setText(oMsg.getKey01());
 
@@ -89,8 +96,10 @@ public class ShipmentConfirmation extends MainBaseActivity {
                 Scanned = true;
 
                 // mig: se agrega con la validacion del estatus de la tarea
-                AsyncTaskConfirm asyncTask=new AsyncTaskConfirm();
-                asyncTask.execute("params");
+/*                AsyncTaskConfirm asyncTask=new AsyncTaskConfirm();
+                asyncTask.execute("params");*/
+
+
 
                 // mig: original sin la validacion del estatus de la tarea.
 //                AsyncTaskExample asyncTask=new AsyncTaskExample();
@@ -151,6 +160,20 @@ public class ShipmentConfirmation extends MainBaseActivity {
         return  oMsg;
     }
 
+    public void   onClicVerItemsTask(View spinner) {
+
+        if( lsInbounItems != null && lsInbounItems.size() > 0){
+
+            Intent oIntent = new Intent(ShipmentConfirmation.this, ShipmentConfirmationDes.class);
+            oIntent.putExtra("oMsg", getActivityMsg());
+            startActivity(oIntent);
+
+        }else {
+
+              Toast.makeText(getApplicationContext(),"No hay elementos para la tarea seleccionada", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     public void   onClickStartTask(View spinner) {
 
@@ -160,7 +183,11 @@ public class ShipmentConfirmation extends MainBaseActivity {
 
         } else{
 
-            if( lsInbounItems != null && lsInbounItems.size() > 0  &&  Scanned == true){
+            AsyncTaskConfirm asyncTaskConfirm=new AsyncTaskConfirm();
+            asyncTaskConfirm.execute("params");
+
+
+/*            if( lsInbounItems != null && lsInbounItems.size() > 0  &&  Scanned == true){
 
                 for ( cInboundViewInfo e:lsInbounItems){
                     getParamInfo(e);
@@ -178,7 +205,7 @@ public class ShipmentConfirmation extends MainBaseActivity {
                 asyncTaskConfirm.execute("params");
 
                 //  Toast.makeText(getApplicationContext(),"There are NO items in task selected", Toast.LENGTH_SHORT).show();
-            }
+            }*/
 
 /*            Intent oIntent = new Intent(this, PutAwayTarget.class);
             cActivityMessage   oMssg = new  cActivityMessage();
@@ -264,7 +291,7 @@ public class ShipmentConfirmation extends MainBaseActivity {
     }
 
     private  String[] getInfoHeader(){
-        InfoHeader = new String[]{getString(R.string.Product),getString(R.string.PlannedQuantity)};
+        InfoHeader = new String[]{getString(R.string.Product),getString(R.string.Quantity)};
         return InfoHeader;
     }
 
@@ -272,7 +299,7 @@ public class ShipmentConfirmation extends MainBaseActivity {
         return  InfoData;
     }
 
-    private class AsyncTaskConfirm extends AsyncTask<String, String,  ArrayList<cPurchaseItem>> {
+    private class AsyncTaskConfirm extends AsyncTask<String, String,  ArrayList<cOutboundOrderItem>> {
 
 
         @Override
@@ -287,25 +314,32 @@ public class ShipmentConfirmation extends MainBaseActivity {
 
 
         @Override
-        protected ArrayList<cPurchaseItem> doInBackground(String... strings) {
-            ArrayList<cPurchaseItem> lsData = new ArrayList<>();
-            ArrayList<cPurchaseOrder> lsDataOrder = new ArrayList<>();
+        protected ArrayList<cOutboundOrderItem> doInBackground(String... strings) {
+
+            ArrayList<cOutboundOrderItem> lsData = new ArrayList<>();
+            ArrayList<cOutboundOrder> lsDataOrder = new ArrayList<>();
             OrderStatus = "";
             try {
 
                 cServices ocServices = new cServices();
 
-               /* lsDataOrder =  ocServices.GetPurchaseOrderServiceData(cServices.PurchaseOrderFilterType.SelectionByID,  txtImputFilterId.getText().toString(), "1");
+                lsDataOrder =  ocServices.GetOutboundOrderServiceData(cServices.OutBoundDeliveryFilterType.SelectionByID,  txtImputFilterId.getText().toString(), "1");
 
-                for ( cPurchaseOrder  itemOrder :lsDataOrder) {
-                     if (!itemOrder.ID.equals("")){
-                       OrderStatus = itemOrder.TaskStatusId;
-                       break;
-                     }
+                if (lsDataOrder.size() > 0){
+                    String  sUUID = lsDataOrder.get(0).UUID;
+                    lsData = ocServices.GetOutboundOrderItemsServiceData(cServices.OutBoundDeliveryFilterType.UUID, sUUID, "");
                 }
-*/
 
-                lsData = ocServices.GetPurchaseItemServiceData(cServices.PurchaseItemFilterType.ID, txtImputFilterId.getText().toString(), "");
+                if (lsDataOrder != null  &&  lsDataOrder.size() > 0){
+                    OrderStatus =   lsDataOrder.get(0).DeliveryProcessingStatusCode;
+                } else {
+                    OrderStatus = "NODEF";
+                }
+
+
+              //  OrderStatus = "2";
+
+                String s = "";
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -320,11 +354,10 @@ public class ShipmentConfirmation extends MainBaseActivity {
 
 
         @Override
-        protected void onPostExecute(ArrayList<cPurchaseItem> lsData) {
+        protected void onPostExecute(ArrayList<cOutboundOrderItem> lsData) {
 
             super.onPostExecute(lsData);
-            lblTaskValueId.setText( txtImputFilterId.getText().toString().trim() + "  "  +  "Pick");
-            //lbOrderValueId.setText("365");
+            lblTaskValueId.setText( txtImputFilterId.getText().toString().trim() + "  ");
 
             lsInbounItems = new  ArrayList<>();
 
@@ -332,16 +365,16 @@ public class ShipmentConfirmation extends MainBaseActivity {
             cInboundViewInfo  oInboundViewInfo = new cInboundViewInfo();
 
             for (int i = 0; i < lsData.size(); i++) {
-                cPurchaseItem oData = lsData.get(i);
+                cOutboundOrderItem oData = lsData.get(i);
 
                 if( !oData.ID.trim().isEmpty()){
 
                     oInboundViewInfo = new cInboundViewInfo();
-                    oInboundViewInfo.ProductId = oData.ID;
+                    oInboundViewInfo.ProductId = oData.ProductID;
                     oInboundViewInfo.Open = oData.Quantity;
                     oInboundViewInfo.OpenUnit = oData.QuantityUnitCode;
                     oInboundViewInfo.PlanedQty =   String.valueOf(Math.round( Float.valueOf(oData.Quantity)));
-
+                    oInboundViewInfo.Qty =  String.valueOf(Math.round( Float.valueOf(oData.Quantity)));
 
                     String  sDescription= oData.Description.trim();
 
@@ -356,6 +389,17 @@ public class ShipmentConfirmation extends MainBaseActivity {
                 }
             }
 
+            if (OrderStatus.equals("3")){
+
+                btnEstatus.setBackgroundColor(Color.GREEN);
+
+            } else if (OrderStatus.equals("NODEF")){
+
+                btnEstatus.setBackgroundColor(Color.GRAY);
+
+            } else {
+                btnEstatus.setBackgroundColor(Color.RED);
+            }
 
             cGlobalData  oGlobalData=  (cGlobalData)getApplication();
             oGlobalData.LsIntboudIShipmentItems = lsInbounItems;
@@ -379,9 +423,11 @@ public class ShipmentConfirmation extends MainBaseActivity {
                     startActivity(oIntent);
                 }*/
 
-                Intent oIntent = new Intent(ShipmentConfirmation.this, ShipmentConfirmationDes.class);
+
+                // mig:  validar de nuevo esto
+/*                Intent oIntent = new Intent(ShipmentConfirmation.this, ShipmentConfirmationDes.class);
                 oIntent.putExtra("oMsg", getActivityMsg());
-                startActivity(oIntent);
+                startActivity(oIntent);*/
 
             }else {
                 Toast.makeText(getApplicationContext(),"No hay elementos para la Tarea seleccionada", Toast.LENGTH_SHORT).show();

@@ -1247,6 +1247,133 @@ public class cServices {
     }
 
 
+    //mig: new
+    public ArrayList<cOutboundOrderItem> GetOutboundOrderItemsServiceData(String  pFilterType, String pFilterValue, String pMaximumNumberValue){
+
+        // SOAP
+        String Soap_Action = "Read";
+        String url = cGlobalData.GET_OUTBOUND_DELIVERY;
+
+        HttpTransportSE transporte;
+        SoapSerializationEnvelope envelope;
+
+        // Data
+        String  ErrorMsg = "";
+        Vector vResponse = new  Vector();
+        ArrayList<cOutboundOrderItem> lsData = new  ArrayList<>();
+
+        try {
+
+            List<HeaderProperty> headerPropertieList = new ArrayList<HeaderProperty>();
+            headerPropertieList.add(new HeaderProperty("Authorization", AUTHORIZATION_SOAP_VALUE));
+
+            envelope = new SAPSerializationEnvelope(110,NAME_SPACE_SOAP);
+            envelope.dotNet = false;
+            envelope.setOutputSoapObject(getBodySoapObjectByFilterType_OutboundOrderItems(pFilterType,pFilterValue,pMaximumNumberValue));
+
+            transporte = new HttpTransportSE(url,CONNECT_TIMEOUT_SOAP);
+            transporte.debug = true;
+
+            transporte.setReadTimeout(READ_TIMEOUT_SOAP);
+
+            transporte.call(Soap_Action, envelope,headerPropertieList);
+            vResponse = (Vector)envelope.getResponse();
+            lsData = getOutboundOrderItemData(vResponse);
+
+        } catch (Exception e) {
+
+            ErrorMsg = e.getMessage();
+        }
+
+        return lsData;
+    }
+
+    private  SoapObject  getBodySoapObjectByFilterType_OutboundOrderItems(String FilterType, String FilterValue, String  MaximumNumberValue){
+
+        SoapObject  oSoapObjectResult = new SoapObject(NAME_SPACE_SOAP, "OutboundDeliveryReadByIDQuery_sync");
+        SoapObject soN1 =  new SoapObject("", "OutboundDelivery");
+        soN1.addProperty(FilterType, FilterValue);
+
+
+/*        SoapObject soN2 = new SoapObject("", FilterType);
+        soN2.addProperty("InclusionExclusionCode", "I");
+        soN2.addProperty("IntervalBoundaryTypeCode", "1");
+        soN2.addProperty("LowerBoundaryID", FilterValue);*/
+        // soN1.addSoapObject(soN2);
+
+        oSoapObjectResult.addSoapObject(soN1);
+
+/*        if ( MaximumNumberValue != null  &  MaximumNumberValue.trim() != ""  )
+        {
+            soN1 = new SoapObject("", "ProcessingConditions");
+            soN1.addProperty("QueryHitsMaximumNumberValue", MaximumNumberValue);
+            soN1.addProperty("QueryHitsUnlimitedIndicator", "false");
+
+            oSoapObjectResult.addSoapObject(soN1);
+        }*/
+
+        return oSoapObjectResult;
+    }
+
+    private ArrayList<cOutboundOrderItem> getOutboundOrderItemData (Vector  pVector){
+
+        cOutboundOrderItem  oOutboundOrderItem = new cOutboundOrderItem();
+        ArrayList<cOutboundOrderItem>  lsData = new  ArrayList<>();
+        SoapObject   oSoap = new  SoapObject();
+        PropertyInfo oPropertyInfo =  new PropertyInfo();
+
+        for (int i = 0; i < pVector.size() ; i++) {
+
+            oSoap = (SoapObject) pVector.get(i);
+
+            for( int j= 0; j < oSoap.getPropertyCount(); j++ ){
+
+                oOutboundOrderItem =  new cOutboundOrderItem();
+
+                oPropertyInfo = oSoap.getPropertyInfo(j);
+                SetInboundOrerItemProperty(oOutboundOrderItem,  oPropertyInfo);
+
+                if (!oOutboundOrderItem.ID.isEmpty()){
+                    lsData.add(oOutboundOrderItem);
+                }
+            }
+        }
+
+        return lsData;
+    }
+
+    private void SetInboundOrerItemProperty(cOutboundOrderItem oObj, PropertyInfo oPropertyInfo) {
+        switch (oPropertyInfo.getName()){
+
+            case  "Item":
+                SoapObject  so = (SoapObject)oPropertyInfo.getValue();
+
+                // ProductID
+                SoapObject  soProduct = (SoapObject)so.getProperty("Product");
+                SoapObject  soProductKey = (SoapObject)soProduct.getProperty("ProductKey");
+
+                //  Description
+                SoapObject  soMaterial = (SoapObject)soProduct.getProperty("Material");
+                SoapObject  soDescription = (SoapObject)soMaterial.getProperty("Description");
+
+                //  Quantity
+                SoapObject  soDeliveryQuantity = (SoapObject)so.getProperty("DeliveryQuantity");
+
+                // read data
+                oObj.ID = ((SoapPrimitive)so.getProperty("ID")).getValue().toString().trim();
+                oObj.ProductID = ((SoapPrimitive)soProductKey.getProperty("ProductID")).getValue().toString().trim();
+                oObj.Description = ((SoapPrimitive)soDescription.getProperty("Description")).getValue().toString().trim();
+
+                oObj.Quantity = ((SoapPrimitive)soDeliveryQuantity.getProperty("Quantity")).getValue().toString().trim();
+                oObj.QuantityUnitCode =  ((SoapPrimitive)soDeliveryQuantity.getProperty("Quantity")).getAttribute("unitCode").toString().trim();
+
+                break;
+
+            default:break;
+        }
+    }
+
+
 
 
 
@@ -1368,7 +1495,7 @@ public class cServices {
 
 
 //  mig: new
-    public ArrayList<cPurchaseOrder> GetOutboundOrderServiceData(String  pFilterType, String pFilterValue, String pMaximumNumberValue){
+    public ArrayList<cOutboundOrder> GetOutboundOrderServiceData(String  pFilterType, String pFilterValue, String pMaximumNumberValue){
 
         // SOAP
         String Soap_Action = "QueryByElements";
@@ -1380,7 +1507,7 @@ public class cServices {
         // Data
         String  ErrorMsg = "";
         Vector vResponse = new  Vector();
-        ArrayList<cPurchaseOrder> lsData = new  ArrayList<>();
+        ArrayList<cOutboundOrder> lsData = new  ArrayList<>();
 
         try {
 
@@ -1433,37 +1560,42 @@ public class cServices {
         return oSoapObjectResult;
     }
 
-    private ArrayList<cPurchaseOrder> getOutboundOrderData (Vector  pVector){
+    private ArrayList<cOutboundOrder> getOutboundOrderData (Vector  pVector){
 
-        cPurchaseOrder  cPurchaseOrder = new cPurchaseOrder();
-        ArrayList<cPurchaseOrder>  lsData = new  ArrayList<>();
+        cOutboundOrder  oOutboundOrder = new cOutboundOrder();
+        ArrayList<cOutboundOrder>  lsData = new  ArrayList<>();
         SoapObject   oSoap = new  SoapObject();
         PropertyInfo oPropertyInfo =  new PropertyInfo();
 
         for (int i = 0; i < pVector.size() ; i++) {
-            cPurchaseOrder =  new cPurchaseOrder();
+            oOutboundOrder =  new cOutboundOrder();
             oSoap = (SoapObject) pVector.get(i);
 
             for( int j= 0; j < oSoap.getPropertyCount(); j++ ){
                 oPropertyInfo = oSoap.getPropertyInfo(j);
-                SetPurchaseOrderProperty(cPurchaseOrder,  oPropertyInfo);
+                SetOutboundOrderProperty(oOutboundOrder,  oPropertyInfo);
             }
 
-            lsData.add(cPurchaseOrder);
+            if (!oOutboundOrder.ID.equals("")) {
+                lsData.add(oOutboundOrder);
+            }
         }
 
         return lsData;
     }
 
-    private void SetOutboundOrderProperty(cPurchaseOrder oObj, PropertyInfo oPropertyInfo) {
+    private void SetOutboundOrderProperty(cOutboundOrder oObj, PropertyInfo oPropertyInfo) {
         switch (oPropertyInfo.getName()){
 
             case  "ID": oObj.ID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
                 break;
 
+            case  "UUID": oObj.UUID = ((SoapPrimitive)oPropertyInfo.getValue()).getValue().toString().trim();
+                break;
+
             case  "Status":
-                oObj.TaskStatusId = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("PurchaseOrderLifeCycleStatusCode")).getValue().toString().trim();
-                oObj.TaskStatusName = ((SoapPrimitive)((SoapObject)oPropertyInfo.getValue()).getProperty("PurchaseOrderLifeCycleStatusName")).getValue().toString().trim();
+                SoapObject  so = (SoapObject)oPropertyInfo.getValue();
+                oObj.DeliveryProcessingStatusCode = ((SoapPrimitive)so.getProperty("DeliveryProcessingStatusCode")).getValue().toString().trim();
                 break;
 
             default:break;
@@ -2105,6 +2237,8 @@ public class cServices {
 
     public  static  class  OutBoundDeliveryFilterType {
         public static final String SelectionByID = "SelectionByID";
+        public static final String UUID = "UUID";
+
     }
 
 

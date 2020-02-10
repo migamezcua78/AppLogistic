@@ -87,41 +87,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:backgroundTint="@color/colorAccent"
-            android:textColor="@color/colorTextTitle"
-            android:textAllCaps="false"
             android:onClick="onClickStartTask"
-            android:text="@string/btnStarTask" />
+            android:text="@string/btnConsultarTarea"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextTitle"
+            app:backgroundTint="@color/colorAccent" />
 
         <Button
             android:id="@+id/btnBackId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:backgroundTint="@color/colorAccent"
-            android:textColor="@color/colorTextTitle"
-            android:textAllCaps="false"
-            android:onClick="onClickPrevious"
-            android:text="@string/btnBack" />
-
-        <TextView
-            android:id="@+id/lblCountItemsId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="1 of 1" />
-
-        <Button
-            android:id="@+id/btnNextId"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:onClick="onClickNext"
-            android:text="@string/btnNext"
+            android:onClick="onClicVerItemsTask"
+            android:text="@string/btnVerDetalles"
             android:textAllCaps="false"
             android:textColor="@color/colorTextTitle"
             app:backgroundTint="@color/colorAccent" />
+
     </LinearLayout>
 
 
@@ -138,31 +120,28 @@
 
     <TextView
         android:id="@+id/lblTaskValueId"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
+        android:layout_width="60dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toEndOf="@+id/lbTaskId"
         app:layout_constraintTop_toBottomOf="@+id/liItems" />
 
-    <TextView
+<!--    <TextView
         android:id="@+id/lbOrderId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
         android:text="@string/lblOrderId"
         android:textColor="@color/colorLblDefault"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbTaskId" />
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="169dp" />-->
 
-    <TextView
+<!--    <TextView
         android:id="@+id/lbOrderValueId"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="46dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/lbOrderId"
-        app:layout_constraintStart_toEndOf="@+id/lbOrderId" />
+        tools:layout_editor_absoluteX="183dp"
+        tools:layout_editor_absoluteY="169dp" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -171,7 +150,7 @@
         android:layout_marginBottom="10dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbOrderValueId"
+        app:layout_constraintTop_toBottomOf="@+id/lblStatus"
         tools:layout_editor_absoluteX="5dp">
 
         <ScrollView
@@ -184,5 +163,24 @@
                 android:layout_height="wrap_content" />
         </ScrollView>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/lblStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Estatus"
+        app:layout_constraintBaseline_toBaselineOf="@+id/lblTaskValueId"
+        app:layout_constraintStart_toEndOf="@+id/lblTaskValueId" />
+
+    <Button
+        android:id="@+id/btnEstatus"
+        android:layout_width="60dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="16dp"
+        android:background="#717573"
+        app:layout_constraintBottom_toBottomOf="@+id/lblStatus"
+        app:layout_constraintStart_toEndOf="@+id/lblStatus"
+        app:layout_constraintTop_toTopOf="@+id/lblStatus" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -206,10 +206,10 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
             txtProductName.setText(pInboundViewInfo.ProductName);
             txtProductId.setText(pInboundViewInfo.ProductId);
             txtQtyId.setText(pInboundViewInfo.Qty);
-            cheRestrictedId.setChecked(pInboundViewInfo.Restricted);
+          //  cheRestrictedId.setChecked(pInboundViewInfo.Restricted);
             chkConfirmedId.setChecked(pInboundViewInfo.Confirmed);
             //  txtLuQtyId.setText(pInboundViewInfo.LuQty);
-            txtBarCodeId.setText(pInboundViewInfo.BarCode);
+          //  txtBarCodeId.setText(pInboundViewInfo.BarCode);
             // lblOpenValueId.setText(pInboundViewInfo.Open + " " +  pInboundViewInfo.OpenUnit);
 
 /*
@@ -238,12 +238,14 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
             Dif = PlanedOty - ConfirmedQty;
 */
 
-            lblOpenValueId.setText(Inicio.Dif(pInboundViewInfo.PlanedQty,pInboundViewInfo.ConfirmedOty) + "      " +  pInboundViewInfo.OpenUnit);
+           // lblOpenValueId.setText(Inicio.Dif(pInboundViewInfo.PlanedQty,pInboundViewInfo.ConfirmedOty) + "      " +  pInboundViewInfo.OpenUnit);
+
+            lblOpenValueId.setText(pInboundViewInfo.PlanedQty + "      " +  pInboundViewInfo.OpenUnit);
 
             // lblOpenValueId.setText(Dif + "      " +  pInboundViewInfo.OpenUnit);
             // lblOpenValueId.setText(pInboundViewInfo.Open + " " +  pInboundViewInfo.OpenUnit);
 
-            txtSerialNumberId.setText(pInboundViewInfo.SerialNumber);
+          //  txtSerialNumberId.setText(pInboundViewInfo.SerialNumber);
 
         } catch (Exception e){
 
@@ -264,11 +266,11 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
                 pInboundViewInfo.Qty = txtQtyId.getText().toString();
             }
 
-            pInboundViewInfo.Restricted = cheRestrictedId.isChecked();
+          //  pInboundViewInfo.Restricted = cheRestrictedId.isChecked();
             pInboundViewInfo.Confirmed = chkConfirmedId.isChecked();
             //   pInboundViewInfo.LuQty = txtLuQtyId.getText().toString();
-            pInboundViewInfo.BarCode = txtBarCodeId.getText().toString();
-            pInboundViewInfo.SerialNumber = txtSerialNumberId.getText().toString();
+          //  pInboundViewInfo.BarCode = txtBarCodeId.getText().toString();
+          //  pInboundViewInfo.SerialNumber = txtSerialNumberId.getText().toString();
 
 
         } catch (Exception e){

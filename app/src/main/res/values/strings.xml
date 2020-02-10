@@ -230,5 +230,12 @@
 
     <string name="lblItemsTaskConfirmation">Confirmación de Tarea</string>
 
+    <string name="btnConsultarTarea">Consultar Tarea</string>
+
+    <string name="btnVerDetalles">Ver Productos</string>
+
+    <string name="lblCantidad">Cantidad</string>
+
+    <string name="Quantity">Cantidad</string>
 
 </resources>
