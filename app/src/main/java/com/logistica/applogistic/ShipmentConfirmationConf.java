@@ -1,7 +1,5 @@
 package com.logistica.applogistic;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -10,8 +8,12 @@ import android.view.View;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 public class ShipmentConfirmationConf extends MainBaseActivity {
 
@@ -21,6 +23,7 @@ public class ShipmentConfirmationConf extends MainBaseActivity {
     //  DATA
     private ArrayList<String[]> InfoData = new ArrayList <> ();
     private String[] InfoHeader;
+    cConfirmTaskResponse oConfirmTaskResponse = new  cConfirmTaskResponse();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,10 +96,16 @@ public class ShipmentConfirmationConf extends MainBaseActivity {
             try {
                 // Thread.sleep(1000);
 
+                cConfirmOutboundItemsTask oConfirmOutboundItemsTask = new cConfirmOutboundItemsTask();
+
                 cServices  oServices = new cServices();
                 cGlobalData  oGlobalData=  (cGlobalData)getApplication();
 
                 if  (oGlobalData.LsIntboudIShipmentItems != null ){
+
+                    DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    cConfirmOutboundItem oConfirmOutboundItem = new  cConfirmOutboundItem();
+
                     for ( cInboundViewInfo e:oGlobalData.LsIntboudIShipmentItems){
 
                         cInboundDelivery  oInboundDelivery = new cInboundDelivery();
@@ -107,8 +116,22 @@ public class ShipmentConfirmationConf extends MainBaseActivity {
                         oInboundDelivery.oInboundDeliveryItem.IDAreaLogistica = e.TargetId;
                         oInboundDelivery.oInboundDeliveryItem.IDStockIdentificado = e.IdentStock;
 
-                       // oServices.PutInboundDeliveryServiceData(oInboundDelivery);
+
+                        oConfirmOutboundItemsTask.outboundDeliveryID =  e.TaskId;
+                        oConfirmOutboundItemsTask.date  = sdf.format(new Date());
+                        oConfirmOutboundItemsTask.confirmationStatus  = "1";
+
+                        oConfirmOutboundItem = new  cConfirmOutboundItem();
+                        oConfirmOutboundItem.productID =  e.ProductId;
+                        oConfirmOutboundItem.confirmedQuantity =  e.Qty;
+                        oConfirmOutboundItem.confirmedQuantityUnitCode =  e.OpenUnit;
+                        oConfirmOutboundItemsTask.lsItems.add(oConfirmOutboundItem);
+
+
                     }
+
+                    oConfirmTaskResponse = oServices.PutConfirmOutboundTaskServiceData(oConfirmOutboundItemsTask);
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -131,10 +154,14 @@ public class ShipmentConfirmationConf extends MainBaseActivity {
 
             vProgressDialog.hide();
 
-            Toast.makeText(getApplicationContext(),"Task Confirmed", Toast.LENGTH_LONG).show();
+            if (oConfirmTaskResponse.Msg.equals("") && !oConfirmTaskResponse.SiteLogisticsTaskSeverityCode.equals("") ){
+                Toast.makeText(getApplicationContext(),"Task Confirmed SAP_UUID: " +  oConfirmTaskResponse.SiteLogisticsTaskSeverityCode, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(),"Task NOT Confirmed ERROR: " +  oConfirmTaskResponse.Msg, Toast.LENGTH_LONG).show();
+            }
+
             Intent oIntent = new Intent(ShipmentConfirmationConf.this, ShipmentConfirmation.class);
             startActivity(oIntent);
-
         }
     }
 }

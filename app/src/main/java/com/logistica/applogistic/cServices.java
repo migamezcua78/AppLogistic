@@ -574,6 +574,88 @@ public class cServices {
     }
 
 
+    // Confirm outbound items task
+    public  cConfirmTaskResponse PutConfirmOutboundTaskServiceData(cConfirmOutboundItemsTask pObj){
+
+        // SOAP
+        String Soap_Action = "Create";
+        String url =  cGlobalData.POST_OUTBOUND_DELIVERY_CONFIRM_QUANTITY;
+        HttpTransportSE transporte;
+        SoapSerializationEnvelope envelope;
+
+        // Data
+        String  ErrorMsg = "";
+        Vector vResponse = new  Vector();
+        cConfirmTaskResponse oResponse = new  cConfirmTaskResponse();
+
+        try {
+
+            List<HeaderProperty> headerPropertieList = new ArrayList<HeaderProperty>();
+            headerPropertieList.add(new HeaderProperty("Authorization", AUTHORIZATION_SOAP_VALUE));
+
+            envelope = new SAPSerializationEnvelope(110,NAME_SPACE_SOAP);
+            envelope.dotNet = false;
+            envelope.setOutputSoapObject(getBodySoapObjectByFilterType_ConfirmOutboundTask(pObj));
+
+            transporte = new HttpTransportSE(url,CONNECT_TIMEOUT_SOAP);
+            transporte.debug = true;
+
+            transporte.setReadTimeout(READ_TIMEOUT_SOAP);
+
+            transporte.call(Soap_Action, envelope,headerPropertieList);
+
+            if ((envelope.getResponse().getClass()).getName().equals("java.util.Vector")){
+                Vector  vec =   (Vector)envelope.getResponse();
+
+                if (vec.size() > 0){
+                    SoapObject    so  =  (SoapObject)vec.get(0);
+                    String   sServiceCode =  ((SoapPrimitive)so.getProperty("SAP_UUID")).getValue().toString().trim();
+                    oResponse.SiteLogisticsTaskSeverityCode = sServiceCode;
+                    oResponse.Msg = "";
+                }
+            }
+
+        } catch (Exception e) {
+
+            ErrorMsg = e.getMessage();
+
+            oResponse.SiteLogisticsTaskSeverityCode = "E" ;
+            oResponse.Msg = ErrorMsg;
+
+            return  oResponse;
+        }
+
+        return oResponse;
+    }
+
+    private  SoapObject  getBodySoapObjectByFilterType_ConfirmOutboundTask(cConfirmOutboundItemsTask pObj){
+
+        SoapObject soNI =  new SoapObject();
+        SoapPrimitive sopNQ =  null;
+
+        SoapObject  oSoapObjectResult = new SoapObject(NAME_SPACE_SOAP, "Z_ConfirmacionCantidadCreateRequest_sync");
+        SoapObject soN1 =  new SoapObject("", "Z_ConfirmacionCantidad");
+        soN1.addProperty("outboundDeliveryID", pObj.outboundDeliveryID);
+        soN1.addProperty("date", pObj.date);
+        soN1.addProperty("confirmationStatus", pObj.confirmationStatus);
+
+        for ( cConfirmOutboundItem item:pObj.lsItems){
+            soNI =  new SoapObject("", "Item");
+            soNI.addProperty("productID", item.productID);
+
+            sopNQ = new SoapPrimitive("", "confirmedQuantity", item.confirmedQuantity);
+            sopNQ.addAttribute("unitCode", item.confirmedQuantityUnitCode);
+
+            soNI.addProperty("confirmedQuantity",sopNQ);
+
+            soN1.addSoapObject(soNI);
+        }
+
+        oSoapObjectResult.addSoapObject(soN1);
+
+        return oSoapObjectResult;
+    }
+
 
 
     // Confirm task

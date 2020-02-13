@@ -152,6 +152,10 @@ public class cGlobalData extends Application {
     public static  String   GET_OUTBOUND_DELIVERY = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/yyrr2tbhuy_z_outbounddelivery?sap-vhost=my346674.sapbydesign.com";
 
 
+    public static final String     POST_OUTBOUND_DELIVERY_CONFIRM_QUANTITY_DEV  = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/yyrr2tbhuy_z_confirmacioncanti?sap-vhost=my346674.sapbydesign.com" ;
+    public static final String   POST_OUTBOUND_DELIVERY_CONFIRM_QUANTITY_PROD = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/yyrr2tbhuy_z_confirmacioncanti?sap-vhost=my346674.sapbydesign.com" ;
+    public static  String   POST_OUTBOUND_DELIVERY_CONFIRM_QUANTITY  = "https://my346674.sapbydesign.com/sap/bc/srt/scs/sap/yyrr2tbhuy_z_confirmacioncanti?sap-vhost=my346674.sapbydesign.com";
+
 
     public ArrayList<String>  LsFilterStock;
 
