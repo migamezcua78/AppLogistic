@@ -76,8 +76,8 @@ public class OutBound extends  MainBaseActivity {
                //  txtImputFilterId.setText("15");
 
 
-               // txtImputFilterId.setText(oMsg.getKey01());
-                txtImputFilterId.setText("63");
+                txtImputFilterId.setText(oMsg.getKey01());
+              //  txtImputFilterId.setText("63");
 
                 Scanned = true;
 
