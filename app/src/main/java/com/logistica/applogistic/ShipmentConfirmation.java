@@ -93,7 +93,13 @@ public class ShipmentConfirmation extends MainBaseActivity {
                 txtImputFilterId.setText(oMsg.getKey01());
 
 
+               // txtImputFilterId.setText("2");
+
                 Scanned = true;
+
+
+                AsyncTaskConfirm asyncTaskConfirm=new AsyncTaskConfirm();
+                asyncTaskConfirm.execute("params");
 
                 // mig: se agrega con la validacion del estatus de la tarea
 /*                AsyncTaskConfirm asyncTask=new AsyncTaskConfirm();
@@ -375,6 +381,8 @@ public class ShipmentConfirmation extends MainBaseActivity {
                     oInboundViewInfo.OpenUnit = oData.QuantityUnitCode;
                     oInboundViewInfo.PlanedQty =   String.valueOf(Math.round( Float.valueOf(oData.Quantity)));
                     oInboundViewInfo.Qty =  String.valueOf(Math.round( Float.valueOf(oData.Quantity)));
+
+                    oInboundViewInfo.Qty =  "0";  // String.valueOf(Math.round( Float.valueOf(oData.Quantity)));
 
                     String  sDescription= oData.Description.trim();
 

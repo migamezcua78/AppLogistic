@@ -152,8 +152,11 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
             lsInbounItems = oGlobalData.LsIntboudIShipmentItems;
             oCurrentInboundViewInfo =  oGlobalData.CurrentInboundShipmentViewInfo;
 
-            txtBarCodeId.setText(oMsg.getKey01());
-            oCurrentInboundViewInfo.BarCode = txtBarCodeId.getText().toString();
+          //  txtBarCodeId.setText(oMsg.getKey01());
+          //  oCurrentInboundViewInfo.BarCode = txtBarCodeId.getText().toString();
+
+            txtSerialNumberId.setText(oMsg.getKey01());
+            oCurrentInboundViewInfo.SerialNumber = txtSerialNumberId.getText().toString();
 
             int iQty = 0;
             if(!oCurrentInboundViewInfo.Qty.trim().isEmpty()){
@@ -212,6 +215,9 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
           //  txtBarCodeId.setText(pInboundViewInfo.BarCode);
             // lblOpenValueId.setText(pInboundViewInfo.Open + " " +  pInboundViewInfo.OpenUnit);
 
+            txtSerialNumberId.setText(pInboundViewInfo.SerialNumber);
+
+
 /*
             int  Dif = 0;
             int  Qty = 0;
@@ -245,7 +251,7 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
             // lblOpenValueId.setText(Dif + "      " +  pInboundViewInfo.OpenUnit);
             // lblOpenValueId.setText(pInboundViewInfo.Open + " " +  pInboundViewInfo.OpenUnit);
 
-          //  txtSerialNumberId.setText(pInboundViewInfo.SerialNumber);
+
 
         } catch (Exception e){
 

@@ -238,4 +238,6 @@
 
     <string name="Quantity">Cantidad</string>
 
+    <string name="lblNSerial">Cod. Barras</string>
+
 </resources>

@@ -242,27 +242,27 @@
                 tools:layout_editor_absoluteX="4dp"
                 tools:layout_editor_absoluteY="191dp" />-->
 
-            <!--        <TextView
-                        android:id="@+id/lblLuId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:text="@string/lblSerial"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/txtSerialNumberId"
-                        app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/lblLuId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/lblNSerial"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtSerialNumberId"
+                app:layout_constraintStart_toStartOf="parent" />
 
-                    <EditText
-                        android:id="@+id/txtSerialNumberId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="100dp"
-                        android:layout_marginTop="4dp"
-                        android:ems="10"
-                        android:inputType="textPersonName"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/cheRestrictedId" />
-            -->
+            <EditText
+                android:id="@+id/txtSerialNumberId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/lblLuId"
+                app:layout_constraintTop_toBottomOf="@+id/lblQty" />
+
             <!--
                     <TextView
                         android:id="@+id/lblLuQtyId"
@@ -304,18 +304,20 @@
                 tools:layout_editor_absoluteX="90dp"
                 tools:layout_editor_absoluteY="234dp" />-->
 
-<!--            <Button
+
+            <Button
                 android:id="@+id/btnScanId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:onClick="onScan"
                 android:text="@string/btnScan"
                 android:textAllCaps="false"
                 android:textColor="@color/colorTextTitle"
                 android:textSize="9sp"
                 app:backgroundTint="@color/colorAccent"
-                tools:layout_editor_absoluteX="243dp"
-                tools:layout_editor_absoluteY="229dp" />-->
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtSerialNumberId"
+                app:layout_constraintStart_toEndOf="@+id/txtSerialNumberId" />
 
             <EditText
                 android:id="@+id/txtProductName"

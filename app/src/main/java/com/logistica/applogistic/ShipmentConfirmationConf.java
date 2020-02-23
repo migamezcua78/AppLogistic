@@ -38,7 +38,7 @@ public class ShipmentConfirmationConf extends MainBaseActivity {
         if (oGlobalData.LsIntboudIShipmentItems != null){
             for ( cInboundViewInfo e:oGlobalData.LsIntboudIShipmentItems){
 
-                InfoData.add(new String[]{ e.ProductId, e.ConfirmedOty + " " + e.OpenUnit });
+                InfoData.add(new String[]{ e.ProductId, e.ConfirmedOty + "  " + e.OpenUnit });
 
             }
         }
