@@ -13,6 +13,7 @@ public class cProductViewInfo {
         Usuario = "";
         NombreShort = "";
         Qty = "0";
+        Caja = "1";
         LogisticAreaId = "";
         SedeId = "";
         Activo = "";
@@ -28,6 +29,7 @@ public class cProductViewInfo {
     public  String Estado;
     public  String Usuario;
     public  String Qty;
+    public  String Caja;
     public  String LogisticAreaId;
     public  String SedeId;
     public  String Activo;

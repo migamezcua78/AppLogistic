@@ -25,6 +25,8 @@ public class MappingProducts extends MainBaseActivity {
     EditText txtBarCodeId;
     EditText txtNombreId;
     EditText txtDescripcionId;
+    EditText txtCaja;
+
     CheckBox chkActivoId;
     Spinner spinnerStock;
 
@@ -59,6 +61,25 @@ public class MappingProducts extends MainBaseActivity {
         Intent oIntent = new Intent(this, Inicio.class);
         oIntent.putExtra("oMsg", new cActivityMessage(""));
         startActivity(oIntent);
+    }
+
+    public  void  init (){
+
+        txtProductId =  findViewById(R.id.txtProductId);
+        txtBarCodeId =  findViewById(R.id.txtBarCodeId);
+        txtNombreId =  findViewById(R.id.txtNombreId);
+        txtDescripcionId =  findViewById(R.id.txtDescripcionId);
+        chkActivoId =  findViewById(R.id.chkActivoId);
+        txtBarCodeId =  findViewById(R.id.txtBarCodeId);
+        txtCaja =  findViewById(R.id.txtCaja);
+
+
+        chkActivoId.setChecked(true);
+        spinnerStock = findViewById(R.id.spiStock);
+        LsFilterStock = new ArrayList<>();
+
+        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
+        oCurrectProductViewInfo = ((cGlobalData)getApplication()).CurrentProductViewInfo;
     }
 
     public void onSave(View view) {
@@ -111,32 +132,37 @@ public class MappingProducts extends MainBaseActivity {
         startActivity(oIntent);
     }
 
+    public void onScanCaja(View view) {
 
-    public  void  init (){
+        getViewInfo(oCurrectProductViewInfo);
+        ((cGlobalData)getApplication()).CurrentProductViewInfo = oCurrectProductViewInfo;
+        ((cGlobalData)getApplication()).LsFilterStock = LsFilterStock;
 
-        txtProductId =  findViewById(R.id.txtProductId);
-        txtBarCodeId =  findViewById(R.id.txtBarCodeId);
-        txtNombreId =  findViewById(R.id.txtNombreId);
-        txtDescripcionId =  findViewById(R.id.txtDescripcionId);
-        chkActivoId =  findViewById(R.id.chkActivoId);
-        txtBarCodeId =  findViewById(R.id.txtBarCodeId);
 
-        chkActivoId.setChecked(true);
-        spinnerStock = findViewById(R.id.spiStock);
-        LsFilterStock = new ArrayList<>();
-
-        oMsg = (cActivityMessage)(getIntent()).getSerializableExtra("oMsg");
-        oCurrectProductViewInfo = ((cGlobalData)getApplication()).CurrentProductViewInfo;
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("MappingProducts",Scanner.ScanType.SCAN_BOX));
+        startActivity(oIntent);
     }
+
+
+
 
     public  void  StartActivity (){
 
         if(oMsg != null ) {
 
-            if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_BAR_CODE)){
-
+            if(oMsg.getMessage().equals(Scanner.ScanType.SCAN_BAR_CODE) || oMsg.getMessage().equals(Scanner.ScanType.SCAN_BOX) )
+            {
+                // se recuperan los valores
                 setViewInfo(oCurrectProductViewInfo);
-                txtBarCodeId.setText(oMsg.getKey01());
+
+                // se asigna el valor escaneado
+                if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_BAR_CODE)){
+                    txtBarCodeId.setText(oMsg.getKey01());
+                }  else {
+                    txtCaja.setText(oMsg.getKey01());
+                }
+
 
                 LsFilterStock =((cGlobalData)getApplication()).LsFilterStock;
                 if (LsFilterStock == null){
@@ -158,6 +184,7 @@ public class MappingProducts extends MainBaseActivity {
         oCurrectProductViewInfo.CodigoBarra =  txtBarCodeId.getText().toString();
         oCurrectProductViewInfo.Nombre =  txtNombreId.getText().toString();
         oCurrectProductViewInfo.Descripcion =  txtDescripcionId.getText().toString();
+        oCurrectProductViewInfo.Caja =  txtCaja.getText().toString();
 
         if (chkActivoId.isChecked()){
             oCurrectProductViewInfo.Estado = "Activo";
@@ -173,6 +200,7 @@ public class MappingProducts extends MainBaseActivity {
         txtBarCodeId.setText(oCurrectProductViewInfo.CodigoBarra);
         txtNombreId.setText(oCurrectProductViewInfo.Nombre);
         txtDescripcionId.setText(oCurrectProductViewInfo.Descripcion);
+        txtCaja.setText(oCurrectProductViewInfo.Caja);
 
         if (oCurrectProductViewInfo.Estado.equals("Activo")){
             chkActivoId.setChecked(true);

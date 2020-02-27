@@ -24,6 +24,7 @@ public class RegisterCodeBarProducts extends MainBaseActivity {
     EditText txtBarCodeId;
     EditText txtNombreId;
     EditText txtDescripcionId;
+    EditText txtCaja;
     CheckBox chkActivoId;
     CheckBox  chkConfirmedId;
     TextView lblCountItemsId;
@@ -67,6 +68,8 @@ public class RegisterCodeBarProducts extends MainBaseActivity {
         txtBarCodeId =  findViewById(R.id.txtBarCodeId);
         txtNombreId =  findViewById(R.id.txtNombreId);
         txtDescripcionId =  findViewById(R.id.txtDescripcionId);
+        txtCaja =  findViewById(R.id.txtCaja);
+
         chkActivoId =  findViewById(R.id.chkActivoId);
         txtBarCodeId =  findViewById(R.id.txtBarCodeId);
         chkActivoId.setChecked(true);
@@ -86,18 +89,29 @@ public class RegisterCodeBarProducts extends MainBaseActivity {
 
         if (oMsg  != null){
 
-            if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_BAR_CODE)){
+            if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_BAR_CODE) || oMsg.getMessage().equals(Scanner.ScanType.SCAN_BOX) ){
 
                 if(oCurrentProductViewInfo != null){
 
                     setViewInfo(oCurrentProductViewInfo);
-                    txtBarCodeId.setText(oMsg.getKey01());
+
+                    // se asigna el valor escaneado
+                    if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_BAR_CODE)){
+
+                        txtBarCodeId.setText(oMsg.getKey01());
+                        oCurrentProductViewInfo.CodigoBarra = txtBarCodeId.getText().toString();
+
+                    }  else {
+                        txtCaja.setText(oMsg.getKey01());
+                        oCurrentProductViewInfo.Caja = txtCaja.getText().toString();
+
+                    }
+
 
                     lsViewItems = oGlobalData.lsProductViewInfoFilter;
-                    oCurrentProductViewInfo =  oGlobalData.CurrentProductViewInfo;
+                  //  oCurrentProductViewInfo =  oGlobalData.CurrentProductViewInfo;
 
-                    txtBarCodeId.setText(oMsg.getKey01());
-                    oCurrentProductViewInfo.CodigoBarra = txtBarCodeId.getText().toString();
+
 
                     for(int i = 0; i <  lsViewItems.size(); i++ ){
 
@@ -256,6 +270,17 @@ public class RegisterCodeBarProducts extends MainBaseActivity {
         startActivity(oIntent);
     }
 
+
+    public void onScanCaja(View view) {
+
+        getViewInfo(oCurrentProductViewInfo);
+        ((cGlobalData)getApplication()).CurrentProductViewInfo = oCurrentProductViewInfo;
+
+        Intent oIntent = new Intent(this, Scanner.class);
+        oIntent.putExtra("oMsg", new cActivityMessage("RegisterCodeBarProducts",Scanner.ScanType.SCAN_BOX));
+        startActivity(oIntent);
+    }
+
     public void   onClickNext(View spinner) {
 
         if ( iterater < lsViewItems.size()){
@@ -318,6 +343,8 @@ public class RegisterCodeBarProducts extends MainBaseActivity {
         oCurrectProductViewInfo.CodigoBarra =  txtBarCodeId.getText().toString();
         oCurrectProductViewInfo.Nombre =  txtNombreId.getText().toString();
         oCurrectProductViewInfo.Descripcion =  txtDescripcionId.getText().toString();
+        oCurrectProductViewInfo.Caja =  txtCaja.getText().toString();
+
 
         if (chkActivoId.isChecked()){
             oCurrectProductViewInfo.Activo = "Activo";
@@ -334,6 +361,7 @@ public class RegisterCodeBarProducts extends MainBaseActivity {
         txtNombreId.setText(oCurrectProductViewInfo.Nombre);
         txtDescripcionId.setText(oCurrectProductViewInfo.Descripcion);
         chkConfirmedId.setChecked(oCurrectProductViewInfo.Confirmed);
+        txtCaja.setText(oCurrectProductViewInfo.Caja);
 
         if (oCurrectProductViewInfo.Activo.equals("Activo")){
             chkActivoId.setChecked(true);

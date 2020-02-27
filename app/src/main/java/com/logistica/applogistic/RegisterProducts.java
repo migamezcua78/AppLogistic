@@ -166,10 +166,14 @@ public class RegisterProducts extends MainBaseActivity {
 
             for (cProductViewInfo  item: lsProductViewInfo)
             {
+
+                // mig:  descomentar para liberar.
                 if(item.CodigoBarra.trim().isEmpty()){
 
                     lsProductViewInfoFilter.add(item);
                 }
+
+             //   lsProductViewInfoFilter.add(item);
             }
 
             if (lsProductViewInfoFilter.size() > 0){
@@ -179,6 +183,7 @@ public class RegisterProducts extends MainBaseActivity {
                 Intent oIntent = new Intent(this, RegisterCodeBarProducts.class);
                 oIntent.putExtra("oMsg", new cActivityMessage("Start"));
                 startActivity(oIntent);
+
             } else {
 
                 Toast.makeText(getApplicationContext(), "No hay Productos sin asignar", Toast.LENGTH_SHORT).show();

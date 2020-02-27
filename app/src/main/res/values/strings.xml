@@ -240,4 +240,6 @@
 
     <string name="lblNSerial">Cod. Barras</string>
 
+    <string name="lblCaja">Caja</string>
+
 </resources>
