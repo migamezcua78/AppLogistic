@@ -1,7 +1,5 @@
 package com.logistica.applogistic;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -11,8 +9,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -24,7 +20,8 @@ public class RegisterCodeBarProducts extends MainBaseActivity {
     EditText txtBarCodeId;
     EditText txtNombreId;
     EditText txtDescripcionId;
-    EditText txtCaja;
+    EditText txtCodigoCaja;
+    EditText txtCantidadCaja;
     CheckBox chkActivoId;
     CheckBox  chkConfirmedId;
     TextView lblCountItemsId;
@@ -68,7 +65,8 @@ public class RegisterCodeBarProducts extends MainBaseActivity {
         txtBarCodeId =  findViewById(R.id.txtBarCodeId);
         txtNombreId =  findViewById(R.id.txtNombreId);
         txtDescripcionId =  findViewById(R.id.txtDescripcionId);
-        txtCaja =  findViewById(R.id.txtCaja);
+        txtCodigoCaja =  findViewById(R.id.txtCodigoCaja);
+        txtCantidadCaja =  findViewById(R.id.txtCantidadCaja);
 
         chkActivoId =  findViewById(R.id.chkActivoId);
         txtBarCodeId =  findViewById(R.id.txtBarCodeId);
@@ -102,8 +100,8 @@ public class RegisterCodeBarProducts extends MainBaseActivity {
                         oCurrentProductViewInfo.CodigoBarra = txtBarCodeId.getText().toString();
 
                     }  else {
-                        txtCaja.setText(oMsg.getKey01());
-                        oCurrentProductViewInfo.Caja = txtCaja.getText().toString();
+                        txtCodigoCaja.setText(oMsg.getKey01());
+                        oCurrentProductViewInfo.CodigoCaja = txtCodigoCaja.getText().toString();
 
                     }
 
@@ -343,7 +341,8 @@ public class RegisterCodeBarProducts extends MainBaseActivity {
         oCurrectProductViewInfo.CodigoBarra =  txtBarCodeId.getText().toString();
         oCurrectProductViewInfo.Nombre =  txtNombreId.getText().toString();
         oCurrectProductViewInfo.Descripcion =  txtDescripcionId.getText().toString();
-        oCurrectProductViewInfo.Caja =  txtCaja.getText().toString();
+        oCurrectProductViewInfo.CantidadCaja =  txtCantidadCaja.getText().toString();
+        oCurrectProductViewInfo.CodigoCaja=  txtCodigoCaja.getText().toString();
 
 
         if (chkActivoId.isChecked()){
@@ -361,7 +360,8 @@ public class RegisterCodeBarProducts extends MainBaseActivity {
         txtNombreId.setText(oCurrectProductViewInfo.Nombre);
         txtDescripcionId.setText(oCurrectProductViewInfo.Descripcion);
         chkConfirmedId.setChecked(oCurrectProductViewInfo.Confirmed);
-        txtCaja.setText(oCurrectProductViewInfo.Caja);
+        txtCantidadCaja.setText(oCurrectProductViewInfo.CantidadCaja);
+        txtCodigoCaja.setText(oCurrectProductViewInfo.CodigoCaja);
 
         if (oCurrectProductViewInfo.Activo.equals("Activo")){
             chkActivoId.setChecked(true);
@@ -399,7 +399,7 @@ public class RegisterCodeBarProducts extends MainBaseActivity {
 
                 oCurrentProductViewInfo.Usuario = "tcabrera";
 
-                oResp = ocServices.PostProductDataService(oCurrentProductViewInfo);
+                oResp = ocServices.PostProductDataService_C(oCurrentProductViewInfo);
 
             } catch (Exception e) {
                 e.printStackTrace();

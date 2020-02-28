@@ -199,7 +199,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/lblOpenId" />
 
             <TextView
-                android:id="@+id/lblCaja"
+                android:id="@+id/lblCodigoCaja"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -221,7 +221,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
-                android:id="@+id/txtCaja"
+                android:id="@+id/txtCantidadCaja"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="56dp"
@@ -229,8 +229,8 @@
                 android:inputType="number"
                 android:text="1"
                 android:textSize="12sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/lblCaja"
-                app:layout_constraintStart_toEndOf="@+id/lblCaja" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblCodigoCaja"
+                app:layout_constraintStart_toEndOf="@+id/lblCodigoCaja" />
 
             <Spinner
                 android:id="@+id/spiUnitId"

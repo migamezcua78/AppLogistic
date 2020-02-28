@@ -149,12 +149,7 @@ public class RegisterProducts extends MainBaseActivity {
         Intent oIntent = new Intent(this, Scanner.class);
         oIntent.putExtra("oMsg", new cActivityMessage("RegisterProducts",Scanner.ScanType.SCAN_BAR_CODE));
         startActivity(oIntent);
-
     }
-
-
-
-
 
 
 
@@ -168,12 +163,12 @@ public class RegisterProducts extends MainBaseActivity {
             {
 
                 // mig:  descomentar para liberar.
-                if(item.CodigoBarra.trim().isEmpty()){
+               if(item.CodigoBarra.trim().isEmpty()){
 
                     lsProductViewInfoFilter.add(item);
                 }
 
-             //   lsProductViewInfoFilter.add(item);
+             //  lsProductViewInfoFilter.add(item);
             }
 
             if (lsProductViewInfoFilter.size() > 0){
@@ -313,10 +308,13 @@ public class RegisterProducts extends MainBaseActivity {
                                  oObj.NombreShort = oObj.Nombre;
                              }
 
-                             cProductResponse = oServices.PostConsultProductDataService(oObj);
+                             cProductResponse = oServices.PostConsultProductDataService_C(oObj);
                              if(!cProductResponse.ResponseId.equals("-1")){
 
                                  oObj.CodigoBarra = cProductResponse.CodigoBarra;
+                                 oObj.CodigoCaja = cProductResponse.CodigoCaja;
+                                 oObj.CantidadCaja = cProductResponse.CantidadCaja;
+
                                  oObj.Estado = cProductResponse.mensaje;
 
                              } else {

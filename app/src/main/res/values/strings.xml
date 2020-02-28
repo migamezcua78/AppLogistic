@@ -241,5 +241,7 @@
     <string name="lblNSerial">Cod. Barras</string>
 
     <string name="lblCaja">Caja</string>
+    <string name="lblCodigoCaja">Código Caja</string>
+    <string name="lblCantidadCaja">Cantidad Caja</string>
 
 </resources>

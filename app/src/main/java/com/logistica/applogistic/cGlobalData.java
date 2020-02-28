@@ -99,6 +99,9 @@ public class cGlobalData extends Application {
     public static  String   END_POINT_PRODUCT_REST  =  "http://3.92.221.195";
 
 
+    public static final String   END_POINT_PRODUCT_REST_DEV_C  =  "http://ec2-3-92-221-195.compute-1.amazonaws.com";
+    public static final String   END_POINT_PRODUCT_REST_PROD_C  =  "http://ec2-3-92-221-195.compute-1.amazonaws.com";
+    public static  String   END_POINT_PRODUCT_REST_C  =  "http://ec2-3-92-221-195.compute-1.amazonaws.com";
 
 
     //  END POINTS

@@ -1,7 +1,5 @@
 package com.logistica.applogistic;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -11,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -25,7 +22,8 @@ public class MappingProducts extends MainBaseActivity {
     EditText txtBarCodeId;
     EditText txtNombreId;
     EditText txtDescripcionId;
-    EditText txtCaja;
+    EditText txtCodigoCaja;
+    EditText txtCantidadCaja;
 
     CheckBox chkActivoId;
     Spinner spinnerStock;
@@ -71,8 +69,8 @@ public class MappingProducts extends MainBaseActivity {
         txtDescripcionId =  findViewById(R.id.txtDescripcionId);
         chkActivoId =  findViewById(R.id.chkActivoId);
         txtBarCodeId =  findViewById(R.id.txtBarCodeId);
-        txtCaja =  findViewById(R.id.txtCaja);
-
+        txtCodigoCaja =  findViewById(R.id.txtCodigoCaja);
+        txtCantidadCaja =  findViewById(R.id.txtCantidadCaja);
 
         chkActivoId.setChecked(true);
         spinnerStock = findViewById(R.id.spiStock);
@@ -160,7 +158,7 @@ public class MappingProducts extends MainBaseActivity {
                 if (oMsg.getMessage().equals(Scanner.ScanType.SCAN_BAR_CODE)){
                     txtBarCodeId.setText(oMsg.getKey01());
                 }  else {
-                    txtCaja.setText(oMsg.getKey01());
+                    txtCodigoCaja.setText(oMsg.getKey01());
                 }
 
 
@@ -184,7 +182,8 @@ public class MappingProducts extends MainBaseActivity {
         oCurrectProductViewInfo.CodigoBarra =  txtBarCodeId.getText().toString();
         oCurrectProductViewInfo.Nombre =  txtNombreId.getText().toString();
         oCurrectProductViewInfo.Descripcion =  txtDescripcionId.getText().toString();
-        oCurrectProductViewInfo.Caja =  txtCaja.getText().toString();
+        oCurrectProductViewInfo.CantidadCaja =  txtCantidadCaja.getText().toString();
+        oCurrectProductViewInfo.CodigoCaja=  txtCodigoCaja.getText().toString();
 
         if (chkActivoId.isChecked()){
             oCurrectProductViewInfo.Estado = "Activo";
@@ -200,7 +199,8 @@ public class MappingProducts extends MainBaseActivity {
         txtBarCodeId.setText(oCurrectProductViewInfo.CodigoBarra);
         txtNombreId.setText(oCurrectProductViewInfo.Nombre);
         txtDescripcionId.setText(oCurrectProductViewInfo.Descripcion);
-        txtCaja.setText(oCurrectProductViewInfo.Caja);
+        txtCantidadCaja.setText(oCurrectProductViewInfo.CantidadCaja);
+        txtCodigoCaja.setText(oCurrectProductViewInfo.CodigoCaja);
 
         if (oCurrectProductViewInfo.Estado.equals("Activo")){
             chkActivoId.setChecked(true);
@@ -256,7 +256,7 @@ public class MappingProducts extends MainBaseActivity {
 
                 oCurrectProductViewInfo.Usuario = "tcabrera";
 
-                oResp = ocServices.PostProductDataService(oCurrectProductViewInfo);
+                oResp = ocServices.PostProductDataService_C(oCurrectProductViewInfo);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -400,7 +400,7 @@ public class MappingProducts extends MainBaseActivity {
 
                 //oCurrectProductViewInfo.Usuario = "tcabrera";
 
-                oResp = oServices.PostConsultProductDataService(oCurrectProductViewInfo);
+                oResp = oServices.PostConsultProductDataService_C(oCurrectProductViewInfo);
 
                 if ( oResp != null   &&  !oResp.ResponseId.trim().equals("")  && !oResp.ResponseId.trim().equals("-1")){
 
@@ -444,6 +444,8 @@ public class MappingProducts extends MainBaseActivity {
                         oCurrectProductViewInfo.Descripcion  = lsData.Descripcion;
                         oCurrectProductViewInfo.Estado  = lsData.Estado;
                         oCurrectProductViewInfo.Usuario  = lsData.Usuario;
+                        oCurrectProductViewInfo.CodigoCaja  = lsData.CodigoCaja;
+                        oCurrectProductViewInfo.CantidadCaja  = lsData.CantidadCaja;
 
                         setViewInfo(oCurrectProductViewInfo);
 

@@ -30,6 +30,8 @@ public class cServices {
 
 
     public  String END_POINT_REST = "";
+    public  String END_POINT_REST_C = "";
+
 
     public  String NAME_SPACE_SOAP = "";
     public  String NAME_SPACE_REST = "";
@@ -69,6 +71,7 @@ public class cServices {
         AUTHORIZATION_REST_VALUE = getAuthorizationRest();
         AUTHORIZATION_SOAP_VALUE = getAuthorizationSoap();
         END_POINT_REST = getEndPointProductRest();
+        END_POINT_REST_C = getEndPointProductRest_C();
     }
 
 /*    private String getAuthorizationRest (){
@@ -165,6 +168,11 @@ public class cServices {
         return sResult;
     }
 
+    private String getEndPointProductRest_C (){
+        String  sResult = "";
+        sResult = cGlobalData.END_POINT_PRODUCT_REST_C;
+        return sResult;
+    }
 
     public cUserResponse PostLoginDataService(cUserRequest pObj){
 
@@ -254,6 +262,8 @@ public class cServices {
     }
 
 
+
+
     public cProductResponse PostConsultProductDataService(cProductViewInfo  pObj){
 
         String Resource = "/ws_ApiLogistic/api/obtenerproducto";
@@ -337,6 +347,94 @@ public class cServices {
         return oResponse;
     }
 
+    public cProductResponse PostConsultProductDataService_C(cProductViewInfo  pObj){
+
+        String Resource = "/ws_ApiLogistic/api/ObtenerProductoCaja";
+        cProductResponse oResponse = new  cProductResponse();
+        Response response;
+        String  sResult  = "";
+
+
+        try {
+
+            if (pObj != null){
+
+                // se construye  el httpCliente
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .connectTimeout(CONNECT_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .writeTimeout(WRITE_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .readTimeout(READ_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .build();
+
+
+                // se crea el json de request
+                JSONObject   jRequest = new JSONObject();
+               // jRequest.put("idProductoSAP",pObj.ProductoSAPId);
+                jRequest.put("idproductoDetalle",pObj.ProductoSAPId);
+                jRequest.put("CodigoBarra",pObj.CodigoBarra);
+
+
+                // Se crea el request
+                HttpUrl route = HttpUrl.parse(END_POINT_REST_C + Resource);
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                RequestBody body = RequestBody.create(JSON, jRequest.toString());
+                Request request = new Request.Builder()
+                        .url(route)
+                        .post(body)
+                        .build();
+
+
+                // se invoca el servicio
+                response = client.newCall(request).execute();
+
+
+                // se guarda la respuesta
+                if ( response.isSuccessful() ){
+                    sResult =  response.body().string();
+                    JSONObject  jr = new JSONObject(sResult);
+
+                    if (!jr.get("mensaje").toString().equals("null"))
+                    {
+                        if (jr.get("mensaje").toString().equals("Asignado")){
+
+                            oResponse.ResponseId =  jr.get("idProductoSAP").toString();
+                            oResponse.CodigoBarra =  jr.get("CodigoBarra").toString();
+                            oResponse.Nombre =  jr.get("Nombre").toString();
+                            oResponse.Descripcion =  jr.get("Descripcion").toString();
+                            oResponse.Estado =  jr.get("Estado").toString();
+                            oResponse.mensaje =  jr.get("mensaje").toString();
+                            oResponse.CodigoCaja =  jr.get("codigoCaja").toString();
+                            oResponse.CantidadCaja =  jr.get("cantidadCaja").toString();
+
+                            oResponse.Assigned =  true;
+
+                        } else {
+
+                            oResponse.ResponseId = "0";
+                            oResponse.Assigned =  false;
+                        }
+
+                    } else {
+
+                        JSONObject  oError =  jr.getJSONObject("Error");
+                        oResponse.Msg = oError.get("ErrorDescripcion").toString();
+                        oResponse.ResponseId= "-1";
+                        oResponse.Assigned =  false;
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+
+            oResponse.ResponseId= "0";
+            oResponse.Msg = e.getMessage();
+            return oResponse;
+        }
+
+        return oResponse;
+    }
+
+
 
     public cProductResponse PostProductAssignedDataService(cProductViewInfo  pObj){
 
@@ -417,6 +515,89 @@ public class cServices {
         return oResponse;
     }
 
+    public cProductResponse PostProductAssignedDataService_C(cProductViewInfo  pObj){
+
+        String Resource = "/ws_ApiLogistic/api/ValidarProductoCaja";
+        cProductResponse oResponse = new  cProductResponse();
+        Response response;
+        String  sResult  = "";
+
+
+        try {
+
+            if (pObj != null){
+
+                // se construye  el httpCliente
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .connectTimeout(CONNECT_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .writeTimeout(WRITE_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .readTimeout(READ_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .build();
+
+
+                // se crea el json de request
+                JSONObject   jRequest = new JSONObject();
+               // jRequest.put("idProductoSAP",pObj.ProductoSAPId);
+                jRequest.put("idproductoDetalle",pObj.ProductoSAPId);
+                jRequest.put("CodigoBarra",pObj.CodigoBarra);
+
+
+                // Se crea el request
+                HttpUrl route = HttpUrl.parse(END_POINT_REST_C + Resource);
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                RequestBody body = RequestBody.create(JSON, jRequest.toString());
+                Request request = new Request.Builder()
+                        .url(route)
+                        .post(body)
+                        .build();
+
+
+                // se invoca el servicio
+                response = client.newCall(request).execute();
+
+
+                // se guarda la respuesta
+                if ( response.isSuccessful() ){
+                    sResult =  response.body().string();
+                    JSONObject  jr = new JSONObject(sResult);
+
+                    if (!jr.get("mensaje").toString().equals("null"))
+                    {
+                        if (jr.get("mensaje").toString().equals("Asignado")){
+
+                            oResponse.ResponseId =  jr.get("idProductoSAP").toString();
+                            oResponse.CodigoBarra =  jr.get("CodigoBarra").toString();
+                            oResponse.CodigoCaja =  jr.get("codigoCaja").toString();
+                            oResponse.CantidadCaja =  jr.get("cantidadCaja").toString();
+                            oResponse.Msg =  jr.get("mensaje").toString();
+                            oResponse.Assigned =  true;
+                        } else {
+
+                            oResponse.ResponseId = "0";
+                            oResponse.Assigned =  false;
+                        }
+
+                    } else {
+
+                        JSONObject  oError =  jr.getJSONObject("Error");
+                        oResponse.Msg = oError.get("ErrorDescripcion").toString();
+                        oResponse.ResponseId= "-1";
+                        oResponse.Assigned =  false;
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+
+            oResponse.ResponseId= "0";
+            oResponse.Msg = e.getMessage();
+            return oResponse;
+        }
+
+        return oResponse;
+    }
+
+
 
     public cProductResponse PostProductDataService(cProductViewInfo  pObj){
 
@@ -489,6 +670,82 @@ public class cServices {
 
         return oResponse;
     }
+
+    public cProductResponse PostProductDataService_C(cProductViewInfo  pObj){
+
+        String Resource = "/ws_ApiLogistic/api/RegistrarProductoCaja";
+        cProductResponse oResponse = new  cProductResponse();
+        Response response;
+        String  sResult  = "";
+
+        try {
+
+            if (pObj != null){
+
+                // se construye  el httpCliente
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .connectTimeout(CONNECT_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .writeTimeout(WRITE_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .readTimeout(READ_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .build();
+
+                String ID =  Integer.toString(pObj.ID);
+
+                // se crea el json de request
+                JSONObject   jRequest = new JSONObject();
+                jRequest.put("idproductoDetalle",ID);
+                jRequest.put("idProductoSAP",pObj.ProductoSAPId);
+                jRequest.put("Nombre",pObj.Nombre);
+                jRequest.put("Descripcion",pObj.Descripcion);
+                jRequest.put("CodigoBarra",pObj.CodigoBarra);
+                jRequest.put("Estado",pObj.Estado);
+                jRequest.put("Usuario",pObj.Usuario);
+                jRequest.put("codigoCaja",pObj.CodigoCaja);
+                jRequest.put("cantidadCaja",pObj.CantidadCaja);
+
+
+                // Se crea el request
+                HttpUrl route = HttpUrl.parse(END_POINT_REST_C + Resource);
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                RequestBody body = RequestBody.create(JSON, jRequest.toString());
+                Request request = new Request.Builder()
+                        .url(route)
+                        .post(body)
+                        .build();
+
+
+                // se invoca el servicio
+                response = client.newCall(request).execute();
+
+
+                // se guarda la respuesta
+                if ( response.isSuccessful() ){
+                    sResult =  response.body().string();
+                    JSONObject  jr = new JSONObject(sResult);
+
+                    if (!jr.get("idProductoSAP").toString().equals("null"))
+                    {
+                        oResponse.ResponseId =  jr.get("idProductoSAP").toString();
+
+                    } else {
+
+                        JSONObject  oError =  jr.getJSONObject("Error");
+                        oResponse.Msg = oError.get("ErrorDescripcion").toString();
+                        oResponse.ResponseId= "0";
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+
+            oResponse.ResponseId= "0";
+            oResponse.Msg = e.getMessage();
+            return oResponse;
+        }
+
+        return oResponse;
+    }
+
 
 
 

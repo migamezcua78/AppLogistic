@@ -31,6 +31,8 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
     private CheckBox chkConfirmedId;
     private EditText txtProductName;
 
+    private EditText txtCantidadCaja;
+
     private TextView lblCountItemsId;
 
     // cActivityMessage   oActivityMessage;
@@ -48,6 +50,8 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
     int consecutive;
     int Quantity;
     int iterater;
+    int CantidadCaja;
+
 
     String   sSerialNumber;
 
@@ -81,6 +85,7 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
         consecutive = 0;
         Quantity = 1;
         iterater = 1;
+        CantidadCaja = 1;
 
 
         //txtTargetId = findViewById(R.id.txtTargetId);
@@ -94,6 +99,9 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
         chkConfirmedId = findViewById(R.id.chkConfirmedId);
         lblCountItemsId = findViewById(R.id.lblCountItemsId);
         txtProductName = findViewById(R.id.txtProductName);
+        txtCantidadCaja = findViewById(R.id.txtCantidadCaja);
+
+
 
 
         spinner = findViewById(R.id.spiUnitId);
@@ -152,18 +160,15 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
             lsInbounItems = oGlobalData.LsIntboudIShipmentItems;
             oCurrentInboundViewInfo =  oGlobalData.CurrentInboundShipmentViewInfo;
 
-          //  txtBarCodeId.setText(oMsg.getKey01());
-          //  oCurrentInboundViewInfo.BarCode = txtBarCodeId.getText().toString();
-
             txtSerialNumberId.setText(oMsg.getKey01());
             oCurrentInboundViewInfo.SerialNumber = txtSerialNumberId.getText().toString();
 
-            int iQty = 0;
-            if(!oCurrentInboundViewInfo.Qty.trim().isEmpty()){
-                iQty = Integer.parseInt(oCurrentInboundViewInfo.Qty);
-            }
-            iQty =  iQty + 1;
-            oCurrentInboundViewInfo.Qty =  String.valueOf(iQty);
+//            int iQty = 0;
+//            if(!oCurrentInboundViewInfo.Qty.trim().isEmpty()){
+//                iQty = Integer.parseInt(oCurrentInboundViewInfo.Qty);
+//            }
+//            iQty =  iQty + 1;
+//            oCurrentInboundViewInfo.Qty =  String.valueOf(iQty);
 
             for(int i = 0; i <  lsInbounItems.size(); i++ ){
 
@@ -420,7 +425,7 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             vProgressDialog = new ProgressDialog(ShipmentConfirmationDes.this);
-            vProgressDialog.setMessage("Validando Producto...");
+            vProgressDialog.setMessage("Obteniendo Cantidad...");
             vProgressDialog.setIndeterminate(false);
             vProgressDialog.setCancelable(true);
             vProgressDialog.show();
@@ -443,7 +448,10 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
 
                 //oCurrectProductViewInfo.Usuario = "tcabrera";
 
-               // oResp = ocServices.PostProductAssignedDataService(oCurrectProductViewInfo);
+
+              //  oCurrectProductViewInfo.CodigoBarra =  "1313123123";
+
+                oResp = ocServices.PostProductAssignedDataService_C(oCurrectProductViewInfo);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -461,33 +469,29 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
         protected void onPostExecute(cProductResponse lsData) {
             super.onPostExecute(lsData);
 
+            CantidadCaja = 1;
+            txtCantidadCaja.setText("1");
+
             if  (lsData != null){
 
                 if(!lsData.ResponseId.equals("-1")){
 
-                    if (lsData.Assigned){
-
-                        //Toast.makeText(getApplicationContext(),"Producto ASIGNADO" , Toast.LENGTH_LONG).show();
-                        // isProductAssigned = true;
-
-                        //  if (isProductAssigned){
-//                        int inQtyId =  Integer.valueOf(oCurrentInboundViewInfo.Qty);
-//                        inQtyId = inQtyId + 1;
-//                        oCurrentInboundViewInfo.Qty = String.valueOf(inQtyId);
-//                        txtQtyId.setText(oCurrentInboundViewInfo.Qty);
-
-                        //    }
-
-                    } else {
-
-                        // Toast.makeText(getApplicationContext(),"Producto NO ASIGNADO" , Toast.LENGTH_LONG).show();
+                    if(!lsData.CantidadCaja.equals("")){
+                        CantidadCaja =  Integer.valueOf(lsData.CantidadCaja);
+                        txtCantidadCaja.setText(lsData.CantidadCaja);
                     }
-
-                } else {
-
-                    // Toast.makeText(getApplicationContext(),"Error al intentar registrar el producto " , Toast.LENGTH_LONG).show();
                 }
             }
+
+            int iQty = 0;
+            if(!oCurrentInboundViewInfo.Qty.trim().isEmpty()){
+                iQty = Integer.parseInt(oCurrentInboundViewInfo.Qty);
+            }
+            iQty =  iQty + CantidadCaja;
+            oCurrentInboundViewInfo.Qty =  String.valueOf(iQty);
+
+
+            setViewInfo(oCurrentInboundViewInfo);
 
             vProgressDialog.hide();
         }

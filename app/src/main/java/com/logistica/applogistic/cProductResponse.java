@@ -7,6 +7,8 @@ public class cProductResponse {
         ProductId = "";
         ResponseId = "";
         CodigoBarra = "";
+        CantidadCaja = "1";
+        CodigoCaja = "";
         Msg = "";
         Assigned = false;
         Nombre = "";
@@ -19,6 +21,8 @@ public class cProductResponse {
     public  String ResponseId;
     public  String ProductId;
     public  String CodigoBarra;
+    public  String CantidadCaja;
+    public  String CodigoCaja;
     public  String Msg;
     public  Boolean Assigned;
     public String  Nombre;
