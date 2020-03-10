@@ -515,6 +515,101 @@ public class cServices {
         return oResponse;
     }
 
+
+    public cProductResponse PostProductAssignedDataService_C_Desembarque(cProductViewInfo  pObj, String SerialNumberGetS){
+
+        String Resource = "/ws_ApiLogistic/api/ValidarProductoCaja";
+        cProductResponse oResponse = new  cProductResponse();
+        Response response;
+        String  sResult  = "";
+
+
+        try {
+
+            if (pObj != null){
+
+                // se construye  el httpCliente
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .connectTimeout(CONNECT_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .writeTimeout(WRITE_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .readTimeout(READ_TIMEOUT_REST, TimeUnit.SECONDS)
+                        .build();
+
+
+                // se crea el json de request
+                JSONObject   jRequest = new JSONObject();
+                // jRequest.put("idProductoSAP",pObj.ProductoSAPId);
+                if(SerialNumberGetS != "" ) {
+
+                    jRequest.put("idproductoDetalle","");
+                    jRequest.put("CodigoBarra",SerialNumberGetS);
+
+                } else {
+
+                    jRequest.put("idproductoDetalle",pObj.ProductoSAPId);
+                    jRequest.put("CodigoBarra","");
+
+                }
+
+
+
+
+
+                // Se crea el request
+                HttpUrl route = HttpUrl.parse(END_POINT_REST_C + Resource);
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                RequestBody body = RequestBody.create(JSON, jRequest.toString());
+                Request request = new Request.Builder()
+                        .url(route)
+                        .post(body)
+                        .build();
+
+
+                // se invoca el servicio
+                response = client.newCall(request).execute();
+
+
+                // se guarda la respuesta
+                if ( response.isSuccessful() ){
+                    sResult =  response.body().string();
+                    JSONObject  jr = new JSONObject(sResult);
+
+                    if (!jr.get("mensaje").toString().equals("null"))
+                    {
+                        if (jr.get("mensaje").toString().equals("Asignado")){
+
+                            oResponse.ResponseId =  jr.get("idProductoSAP").toString();
+                            oResponse.CodigoBarra =  jr.get("CodigoBarra").toString();
+                            oResponse.CodigoCaja =  jr.get("codigoCaja").toString();
+                            oResponse.CantidadCaja =  jr.get("cantidadCaja").toString();
+                            oResponse.Msg =  jr.get("mensaje").toString();
+                            oResponse.Assigned =  true;
+                        } else {
+
+                            oResponse.ResponseId = "0";
+                            oResponse.Assigned =  false;
+                        }
+
+                    } else {
+
+                        JSONObject  oError =  jr.getJSONObject("Error");
+                        oResponse.Msg = oError.get("ErrorDescripcion").toString();
+                        oResponse.ResponseId= "-1";
+                        oResponse.Assigned =  false;
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+
+            oResponse.ResponseId= "0";
+            oResponse.Msg = e.getMessage();
+            return oResponse;
+        }
+
+        return oResponse;
+    }
+
     public cProductResponse PostProductAssignedDataService_C(cProductViewInfo  pObj){
 
         String Resource = "/ws_ApiLogistic/api/ValidarProductoCaja";

@@ -55,6 +55,8 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
 
     String   sSerialNumber;
 
+    String   sSerialNumberGet;
+
     boolean isProductAssigned;
 
     private List<cSpinnerItem>  InfoFilter = new ArrayList<>();
@@ -162,6 +164,7 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
 
             txtSerialNumberId.setText(oMsg.getKey01());
             oCurrentInboundViewInfo.SerialNumber = txtSerialNumberId.getText().toString();
+            sSerialNumberGet = txtSerialNumberId.getText().toString();
 
 //            int iQty = 0;
 //            if(!oCurrentInboundViewInfo.Qty.trim().isEmpty()){
@@ -280,8 +283,8 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
           //  pInboundViewInfo.Restricted = cheRestrictedId.isChecked();
             pInboundViewInfo.Confirmed = chkConfirmedId.isChecked();
             //   pInboundViewInfo.LuQty = txtLuQtyId.getText().toString();
-          //  pInboundViewInfo.BarCode = txtBarCodeId.getText().toString();
-          //  pInboundViewInfo.SerialNumber = txtSerialNumberId.getText().toString();
+           // pInboundViewInfo.BarCode = txtBarCodeId.getText().toString();
+           //pInboundViewInfo.SerialNumber = txtSerialNumberId.getText().toString();
 
 
         } catch (Exception e){
@@ -451,7 +454,7 @@ public class ShipmentConfirmationDes extends MainBaseActivity {
 
               //  oCurrectProductViewInfo.CodigoBarra =  "1313123123";
 
-                oResp = ocServices.PostProductAssignedDataService_C(oCurrectProductViewInfo);
+                oResp = ocServices.PostProductAssignedDataService_C_Desembarque(oCurrectProductViewInfo, sSerialNumberGet);
 
             } catch (Exception e) {
                 e.printStackTrace();
